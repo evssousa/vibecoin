@@ -74,10 +74,15 @@ O registro completo está em [`docs/decisoes.md`](docs/decisoes.md). Alguns exem
 - **Nada de formulário de enfeite.** A newsletter do protótipo só entra quando existir o serviço de
   e-mail; até lá, o rodapé oferece o RSS.
 
+- **Cotações sem depender de API na hora da visita.** Um job grava preços, histórico e panorama do
+  mercado no banco a cada 15 minutos, dentro do limite gratuito da CoinGecko; se uma fonte cair, o site
+  mostra o último valor. O simulador guarda cada fechamento mensal e ganha histórico com o tempo.
+
 ## Documentação
 
 A pasta [`docs/`](docs/README.md) tem o status do projeto e os detalhes de cada parte:
-[arquitetura](docs/arquitetura.md) · [ferramentas](docs/ferramentas.md) · [decisões](docs/decisoes.md)
+[arquitetura](docs/arquitetura.md) · [banco de dados](docs/banco-de-dados.md) ·
+[cotações](docs/cotacoes.md) · [ferramentas](docs/ferramentas.md) · [decisões](docs/decisoes.md)
 
 ## Licença
 

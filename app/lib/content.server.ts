@@ -1,16 +1,18 @@
 // Camada de dados do site. Só roda no servidor (sufixo .server).
 //
-// Os dados vêm de uma "fonte" (repo). Fase 0: só os dados de exemplo (mock-data.ts).
-// Fase 1: MySQL quando DB_NAME/DB_USER estiverem definidos, como no Respawnou.
+// Os dados vêm de uma "fonte" (repo): MySQL quando DB_NAME/DB_USER estão definidos,
+// senão os dados de exemplo em mock-data.ts (que nunca aparecem em produção).
 // Aqui ficam só as regras de exibição (paginação, rótulos de data calculados no servidor).
 import type { Availability } from "./availability";
+import { hasDatabase } from "./db.server";
 import { formatDate, formatTime, normalize, timeAgo } from "./format";
 import { mockRepo } from "./repo/mock.server";
+import { mysqlRepo } from "./repo/mysql.server";
 import type { Repo } from "./repo/types";
 import { SECTIONS, TOOLS, sectionBySlug, type SectionSlug } from "./site";
 import type { Post, PostView } from "./types";
 
-const repo = (): Repo => mockRepo;
+const repo = (): Repo => (hasDatabase() ? mysqlRepo : mockRepo);
 
 export const postUrl = (p: Pick<Post, "section" | "slug">) => `/${p.section}/${p.slug}`;
 

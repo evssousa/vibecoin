@@ -8,7 +8,7 @@ tiver dados (ver `getAvailability()` e decisoes.md).
 - Cripto → reais e reais → cripto, com a cotação de referência.
 - `?moeda=solana` abre já com a moeda (a página de cada moeda linka assim).
 - Aceita número no formato brasileiro (`1.234,56`, `0,05`) — `parseNumber` em `money.ts`.
-- **Dados:** preço em reais das moedas (`Coin.priceBrl`). Fase 1: CoinGecko, atualizado por cron.
+- **Dados:** preço em reais das moedas (`coins.price_brl`), atualizado a cada 15 min (ver cotacoes.md).
 
 ## Calculadora de IR (`/ferramentas/calculadora-ir`)
 
@@ -27,8 +27,9 @@ tiver dados (ver `getAvailability()` e decisoes.md).
 - Compra todo mês o valor escolhido pelo fechamento daquele mês; mostra total investido, quantidade
   acumulada, valor hoje, resultado e o gráfico carteira × investido.
 - Sem taxas nem imposto (dito na página). Stablecoins ficam de fora.
-- **Dados:** `MonthlyPrice[]` por moeda, mínimo de 12 meses. Fase 1: histórico da CoinGecko
-  (`/coins/{id}/market_chart?vs_currency=brl`), guardado no MySQL e atualizado uma vez por mês.
+- "Valeria hoje" = quantidade acumulada × cotação de agora (o histórico só tem meses fechados).
+- **Dados:** `coin_history` (fechamento mensal), mínimo de 12 meses para a moeda aparecer. Vem da
+  CoinGecko gratuita, que só dá 365 dias: começa com 12 meses e cresce um por mês (ver cotacoes.md).
 
 ## Comparador de corretoras (`/ferramentas/comparador-corretoras`)
 

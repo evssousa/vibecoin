@@ -13,7 +13,9 @@ const tool = toolBySlug("simulador-aporte")!;
 export async function loader() {
   const histories = await getHistories();
   if (!histories.length) throw data("Sem histórico", { status: 404 });
-  return { histories: histories.map((h) => ({ slug: h.coin.slug, symbol: h.coin.symbol, name: h.coin.name, history: h.history })) };
+  return {
+    histories: histories.map((h) => ({ slug: h.coin.slug, symbol: h.coin.symbol, name: h.coin.name, priceNow: h.coin.priceBrl, history: h.history })),
+  };
 }
 
 export function meta() {
@@ -46,9 +48,11 @@ export default function DcaSimulator({ loaderData }: Route.ComponentProps) {
       invested += amount;
       series.push({ invested, value: qty * m.priceBrl });
     }
-    const value = series[series.length - 1].value;
+    // "Hoje" é a cotação de agora (o histórico só tem meses fechados): último ponto do gráfico também.
+    const value = qty * current.priceNow;
+    series.push({ invested, value });
     return { qty, invested, value, result: (value / invested - 1) * 100, series };
-  }, [monthly, start, months]);
+  }, [monthly, start, months, current.priceNow]);
 
   // Gráfico: linha do valor da carteira e linha tracejada do total investido.
   const chart = useMemo(() => {
@@ -102,7 +106,7 @@ export default function DcaSimulator({ loaderData }: Route.ComponentProps) {
           </Field>
           <Field label="Desde" htmlFor="inicio">
             <select id="inicio" value={start} onChange={(e) => setStart(e.target.value)} className={inputCls}>
-              {months.slice(0, -1).map((m) => (
+              {months.map((m) => (
                 <option key={m.month} value={m.month}>
                   {monthLabel(m.month)}
                 </option>
@@ -135,7 +139,7 @@ export default function DcaSimulator({ loaderData }: Route.ComponentProps) {
                   </span>
                   <span>┅ total investido</span>
                   <span>
-                    {monthLabel(start)} → {monthLabel(months[months.length - 1].month)}
+                    {monthLabel(start)} → hoje
                   </span>
                 </figcaption>
               </figure>

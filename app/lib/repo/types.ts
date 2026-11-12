@@ -1,6 +1,6 @@
-// Contrato das fontes de dados. Hoje há uma implementação:
-// - mock.server.ts: dados de exemplo em memória (desenvolvimento, sem banco).
-// A fonte MySQL (produção) entra na fase 1, com a mesma interface.
+// Contrato das fontes de dados. Há duas implementações:
+// - mock.server.ts: dados de exemplo em memória (desenvolvimento, sem banco);
+// - mysql.server.ts: MySQL da Hostinger (produção).
 // content.server.ts escolhe a fonte e cuida da formatação para as telas.
 import type { SectionSlug } from "../site";
 import type { Broker, Coin, MarketOverview, MonthlyPrice, Post } from "../types";

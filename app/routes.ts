@@ -36,5 +36,8 @@ export default [
   route("robots.txt", "routes/robots.ts"),
   route("ads.txt", "routes/ads-txt.ts"),
 
+  // Jobs de dados (Cron Job da Hostinger), protegidos por CRON_TOKEN.
+  route("api/cron/:job", "routes/cron.ts"),
+
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

@@ -7,7 +7,7 @@
   `NODE_ENV` antes de carregar o React, redireciona www → apex, aplica as migrations ao iniciar.
 - Tailwind CSS 4 (tokens em `app/app.css`, tema "Dia e Noite").
 - TypeScript estrito. Vite 8. Node 22+.
-- MySQL (Hostinger) via `mysql2` — a partir da fase 1.
+- MySQL (Hostinger) via `mysql2`. Migrations aplicadas pelo servidor ao iniciar.
 
 ## Pastas
 
@@ -28,7 +28,10 @@ app/
     content.server.ts    API de dados usada pelas rotas
     repo/types.ts        contrato das fontes de dados
     repo/mock.server.ts  fonte em memória (mock-data.ts, tudo fictício)
-db/migrate.mjs           aplica db/migrations/NNN_nome.sql (vazio até a fase 1)
+    repo/mysql.server.ts fonte MySQL
+    market/jobs.server.ts jobs de cotações e histórico (CoinGecko, alternative.me, AwesomeAPI)
+db/migrate.mjs           aplica db/migrations/NNN_nome.sql
+scripts/                 db-migrate, db-seed-dev (rodam com Node, sem build)
 docs/                    este plano
 ```
 
@@ -46,8 +49,10 @@ docs/                    este plano
 
 ## Camada de dados
 
-- Rotas só importam `content.server.ts`. Fase 0: só a fonte mock. Fase 1: MySQL quando `DB_NAME` e
-  `DB_USER` existirem (como no Respawnou), com a mesma interface `Repo`.
+- Rotas só importam `content.server.ts`. Ele escolhe a fonte: **MySQL** se `DB_NAME` e `DB_USER`
+  existirem; senão **mock** (dados de exemplo). As duas seguem a interface `Repo`.
+- Só aparecem posts com `status = 'published'` e `published_at <= agora` (dá para agendar), e moedas
+  com `active = 1` e cotação (`price_brl` não nulo).
 - Moedas (`Coin`) trazem preço em reais e dólar, variação 24h/7d, valor de mercado, volume e a série
   de 7 dias do minigráfico. O histórico mensal (`MonthlyPrice`) alimenta o simulador.
 - Rótulos relativos ("HÁ 3H") são calculados no servidor para evitar diferença de hidratação.
@@ -68,9 +73,9 @@ docs/                    este plano
 | Variável | Uso | Fase |
 |---|---|---|
 | `VITE_SITE_URL` | URL canônica (build) | ✅ |
-| `DB_HOST` `DB_PORT` `DB_NAME` `DB_USER` `DB_PASSWORD` | MySQL | 1 |
-| `COINGECKO_API_KEY` | cotações, gráficos, histórico (chave Demo gratuita) | 1 |
-| `CRON_TOKEN` | protege `/api/cron/*` | 3 |
+| `DB_HOST` `DB_PORT` `DB_NAME` `DB_USER` `DB_PASSWORD` | MySQL | ✅ |
+| `COINGECKO_API_KEY` | cotações, gráficos, histórico (chave Demo gratuita; funciona sem, com limite menor) | ✅ |
+| `CRON_TOKEN` | protege `/api/cron/*` (mín. 24 caracteres) | ✅ |
 | `GEMINI_API_KEY` | escrita das matérias | 3 |
 | `ADMIN_EMAIL` `ADMIN_PASSWORD_HASH` `SESSION_SECRET` | login do /admin | 3 |
 | `ADSENSE_CLIENT` | liga AdSense, `ads.txt` e banner de cookies | 4 |

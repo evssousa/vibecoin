@@ -17,9 +17,11 @@ a resposta quase sempre já está nos docs do Respawnou.
 | [decisoes.md](decisoes.md) | Registro de decisões (o quê, quando e por quê) |
 | [arquitetura.md](arquitetura.md) | Stack, pastas, camada de dados, tema, variáveis de ambiente |
 | [ferramentas.md](ferramentas.md) | Conversor, calculadora de IR, simulador e comparador: regras e fontes de dados |
+| [banco-de-dados.md](banco-de-dados.md) | Tabelas, migrations, formato dos JSON e testes feitos |
+| [cotacoes.md](cotacoes.md) | Fontes de dados de mercado, jobs do cron, limites da CoinGecko, moedas acompanhadas |
 
-Próximos documentos (criados quando a fase começar): `banco-de-dados.md`, `cotacoes.md`
-(CoinGecko + alternative.me), `automacao.md` (robô), `admin.md`, `adsense.md`, `deploy-hostinger.md`.
+Próximos documentos (criados quando a fase começar): `deploy-hostinger.md`, `automacao.md` (robô),
+`admin.md`, `adsense.md`.
 
 ## Status
 
@@ -37,11 +39,13 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 0 | AdSense preparado (desligado até existir `ADSENSE_CLIENT`), banner de cookies, `ads.txt` | ✅ |
 | 0 | README de apresentação + LICENSE (todos os direitos reservados) | ✅ |
 | 0 | Auditoria de UX/UI em 375 / 768 / 1024 / 1440 (estouro, toque, contraste) + clique em todos os links do menu e rodapé + teste das ferramentas | ✅ |
-| 1 | Schema MySQL + migration 001 (posts, moedas, cotações, histórico, corretoras) | ⏳ |
-| 1 | Camada MySQL com a mesma interface do mock (`repo/mysql.server.ts`) | ⏳ |
-| 1 | Coleta de cotações: CoinGecko (preço, 7 dias, histórico mensal) + medo e ganância (alternative.me) | 💤 |
-| 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex | 💤 |
-| 2 | Banco MySQL na Hostinger e e-mail contato@vibecoin.com.br | 💤 |
+| 1 | Schema MySQL + migration 001 (matérias, moedas, histórico, corretoras, robô, cron, configurações) | ✅ |
+| 1 | Camada MySQL com a mesma interface do mock (`repo/mysql.server.ts`), testada contra o mock | ✅ |
+| 1 | Coleta de cotações (`/api/cron/cotacoes`): CoinGecko + medo e ganância + dólar, histórico mensal; testada com dados reais | ✅ |
+| 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex | ⏳ |
+| 2 | Banco MySQL na Hostinger, variáveis (`DB_*`, `CRON_TOKEN`, `COINGECKO_API_KEY`) e Cron Job de 15 min | ⏳ |
+| 2 | Chave Demo gratuita da CoinGecko (conta no site deles) | ❓ dono |
+| 2 | E-mail contato@vibecoin.com.br | ⏳ |
 | 3 | Robô de postagem (RSS + Gemini gratuito), no modelo do Respawnou | 💤 |
 | 3 | Painel admin em /admin | 💤 |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |

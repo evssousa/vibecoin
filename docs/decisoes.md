@@ -2,6 +2,28 @@
 
 Mais recente no topo. Cada decisão diz o que foi decidido, quando e por quê.
 
+## 2026-11-12 — Cotações gravadas no banco por um job, nunca buscadas na hora da página
+
+- **O quê:** `/api/cron/cotacoes` (Cron Job da Hostinger a cada 15 min) busca CoinGecko, alternative.me
+  e AwesomeAPI e grava em `coins`, `coin_history` e `settings.market`. As páginas só leem o MySQL.
+- **Por quê:** página rápida, sem depender de API de fora no momento da visita; dentro do limite de
+  10 mil chamadas/mês da CoinGecko gratuita; se uma fonte cair, fica o último valor.
+- Moeda sem cotação (`price_brl` NULL, antes da primeira coleta) não aparece; sem nenhuma, cotações,
+  conversor e simulador somem do menu (mesma regra das páginas vazias).
+
+## 2026-11-12 — Simulador começa com 12 meses e cresce sozinho
+
+- **O quê:** histórico mensal pela CoinGecko gratuita (365 dias), guardado mês a mês em `coin_history`.
+  "Valeria hoje" usa a cotação do momento, não o último fechamento.
+- **Por quê:** o plano gratuito não dá histórico mais antigo (testado: erro 10012). Guardando cada
+  fechamento, em um ano o simulador terá 24 meses, e assim por diante. Se um dia valer a pena, dá para
+  completar o passado com outra fonte gratuita.
+
+## 2026-11-12 — Dólar pela AwesomeAPI
+
+- **O quê:** USD/BRL e a variação do dia vêm de `economia.awesomeapi.com.br` (grátis, sem chave,
+  brasileira). A CoinGecko não dá a variação do dólar.
+
 ## 2026-11-12 — Auditoria de layout (fase 0)
 
 Script com puppeteer-core + Edge sem janela em 21 páginas × 375/768/1024/1440: estouro de largura,

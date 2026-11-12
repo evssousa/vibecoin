@@ -32,7 +32,8 @@ export function Change({ value, mode = "day", arrow = true, className }: { value
   const sign = t === "up" ? "▲ " : t === "down" ? "▼ " : "";
   return (
     <span className={cx("num font-bold", TONE[mode][t], className)}>
-      {arrow ? `${sign}${pct(Math.abs(value))}` : pct(value)}
+      {/* Com seta, o sinal fica só na seta: "▼ 2,5%" (sem "+", que confundia com alta). */}
+      {arrow ? `${sign}${pct(Math.abs(value)).replace(/^\+/, "")}` : pct(value)}
     </span>
   );
 }

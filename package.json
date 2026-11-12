@@ -8,7 +8,8 @@
     "dev": "react-router dev",
     "start": "node server.js",
     "typecheck": "react-router typegen && tsc",
-    "db:migrate": "node scripts/db-migrate.ts"
+    "db:migrate": "node scripts/db-migrate.ts",
+    "db:seed-dev": "node scripts/db-seed-dev.ts"
   },
   "dependencies": {
     "@react-router/dev": "^8.5.1",
