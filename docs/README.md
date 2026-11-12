@@ -17,7 +17,6 @@ a resposta quase sempre já está nos docs do Respawnou.
 | [decisoes.md](decisoes.md) | Registro de decisões (o quê, quando e por quê) |
 | [arquitetura.md](arquitetura.md) | Stack, pastas, camada de dados, tema, variáveis de ambiente |
 | [ferramentas.md](ferramentas.md) | Conversor, calculadora de IR, simulador e comparador: regras e fontes de dados |
-| [prototipo/dia-e-noite.html](prototipo/dia-e-noite.html) | Protótipo escolhido do layout (16º de 16) |
 
 Próximos documentos (criados quando a fase começar): `banco-de-dados.md`, `cotacoes.md`
 (CoinGecko + alternative.me), `automacao.md` (robô), `admin.md`, `adsense.md`, `deploy-hostinger.md`.
@@ -37,7 +36,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 0 | SEO base: title/description/canonical/OG, JSON-LD, sitemap, RSS, robots, imagem OG padrão | ✅ |
 | 0 | AdSense preparado (desligado até existir `ADSENSE_CLIENT`), banner de cookies, `ads.txt` | ✅ |
 | 0 | README de apresentação + LICENSE (todos os direitos reservados) | ✅ |
-| 0 | Auditoria de UX/UI em 375 / 768 / 1024 / 1440 (estouro, toque, contraste) | ⏳ |
+| 0 | Auditoria de UX/UI em 375 / 768 / 1024 / 1440 (estouro, toque, contraste) + clique em todos os links do menu e rodapé + teste das ferramentas | ✅ |
 | 1 | Schema MySQL + migration 001 (posts, moedas, cotações, histórico, corretoras) | ⏳ |
 | 1 | Camada MySQL com a mesma interface do mock (`repo/mysql.server.ts`) | ⏳ |
 | 1 | Coleta de cotações: CoinGecko (preço, 7 dias, histórico mensal) + medo e ganância (alternative.me) | 💤 |

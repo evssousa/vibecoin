@@ -2,6 +2,18 @@
 
 Mais recente no topo. Cada decisão diz o que foi decidido, quando e por quê.
 
+## 2026-11-12 — Auditoria de layout (fase 0)
+
+Script com puppeteer-core + Edge sem janela em 21 páginas × 375/768/1024/1440: estouro de largura,
+alvos de toque < 44 px, contraste (4,5:1; 3:1 em texto grande) e erros de console. Mais o clique em
+todos os links do menu e do rodapé (navegação sem recarregar) e contas conferidas nas ferramentas.
+Corrigido:
+
+- **Página /cotacoes com 724 px no celular:** a `<caption>` `sr-only` da tabela é absoluta e escapava
+  da caixa de rolagem. Toda caixa `overflow-x-auto` com tabela agora é `relative`.
+- **Alvos de toque:** links da faixa de cotações e do menu com 44 px de altura; títulos das listas de
+  matérias viraram bloco (a linha inteira é clicável); busca do topo com 46 px.
+
 ## 2026-11-12 — Newsletter fica fora até existir o serviço
 
 - **O quê:** o protótipo tinha um bloco "Pega a vibe toda manhã" com campo de e-mail. No site ele não
@@ -37,7 +49,8 @@ Mais recente no topo. Cada decisão diz o que foi decidido, quando e por quê.
   escuro. Fontes Plus Jakarta Sans + JetBrains Mono (números).
 - **Por quê:** escolhido pelo dono entre 16 protótipos em 4 rodadas. Gostou das cores chamativas do
   Terminal/Terminal Neon, da seção de ferramentas do Clean Vibe e da beleza do Clean Noite; o Dia e
-  Noite junta os três e mantém as matérias confortáveis de ler. Protótipo em `prototipo/`.
+  Noite junta os três e mantém as matérias confortáveis de ler. Os 16 protótipos ficam no canvas de
+  design do dono (fora do repositório: o arquivo do canvas só abre lá); o site é a referência agora.
 - Alta e queda usam seta + sinal, não só cor (acessibilidade).
 
 ## 2026-11-12 — Fundação

@@ -47,7 +47,7 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
         </>
       }
     >
-      <div className="overflow-x-auto rounded-[20px] border border-line bg-card">
+      <div className="relative overflow-x-auto rounded-[20px] border border-line bg-card">
         <table className="w-full min-w-[820px] border-collapse text-[15px]">
           <caption className="sr-only">Comparação de taxas e recursos das corretoras</caption>
           <thead>
@@ -81,7 +81,7 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
               .map((b) => (
                 <tr key={b.slug} className="border-t border-line align-top">
                   <th scope="row" className="px-5 py-4 text-left">
-                    <a href={b.url} target="_blank" rel="noopener nofollow" className="font-bold hover:text-violet">
+                    <a href={b.url} target="_blank" rel="noopener nofollow" className="-my-3 inline-flex min-h-11 items-center font-bold hover:text-violet">
                       {b.name}
                     </a>
                     <span className="mt-1 block text-xs font-normal text-muted">conferido em {formatDate(b.checkedAt)}</span>

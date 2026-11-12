@@ -16,7 +16,7 @@ export function PostCard({ post }: { post: PostView }) {
           {post.kicker} · {post.ago}
         </Kicker>
         <h3 className="text-[19px] font-extrabold leading-snug">
-          <Link to={post.url} className="hover:text-violet">
+          <Link to={post.url} className="block hover:text-violet">
             {post.title}
           </Link>
         </h3>
@@ -36,8 +36,8 @@ export function PostRow({ post, excerpt = false }: { post: PostView; excerpt?: b
         <Kicker>
           {post.kicker} · {post.ago}
         </Kicker>
-        <h3 className="text-base font-bold leading-snug sm:text-[17px]">
-          <Link to={post.url} className="hover:text-violet">
+        <h3 className="text-base leading-[1.5] font-bold sm:text-[17px]">
+          <Link to={post.url} className="block hover:text-violet">
             {post.title}
           </Link>
         </h3>
@@ -86,7 +86,8 @@ export function CoinCard({ coin }: { coin: Coin }) {
 /** Tabela de mercado (página de cotações). */
 export function CoinTable({ coins }: { coins: Coin[] }) {
   return (
-    <div className="overflow-x-auto rounded-[20px] border border-line bg-card">
+    // relative: sem ele, a <caption> sr-only (absoluta) escapa da caixa de rolagem e alarga a página no celular.
+    <div className="relative overflow-x-auto rounded-[20px] border border-line bg-card">
       <table className="w-full min-w-[760px] border-collapse text-[15px]">
         <caption className="sr-only">Cotações em reais, variação em 24 horas e 7 dias e valor de mercado</caption>
         <thead>
