@@ -67,10 +67,21 @@ export default function TaxCalculator() {
               <strong>Pagamento:</strong> por DARF, código 4600, até o último dia útil do mês seguinte à venda.
             </li>
             <li>
-              <strong>Corretora no exterior:</strong> segue outra regra (15% ao ano sobre o rendimento, apurado na declaração anual). Esta calculadora é para corretoras
-              brasileiras.
+              <strong>Corretora no exterior:</strong> segue outra regra (15% ao ano sobre o rendimento, apurado na declaração anual, pela Lei 14.754/2023). Esta
+              calculadora é para corretoras brasileiras.
             </li>
           </ul>
+          <h2>E a alíquota única de 17,5%?</h2>
+          <p>
+            Ela foi proposta pela Medida Provisória 1.303, de junho de 2025, que também acabaria com a isenção de R$ 35 mil. A MP não foi votada pelo Congresso e
+            perdeu a validade em 8 de outubro de 2025, então nunca entrou em vigor: continuam valendo a isenção e as alíquotas de 15% a 22,5% acima.
+          </p>
+          <h2>O que é a DeCripto</h2>
+          <p>
+            Desde julho de 2026, as operações com criptomoedas são informadas à Receita Federal pela DeCripto (Instrução Normativa RFB 2.291/2025), que substituiu a
+            antiga declaração de criptoativos. As corretoras brasileiras enviam os dados dos clientes; quem opera por corretora estrangeira ou direto entre
+            carteiras pode ter de enviar por conta própria. A DeCripto só informa operações: ela não muda o imposto calculado aqui.
+          </p>
           <p>
             Regras conferidas em {formatDate(RULES_CHECKED_AT)}. A lei muda: em caso de dúvida, fale com um contador. Veja também o guia{" "}
             <Link to="/grana/cripto-no-imposto-de-renda-passo-a-passo">cripto no Imposto de Renda, passo a passo</Link>.

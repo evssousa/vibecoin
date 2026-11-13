@@ -19,8 +19,13 @@ tiver dados (ver `getAvailability()` e decisoes.md).
     (progressivo por faixa);
   - DARF código 4600 até o último dia útil do mês seguinte.
 - Exterior (Lei 14.754/2023, 15% ao ano na declaração) fica fora, explicado no texto da página.
-- `RULES_CHECKED_AT` aparece na página. **Antes de publicar e a cada mudança de lei: conferir a regra
-  na Receita Federal e atualizar a data.**
+- `RULES_CHECKED_AT` aparece na página. **A cada mudança de lei: conferir a regra na Receita Federal e
+  atualizar a data.**
+- Conferida em **2026-11-13**: a MP 1.303/2025 (alíquota única de 17,5% e fim da isenção) caducou em
+  8/10/2025 sem votação; nenhum projeto a retomou até agora. Valem a isenção de R$ 35 mil e as faixas de
+  15% a 22,5%. A DeCripto (IN RFB 2.291/2025, obrigatória desde julho de 2026) só informa operações, não
+  muda o imposto. A página explica os dois pontos (são buscas comuns). Fontes: Exame, Mercado Bitcoin,
+  Contábeis, Mattos Filho (notícias de 2025–2026); a página oficial da Receita não apareceu na busca.
 
 ## Simulador de aporte (`/ferramentas/simulador-aporte`)
 

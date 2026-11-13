@@ -60,5 +60,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Primeira matéria automática no ar (o robô publica das 8h às 22h de Brasília) | ⏳ |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |
 | 4 | Newsletter "Resumo diário" (precisa de serviço de e-mail; fica fora até existir) | ❓ |
-| 4 | Google Search Console + sitemap, pedido do AdSense | 💤 |
-| — | Conferir a regra de IR de cripto antes de pôr a calculadora no ar (ver ferramentas.md) | ⏳ |
+| 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
+| 4 | Search Console: clicar em Verificar e enviar `https://vibecoin.com.br/sitemap.xml` | ❓ dono |
+| 4 | Pedido do AdSense | 💤 |
+| — | Regra de IR da calculadora conferida em 2026-11-13 (MP 1.303 caducou; isenção de R$ 35 mil vale) + texto sobre os 17,5% e a DeCripto | ✅ |

@@ -9,7 +9,7 @@
 // Corretoras no exterior seguem outra regra (Lei 14.754/2023: 15% ao ano, na declaração anual).
 
 export const EXEMPTION_LIMIT = 35_000;
-export const RULES_CHECKED_AT = "2026-11-12";
+export const RULES_CHECKED_AT = "2026-11-13";
 
 const BRACKETS: [limit: number, rate: number][] = [
   [5_000_000, 0.15],
