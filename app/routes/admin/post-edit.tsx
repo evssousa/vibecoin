@@ -1,0 +1,329 @@
+import { useRef, useState } from "react";
+import { data, Form, Link, redirect, useNavigation } from "react-router";
+import type { Route } from "./+types/post-edit";
+import { adminMeta, Button, Card, Field, inputCls, Notice, PageTitle, Pill, when } from "~/components/admin-ui";
+import { requireAdmin } from "~/lib/admin/auth.server";
+import { blocksToText, textToBlocks } from "~/lib/admin/body-text";
+import { adminCoins, deletePost, getPost, setPostStatus, toggleFeatured, updateDraftAddress, updatePost } from "~/lib/admin/data.server";
+import { publish } from "~/lib/robot/robot.server";
+import { LEVEL_LABEL, SECTIONS } from "~/lib/site";
+
+export const meta = ({ loaderData }: Route.MetaArgs) => adminMeta(loaderData?.post.title ?? "Matéria");
+
+export async function loader({ request, params }: Route.LoaderArgs) {
+  await requireAdmin(request);
+  const [post, coins] = await Promise.all([getPost(Number(params.id)), adminCoins()]);
+  if (!post) throw data("Matéria não encontrada", { status: 404 });
+  const msg = new URL(request.url).searchParams.get("ok");
+  return { post, coins, bodyText: blocksToText(post.body), msg };
+}
+
+const MESSAGES: Record<string, string> = {
+  criado: "Rascunho criado. Escreva o texto, envie a capa e clique em Salvar; depois, Publicar.",
+  salvo: "Alterações salvas.",
+  publicado: "Matéria publicada.",
+  rascunho: "Matéria tirada do ar (voltou para rascunho).",
+  arquivado: "Matéria arquivada (fora do ar).",
+  destaque: "Destaque na home alterado.",
+  refazendo: "O robô está reescrevendo a matéria em segundo plano (leva até ~1 min). Recarregue a página depois; o resultado aparece em Robô.",
+};
+
+export async function action({ request, params }: Route.ActionArgs) {
+  await requireAdmin(request);
+  const id = Number(params.id);
+  const form = await request.formData();
+  const intent = String(form.get("intent"));
+  const back = (ok: string) => redirect(`/admin/materias/${id}?ok=${ok}`);
+
+  if (intent === "publicar") {
+    const current = await getPost(id);
+    const missing = [!current?.body.length && "o corpo", !current?.image_url && "a capa"].filter(Boolean);
+    if (missing.length) return data({ errors: [`Antes de publicar, preencha ${missing.join(" e ")} e clique em Salvar.`] }, { status: 400 });
+    return (await setPostStatus(id, "published"), back("publicado"));
+  }
+  if (intent === "rascunho") return (await setPostStatus(id, "draft"), back("rascunho"));
+  if (intent === "arquivar") return (await setPostStatus(id, "archived"), back("arquivado"));
+  if (intent === "destaque") return (await toggleFeatured(id), back("destaque"));
+  if (intent === "excluir") {
+    if (!(await deletePost(id))) return data({ errors: ["Matéria no ar não pode ser excluída: tire do ar primeiro."] }, { status: 400 });
+    return redirect("/admin/materias?ok=excluida");
+  }
+  if (intent === "refazer") {
+    publish({ redoPostId: id }).catch((err) => console.error("[admin] refazer:", err));
+    return back("refazendo");
+  }
+
+  // Salvar
+  const title = String(form.get("title") ?? "").trim();
+  const body = textToBlocks(String(form.get("body") ?? ""));
+  const errors: string[] = [];
+  if (title.length < 10) errors.push("Título curto demais.");
+  if (!body.length) errors.push("O corpo está vazio.");
+  if (errors.length) return data({ errors }, { status: 400 });
+  const list = (name: string) => String(form.get(name) ?? "").split(",").map((t) => t.trim()).filter(Boolean);
+  await updatePost(id, {
+    title,
+    excerpt: String(form.get("excerpt") ?? "").trim(),
+    metaDescription: String(form.get("metaDescription") ?? "").trim(),
+    focusKeyword: String(form.get("focusKeyword") ?? "").trim(),
+    tags: list("tags").slice(0, 8),
+    coins: form.getAll("coins").map(String),
+    level: [1, 2, 3].includes(Number(form.get("level"))) ? Number(form.get("level")) : null,
+    imageUrl: String(form.get("imageUrl") ?? "").trim(),
+    imageAlt: String(form.get("imageAlt") ?? "").trim(),
+    imageCredit: String(form.get("imageCredit") ?? "").trim(),
+    body,
+  });
+  if (form.get("section")) await updateDraftAddress(id, String(form.get("section")), title);
+  return back("salvo");
+}
+
+function Counter({ value, min, max }: { value: string; min: number; max: number }) {
+  const n = value.length;
+  return <span className={n < min || n > max ? "text-down" : "text-violet"}>{`${n} caracteres (ideal ${min}–${max})`}</span>;
+}
+
+export default function AdminPostEdit({ loaderData, actionData }: Route.ComponentProps) {
+  const { post, bodyText, msg } = loaderData;
+  const busy = useNavigation().state !== "idle";
+  const [title, setTitle] = useState(post.title);
+  const [metaDesc, setMetaDesc] = useState(post.meta_description ?? "");
+  const [cover, setCover] = useState(post.image_url ?? "");
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const url = `/${post.section}/${post.slug}`;
+  // Nunca publicada: editoria e endereço ainda podem mudar.
+  const neverPublished = !post.published_at;
+
+  /** Coloca o texto da imagem enviada onde está o cursor do corpo (numa linha própria). */
+  function insertInBody(snippet: string) {
+    const el = bodyRef.current;
+    if (!el) return;
+    const at = el.selectionStart ?? el.value.length;
+    const before = el.value.slice(0, at).replace(/\s*$/, "");
+    const after = el.value.slice(at).replace(/^\s*/, "");
+    el.value = `${before}${before ? "\n\n" : ""}${snippet}\n\n${after}`;
+    el.focus();
+  }
+
+  return (
+    <>
+      <PageTitle
+        aside={
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+            <Pill status={post.status} />
+            {post.featured ? <span className="text-violet">★ destaque</span> : null}
+            {post.status === "published" ? (
+              <a href={url} target="_blank" rel="noopener" className="text-violet underline">
+                ver no site ↗
+              </a>
+            ) : (
+              <a href={`${url}?previa=1`} target="_blank" rel="noopener" className="text-violet underline" title="Mostra a última versão salva, com o visual do site. Só você vê.">
+                pré-visualizar ↗
+              </a>
+            )}
+          </div>
+        }
+      >
+        Editar matéria
+      </PageTitle>
+      <p className="font-mono text-xs text-muted">
+        #{post.id} · {url} · publicada {when(post.published_at)} · atualizada {when(post.updated_at)} · {post.origin === "auto" ? "robô" : "manual"}
+        {post.source_url && (
+          <>
+            {" "}
+            · fonte:{" "}
+            <a href={post.source_url} target="_blank" rel="noopener" className="underline">
+              {post.source_name}
+            </a>
+          </>
+        )}
+      </p>
+
+      {msg && MESSAGES[msg] && <Notice>{MESSAGES[msg]}</Notice>}
+      {actionData?.errors && <Notice tone="warn">{actionData.errors.join(" ")}</Notice>}
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+        <Form method="post" className="flex flex-col gap-4">
+          {neverPublished && (
+            <Field label="Editoria" hint="Enquanto não for publicada, editoria e endereço acompanham o título.">
+              <select name="section" defaultValue={post.section} className={inputCls}>
+                {SECTIONS.map((s) => (
+                  <option key={s.slug} value={s.slug}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
+          <Field label="Título" hint={<Counter value={title} min={30} max={70} />}>
+            <input name="title" value={title} onChange={(e) => setTitle(e.target.value)} required className={inputCls} />
+          </Field>
+          <Field label="Linha fina">
+            <textarea name="excerpt" defaultValue={post.excerpt} rows={2} className={inputCls} />
+          </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Palavra-chave">
+              <input name="focusKeyword" defaultValue={post.focus_keyword ?? ""} className={inputCls} />
+            </Field>
+            <Field label="Tags" hint="separadas por vírgula">
+              <input name="tags" defaultValue={post.tags.join(", ")} className={inputCls} />
+            </Field>
+          </div>
+          <Field label="Descrição para o Google" hint={<Counter value={metaDesc} min={120} max={160} />}>
+            <textarea name="metaDescription" value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} rows={2} className={inputCls} />
+          </Field>
+          <fieldset className="flex flex-wrap gap-x-4 gap-y-2">
+            <legend className="mb-1.5 text-sm font-semibold text-ink">Moedas citadas (ligam a matéria à página de cotação)</legend>
+            {loaderData.coins.map((c) => (
+              <label key={c.slug} className="flex items-center gap-2 text-sm">
+                <input type="checkbox" name="coins" value={c.slug} defaultChecked={post.coins.includes(c.slug)} className="accent-[var(--color-violet)]" />
+                {c.symbol}
+              </label>
+            ))}
+          </fieldset>
+          {post.section === "guias" && (
+            <Field label="Nível do guia">
+              <select name="level" defaultValue={post.level ?? ""} className={inputCls}>
+                <option value="">Sem nível</option>
+                {([1, 2, 3] as const).map((n) => (
+                  <option key={n} value={n}>
+                    {n} · {LEVEL_LABEL[n]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
+          <div className="grid gap-4 sm:grid-cols-[1fr_1fr]">
+            <Field label="Capa (endereço da imagem)" hint={<UploadButton label="Enviar capa do computador" name={title} onDone={(img) => setCover(img.src)} />}>
+              <input name="imageUrl" value={cover} onChange={(e) => setCover(e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Crédito da capa">
+              <input name="imageCredit" defaultValue={post.image_credit ?? ""} className={inputCls} />
+            </Field>
+          </div>
+          <Field label="Texto alternativo da capa">
+            <input name="imageAlt" defaultValue={post.image_alt ?? ""} className={inputCls} />
+          </Field>
+          <Field
+            label="Corpo"
+            hint={
+              <>
+                Parágrafos separados por linha em branco · <code>## Intertítulo</code> · <code>### Subtítulo</code> · <code>- item</code> ·{" "}
+                <code>&gt; citação</code> · <code>[texto](url)</code> · <code>![alt](imagem "crédito")</code> · <code>@video(ID) título</code> ·{" "}
+                <UploadButton
+                  label="Enviar imagem para o corpo (entra onde está o cursor)"
+                  name={title}
+                  onDone={(img) => insertInBody(`![Descreva a imagem](${img.src} "Imagem: ") =${img.width}x${img.height}`)}
+                />
+              </>
+            }
+          >
+            <textarea ref={bodyRef} name="body" defaultValue={bodyText} rows={28} className={`${inputCls} font-mono text-sm leading-relaxed`} />
+          </Field>
+          <div className="flex flex-wrap gap-2">
+            <Button tone="primary" name="intent" value="salvar" disabled={busy}>
+              {busy ? "Salvando..." : "Salvar alterações"}
+            </Button>
+            <Link to="/admin/materias" className="inline-flex min-h-10 items-center px-4 font-mono text-xs font-bold uppercase text-muted hover:text-ink">
+              Voltar
+            </Link>
+          </div>
+        </Form>
+
+        <aside className="flex flex-col gap-4">
+          {cover && <img src={cover} alt="" className="w-full border border-line" />}
+          <Card title="Ações">
+            <Form method="post" className="flex flex-col gap-2">
+              {post.status !== "published" && (
+                <Button tone="primary" name="intent" value="publicar" disabled={busy}>
+                  Publicar
+                </Button>
+              )}
+              {post.status === "published" && (
+                <Button name="intent" value="rascunho" disabled={busy}>
+                  Tirar do ar (rascunho)
+                </Button>
+              )}
+              <Button name="intent" value="destaque" disabled={busy}>
+                {post.featured ? "Tirar destaque da home" : "Destacar na home"}
+              </Button>
+              {post.fromRobot && (
+                <Button
+                  name="intent"
+                  value="refazer"
+                  disabled={busy}
+                  onClick={(e) => {
+                    if (!confirm("Reescrever a matéria com o robô? O texto atual (e suas edições) será substituído.")) e.preventDefault();
+                  }}
+                >
+                  Refazer com o robô
+                </Button>
+              )}
+              {post.status !== "published" && (
+                <Button
+                  tone="danger"
+                  name="intent"
+                  value="excluir"
+                  disabled={busy}
+                  onClick={(e) => {
+                    if (!confirm("Excluir de vez? Não dá para desfazer.")) e.preventDefault();
+                  }}
+                >
+                  Excluir de vez
+                </Button>
+              )}
+              {post.status !== "archived" && (
+                <Button
+                  tone="danger"
+                  name="intent"
+                  value="arquivar"
+                  disabled={busy}
+                  onClick={(e) => {
+                    if (!confirm("Arquivar? A matéria sai do ar (dá para publicar de novo depois).")) e.preventDefault();
+                  }}
+                >
+                  Arquivar
+                </Button>
+              )}
+            </Form>
+          </Card>
+        </aside>
+      </div>
+    </>
+  );
+}
+
+/** Botão que envia uma imagem do computador para /admin/upload e devolve o endereço gravado. */
+function UploadButton({ label, name, onDone }: { label: string; name: string; onDone: (img: { src: string; width: number; height: number }) => void }) {
+  const [state, setState] = useState<{ busy: boolean; error?: string }>({ busy: false });
+  return (
+    <label className="inline-flex cursor-pointer items-center gap-2 font-mono text-[11px] font-bold text-violet underline">
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+        className="sr-only"
+        disabled={state.busy}
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          e.target.value = "";
+          if (!file) return;
+          setState({ busy: true });
+          const body = new FormData();
+          body.append("file", file);
+          body.append("name", name);
+          try {
+            const res = await fetch("/admin/upload", { method: "POST", body });
+            const json = (await res.json()) as { src?: string; width?: number; height?: number; error?: string };
+            if (!res.ok || !json.src) throw new Error(json.error ?? `erro ${res.status}`);
+            onDone({ src: json.src, width: json.width ?? 0, height: json.height ?? 0 });
+            setState({ busy: false });
+          } catch (err) {
+            setState({ busy: false, error: err instanceof Error ? err.message : "falhou" });
+          }
+        }}
+      />
+      {state.busy ? "Enviando..." : label}
+      {state.error && <span className="text-down no-underline">({state.error})</span>}
+    </label>
+  );
+}

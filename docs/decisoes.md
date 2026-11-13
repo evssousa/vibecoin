@@ -2,6 +2,33 @@
 
 Mais recente no topo. Cada decisão diz o que foi decidido, quando e por quê.
 
+## 2026-11-13 — Identidade própria, separada do Respawnou
+
+- **O quê:** a marca virou uma "moeda" violeta (#7B5CFF) com o V branco (antes, quadrado verde-limão
+  como o do Respawnou). Os rótulos de seção trocaram o "> " de terminal por `.eyebrow`: bolinha com halo
+  na cor do texto + letras espaçadas. Busca do topo com lupa no lugar do ">". O README não cita o Respawnou.
+- **Por quê:** pedido do dono — os dois sites estavam parecidos demais. O lima continua como cor de
+  destaque (gráficos, chamadas), agora ao lado do violeta.
+
+## 2026-11-13 — Robô: fontes internacionais + Agência Brasil, nada de concorrente brasileiro
+
+- **O quê:** 8 veículos internacionais de cripto e a Agência Brasil (Economia). Ficaram de fora
+  Livecoins, Portal do Bitcoin e similares.
+- **Por quê:** reescrever um site brasileiro em português é quase cópia (risco para o AdSense e para a
+  reputação). A Agência Brasil tem licença CC BY 4.0, que permite reaproveitar com crédito.
+- Sites que bloqueiam a página da matéria (CoinDesk 429, The Block e Blockworks 403) entram só com o
+  texto do RSS, como no Respawnou: nada de se passar por navegador.
+
+## 2026-11-13 — Regra anti-recomendação na checagem do robô
+
+- **O quê:** além das regras do Respawnou, a checagem reprova "hora de comprar", "vale a pena comprar",
+  "lucro garantido", "vai disparar", "rumo à lua", "compre agora" e afins; o prompt proíbe previsão de
+  preço (projeção só atribuída a quem fez). Na coleta, previsão de preço/análise técnica, patrocinado,
+  pré-venda/airdrop e listas de "moedas para comprar" já são descartados.
+- **Por quê:** site de finanças com conteúdo automático é YMYL para o Google; recomendação sem registro
+  na CVM também seria problema. Ver /aviso-de-risco.
+- Guias ficam fora do robô (escritos à mão no painel), porque pedem experiência que a IA não tem.
+
 ## 2026-11-12 — Cotações gravadas no banco por um job, nunca buscadas na hora da página
 
 - **O quê:** `/api/cron/cotacoes` (Cron Job da Hostinger a cada 15 min) busca CoinGecko, alternative.me

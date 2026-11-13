@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { data, Link } from "react-router";
 import type { Route } from "./+types/post";
 import { CoinCard, MostRead, PostCard } from "~/components/cards";
 import { BodyBlock } from "~/components/RichText";
 import { ShareButtons } from "~/components/ShareButtons";
 import { Cover, Kicker, SectionTitle } from "~/components/ui";
+import { isAdmin } from "~/lib/admin/auth.server";
 import { getCoin, getMostRead, getPost, listPosts } from "~/lib/content.server";
 import { formatDate, formatDateTime } from "~/lib/format";
 import { firstSegment } from "~/lib/route-path";
@@ -11,20 +13,29 @@ import { seo } from "~/lib/seo";
 import { absoluteUrl, LEVEL_LABEL, SITE, sectionBySlug } from "~/lib/site";
 import type { Coin } from "~/lib/types";
 
+// Pré-visualização: ?previa=1 com o admin logado mostra rascunho/arquivada com o visual do site.
+// Sem sessão, o parâmetro é ignorado (rascunho continua 404). Nunca indexa nem entra em cache.
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const post = await getPost(firstSegment(request), params.slug);
+  const preview = new URL(request.url).searchParams.get("previa") === "1" && (await isAdmin(request));
+  const post = await getPost(firstSegment(request), params.slug, preview);
   if (!post) throw data("Post não encontrado", { status: 404 });
   const [coins, related, mostRead] = await Promise.all([
     Promise.all(post.coins.map((c) => getCoin(c))),
     listPosts({ section: post.section, exclude: [post.slug], perPage: 3 }),
     getMostRead(5, [post.slug]),
   ]);
-  return { post, coins: coins.filter((c): c is Coin => c !== null), related: related.items, mostRead, section: sectionBySlug(post.section)! };
+  const result = { post, coins: coins.filter((c): c is Coin => c !== null), related: related.items, mostRead, section: sectionBySlug(post.section)!, preview };
+  return preview ? data(result, { headers: { "Cache-Control": "private, no-store", "X-Robots-Tag": "noindex, nofollow" } }) : result;
+}
+
+export function headers({ loaderHeaders }: Route.HeadersArgs) {
+  return loaderHeaders;
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
   if (!loaderData) return [];
   const { post, section, coins } = loaderData;
+  if (loaderData.preview) return [{ title: `Prévia: ${post.title}` }, { name: "robots", content: "noindex, nofollow" }];
   const url = absoluteUrl(post.url);
   return [
     ...seo({
@@ -58,10 +69,25 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function PostPage({ loaderData }: Route.ComponentProps) {
-  const { post, coins, related, mostRead, section } = loaderData;
+  const { post, coins, related, mostRead, section, preview } = loaderData;
+  // Conta a visita depois de abrir no navegador (bots e pré-carregamentos não contam).
+  useEffect(() => {
+    if (preview) return;
+    const body = JSON.stringify({ path: post.url });
+    if (!navigator.sendBeacon?.("/api/view", new Blob([body], { type: "application/json" })))
+      fetch("/api/view", { method: "POST", body, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(() => {});
+  }, [post.url, preview]);
 
   return (
     <main id="conteudo" className="mx-auto flex max-w-[1280px] flex-col gap-14 px-4 pt-8 sm:px-6">
+      {preview && (
+        <div role="status" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-violet bg-violet-soft px-4 py-3 text-sm">
+          <span className="font-bold text-violet">
+            Pré-visualização · {post.status === "published" ? "no ar" : post.status === "archived" ? "arquivada" : "rascunho"} · só você vê esta página
+          </span>
+          <span className="text-muted">Data e "mais lidas" são provisórias até publicar.</span>
+        </div>
+      )}
       <article className="flex flex-col gap-8">
         <nav aria-label="Você está em" className="text-sm font-semibold text-muted">
           <Link to="/" className="-my-3 inline-block py-3 hover:text-violet">
@@ -137,8 +163,8 @@ export default function PostPage({ loaderData }: Route.ComponentProps) {
           <aside className="flex flex-[1_1_300px] flex-col gap-6">
             {coins.length > 0 && (
               <section aria-labelledby="moedas-citadas" className="flex flex-col gap-3">
-                <h2 id="moedas-citadas" className="font-mono text-xs font-bold text-violet">
-                  &gt; MOEDAS NESTA MATÉRIA
+                <h2 id="moedas-citadas" className="eyebrow text-violet">
+                  MOEDAS NESTA MATÉRIA
                 </h2>
                 <div className="grid grid-cols-2 gap-3">
                   {coins.map((c) => (

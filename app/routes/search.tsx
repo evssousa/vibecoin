@@ -49,7 +49,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
       {coins.length > 0 && (
         <section className="flex flex-col gap-3">
-          <h2 className="font-mono text-xs font-bold text-violet">&gt; MOEDAS</h2>
+          <h2 className="eyebrow text-violet">MOEDAS</h2>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3">
             {coins.map((c) => (
               <CoinCard key={c.slug} coin={c} />
@@ -60,7 +60,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
       {posts.length > 0 && (
         <section className="flex flex-col">
-          <h2 className="font-mono text-xs font-bold text-violet">&gt; MATÉRIAS</h2>
+          <h2 className="eyebrow text-violet">MATÉRIAS</h2>
           {posts.map((p) => (
             <PostRow key={p.url} post={p} excerpt />
           ))}

@@ -56,13 +56,14 @@ export function SiteHeader() {
       </nav>
 
       <Form method="get" action="/busca" role="search" className="ml-auto hidden h-[46px] w-full max-w-[260px] items-center gap-2 rounded-xl border border-night-line-2 bg-night-2 px-3 sm:flex lg:ml-0">
-        <span aria-hidden className="font-mono text-lime">
-          &gt;
-        </span>
+        <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c6f432" strokeWidth="2.4" strokeLinecap="round" className="shrink-0">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-4-4" />
+        </svg>
         <label htmlFor="busca-topo" className="sr-only">
           Buscar
         </label>
-        <input id="busca-topo" name="q" type="search" placeholder="buscar" className="h-full w-full bg-transparent font-mono text-[13px] text-moon outline-none placeholder:text-moon-muted" />
+        <input id="busca-topo" name="q" type="search" placeholder="Buscar moeda ou notícia" className="h-full w-full bg-transparent text-sm text-moon outline-none placeholder:text-moon-muted" />
       </Form>
 
       {/* Menu do celular: <details> funciona sem JavaScript. key fecha ao trocar de página. */}
@@ -78,7 +79,7 @@ export function SiteHeader() {
             <label htmlFor="busca-menu" className="sr-only">
               Buscar
             </label>
-            <input id="busca-menu" name="q" type="search" placeholder="buscar cripto, notícia ou guia" className="h-full w-full bg-transparent font-mono text-sm text-moon outline-none placeholder:text-moon-muted" />
+            <input id="busca-menu" name="q" type="search" placeholder="Buscar moeda ou notícia" className="h-full w-full bg-transparent text-sm text-moon outline-none placeholder:text-moon-muted" />
           </Form>
           <ul className="mt-2 grid grid-cols-2 gap-1">
             {nav.map((n) => (

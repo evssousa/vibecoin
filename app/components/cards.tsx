@@ -52,8 +52,8 @@ export function MostRead({ posts }: { posts: PostView[] }) {
   if (!posts.length) return null;
   return (
     <section aria-labelledby="mais-lidas" className="rounded-[22px] border border-line bg-card p-5">
-      <h2 id="mais-lidas" className="font-mono text-xs font-bold text-violet">
-        &gt; MAIS LIDAS
+      <h2 id="mais-lidas" className="eyebrow text-violet">
+        MAIS LIDAS
       </h2>
       <ol className="mt-2 flex flex-col">
         {posts.map((p, i) => (

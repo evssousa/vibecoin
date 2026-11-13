@@ -5,13 +5,15 @@ import { pct, sparkPoints, trend } from "~/lib/money";
 
 export const cx = (...c: (string | false | undefined | null)[]) => c.filter(Boolean).join(" ");
 
-/** Marca: bloco lima com "V" + "vibecoin_". */
+/** Marca: "moeda" violeta com o V branco + "vibecoin_". O mesmo desenho do favicon (public/favicon.svg). */
 export function Logo({ className }: { className?: string }) {
   return (
     <span className={cx("inline-flex items-center gap-2 font-mono text-[21px] font-bold leading-none text-moon", className)}>
-      <span aria-hidden className="rounded-lg bg-lime px-2 py-1 text-night">
-        V
-      </span>
+      <svg aria-hidden width="30" height="30" viewBox="0 0 64 64" className="shrink-0">
+        <circle cx="32" cy="32" r="32" fill="#7b5cff" />
+        <circle cx="32" cy="32" r="26" fill="none" stroke="#fff" strokeOpacity="0.28" strokeWidth="2.5" />
+        <path d="M20 21l12 23 12-23" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
       vibecoin<span className="text-lime">_</span>
     </span>
   );

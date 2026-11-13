@@ -1,0 +1,58 @@
+import { data, Form, redirect, useNavigation } from "react-router";
+import type { Route } from "./+types/login";
+import { adminMeta, Button, Field, inputCls, Notice } from "~/components/admin-ui";
+import { adminConfig, login, sameOrigin } from "~/lib/admin/auth.server";
+import { Logo } from "~/components/ui";
+
+export const meta = () => adminMeta("Entrar");
+
+export function loader() {
+  const { ready, problems } = adminConfig();
+  return { ready, problems };
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  if (!sameOrigin(request)) throw new Response("Origem inválida", { status: 403 });
+  const form = await request.formData();
+  const res = await login(request, String(form.get("email") ?? ""), String(form.get("password") ?? ""));
+  if (!res.ok) return data({ error: res.error }, { status: 400 });
+  return redirect("/admin", { headers: { "Set-Cookie": res.cookie } });
+}
+
+export default function Login({ loaderData, actionData }: Route.ComponentProps) {
+  const busy = useNavigation().state !== "idle";
+  return (
+    <main id="conteudo" className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-4">
+      <p className="text-3xl font-extrabold">
+        <span className="inline-flex items-center gap-2 rounded-xl bg-night px-3 py-2">
+          <Logo />
+          <span className="font-mono text-xs font-bold text-lime">ADMIN</span>
+        </span>
+      </p>
+      {!loaderData.ready ? (
+        <Notice tone="warn">
+          Painel ainda não configurado. Confira as variáveis de ambiente no hPanel (veja docs/admin.md):
+          <ul className="mt-2 list-disc pl-5">
+            {loaderData.problems.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+          Depois de salvar, o app reinicia sozinho; recarregue esta página.
+        </Notice>
+      ) : (
+        <Form method="post" className="flex flex-col gap-4">
+          <Field label="E-mail">
+            <input name="email" type="email" required autoComplete="username" className={inputCls} />
+          </Field>
+          <Field label="Senha">
+            <input name="password" type="password" required autoComplete="current-password" className={inputCls} />
+          </Field>
+          {actionData?.error && <Notice tone="warn">{actionData.error}</Notice>}
+          <Button tone="primary" disabled={busy}>
+            {busy ? "Entrando..." : "Entrar"}
+          </Button>
+        </Form>
+      )}
+    </main>
+  );
+}

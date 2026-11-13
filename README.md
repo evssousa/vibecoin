@@ -9,7 +9,7 @@
 Notícias de criptomoedas, cotações em reais e ferramentas gratuitas — conversor, calculadora de
 imposto de renda, simulador de aporte e comparador de corretoras — num site que se escreve sozinho.
 
-**vibecoin.com.br** · em desenvolvimento
+[**vibecoin.com.br**](https://vibecoin.com.br)
 
 </div>
 
@@ -25,11 +25,17 @@ imposto de renda, simulador de aporte e comparador de corretoras — num site qu
 
 O Vibecoin é um site brasileiro sobre criptomoedas e finanças pessoais. Ele explica o que acontece no
 mercado em português claro, mostra os preços em reais e oferece ferramentas que fazem a conta pelo
-leitor. O conteúdo será produzido por um pipeline editorial automático, no mesmo modelo do
-[Respawnou](https://github.com/evssousa/respawnou), o portal de games irmão.
+leitor. As notícias são produzidas por um pipeline editorial automático com IA, que lê as principais
+fontes do mercado cripto, escreve em português e confere a qualidade antes de publicar.
 
 ### Destaques
 
+- **Robô editorial com IA** — coleta as principais fontes do mercado cripto, escolhe as pautas, junta
+  veículos que cobrem o mesmo assunto, escreve com o Gemini e passa por uma checagem de qualidade com
+  até 3 tentativas de correção: tamanho, intertítulos, links só de uma lista permitida, números que
+  precisam existir nas fontes e **nenhuma frase de recomendação ou promessa de lucro**.
+- **Painel `/admin`** — editar, pré-visualizar e publicar matérias (inclusive escritas à mão, com envio
+  de imagens), controlar a fila de pautas e as fontes, rodar o robô sob demanda e ver o histórico.
 - **Ferramentas que fazem a conta** — conversor cripto ↔ reais, calculadora de IR (isenção de
   R$ 35 mil e alíquotas progressivas), simulador de aporte mensal com gráfico e comparador de
   corretoras. Tudo no navegador, sem cadastro.
@@ -58,6 +64,7 @@ leitor. O conteúdo será produzido por um pipeline editorial automático, no me
 | Servidor | Node.js, Express 5 |
 | Banco | MySQL (`mysql2`), migrations SQL versionadas e aplicadas no start |
 | Dados de mercado | CoinGecko (cotações e histórico), alternative.me (medo e ganância) |
+| Mídia | `sharp` (imagens convertidas para WebP e servidas pelo próprio site) |
 | IA | Google Gemini |
 | Hospedagem | Hostinger (app Node.js + MySQL + Cron Jobs), deploy automático a cada push |
 
@@ -73,7 +80,11 @@ O registro completo está em [`docs/decisoes.md`](docs/decisoes.md). Alguns exem
   lei muda, e o leitor precisa saber até quando a conta vale.
 - **Nada de formulário de enfeite.** A newsletter do protótipo só entra quando existir o serviço de
   e-mail; até lá, o rodapé oferece o RSS.
-
+- **Fontes escolhidas com critério.** O robô lê veículos internacionais e a Agência Brasil (licença
+  CC BY); não reescreve sites brasileiros concorrentes e, quando um site bloqueia robôs, usa só o texto
+  que ele mesmo publica no RSS — nada de se passar por navegador.
+- **Jobs em segundo plano por causa da CDN.** A CDN da hospedagem corta requisições acima de ~55 s e
+  escrever uma matéria pode levar mais: as rotas respondem na hora e o resultado fica no banco.
 - **Cotações sem depender de API na hora da visita.** Um job grava preços, histórico e panorama do
   mercado no banco a cada 15 minutos, dentro do limite gratuito da CoinGecko; se uma fonte cair, o site
   mostra o último valor. O simulador guarda cada fechamento mensal e ganha histórico com o tempo.
@@ -82,7 +93,8 @@ O registro completo está em [`docs/decisoes.md`](docs/decisoes.md). Alguns exem
 
 A pasta [`docs/`](docs/README.md) tem o status do projeto e os detalhes de cada parte:
 [arquitetura](docs/arquitetura.md) · [banco de dados](docs/banco-de-dados.md) ·
-[cotações](docs/cotacoes.md) · [ferramentas](docs/ferramentas.md) · [decisões](docs/decisoes.md)
+[cotações](docs/cotacoes.md) · [ferramentas](docs/ferramentas.md) · [robô](docs/automacao.md) ·
+[painel](docs/admin.md) · [deploy](docs/deploy-hostinger.md) · [decisões](docs/decisoes.md)
 
 ## Licença
 

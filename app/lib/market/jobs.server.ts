@@ -8,18 +8,15 @@
 // Limites do plano gratuito da CoinGecko ("Demo"): ~30 chamadas/min e 10 mil/mês; histórico de 365 dias.
 // A cada 15 min são 2 chamadas (~5.800/mês) + 1 por moeda no histórico (~20/mês).
 import { json, query } from "../db.server";
+import { runJob, type JobResult } from "../runs.server";
 import type { MarketOverview, MonthlyPrice } from "../types";
+
+export type { JobResult };
 
 const GECKO = "https://api.coingecko.com/api/v3";
 const HISTORY_PER_RUN = 3;
 const SPARK_POINTS = 42;
 const UA = "VibecoinBot/1.0 (+https://vibecoin.com.br)";
-
-export interface JobResult {
-  status: "ok" | "error" | "skipped";
-  message: string;
-  stats?: Record<string, unknown>;
-}
 
 async function getJson<T>(url: string, gecko = false, attempt = 0): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json", "User-Agent": UA };
@@ -37,45 +34,6 @@ async function getJson<T>(url: string, gecko = false, attempt = 0): Promise<T> {
 }
 
 const dt = (d: Date | string) => new Date(d).toISOString().slice(0, 19).replace("T", " ");
-
-// ───────────── Registro das execuções (cron_runs) ─────────────
-
-async function runJob(job: string, fn: () => Promise<JobResult>): Promise<JobResult> {
-  // Execução que ficou "running" por mais de 10 min foi interrompida (ex.: deploy reiniciou o app no meio).
-  await query(
-    "UPDATE cron_runs SET status = 'error', finished_at = UTC_TIMESTAMP(), message = 'Interrompida (o app reiniciou no meio da execução)' WHERE status = 'running' AND started_at < UTC_TIMESTAMP() - INTERVAL 10 MINUTE",
-  );
-  // Evita duas execuções do mesmo job ao mesmo tempo.
-  const running = await query<{ id: number }>(
-    "SELECT id FROM cron_runs WHERE job = ? AND status = 'running' AND started_at > UTC_TIMESTAMP() - INTERVAL 10 MINUTE LIMIT 1",
-    [job],
-  );
-  if (running.length) return { status: "skipped", message: "Outra execução ainda está em andamento." };
-  const res = (await query<unknown>("INSERT INTO cron_runs (job, started_at) VALUES (?, UTC_TIMESTAMP())", [job])) as unknown as { insertId: number };
-  const id = res.insertId;
-  let result: JobResult;
-  try {
-    result = await fn();
-  } catch (err) {
-    result = { status: "error", message: err instanceof Error ? err.message : String(err) };
-  }
-  await query("UPDATE cron_runs SET status = ?, finished_at = UTC_TIMESTAMP(), message = ?, stats = ? WHERE id = ?", [
-    result.status,
-    result.message.slice(0, 1000),
-    result.stats ? JSON.stringify(result.stats) : null,
-    id,
-  ]);
-  return result;
-}
-
-/** Últimas execuções (para /api/cron/status). */
-export async function recentRuns(limit = 10) {
-  const rows = await query<{ id: number; job: string; status: string; started_at: string; finished_at: string | null; message: string | null; stats: unknown }>(
-    "SELECT id, job, status, started_at, finished_at, message, stats FROM cron_runs ORDER BY id DESC LIMIT ?",
-    [limit],
-  );
-  return rows.map((r) => ({ ...r, stats: json<Record<string, unknown>>(r.stats, {}) }));
-}
 
 // ───────────── Cotações ─────────────
 

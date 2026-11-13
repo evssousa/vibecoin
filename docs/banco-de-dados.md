@@ -7,7 +7,8 @@ Datas em UTC.
 
 | Arquivo | Conteúdo | Rodada na Hostinger? |
 |---|---|---|
-| `db/migrations/001_inicial.sql` | Estrutura inicial (tabelas abaixo), configurações padrão e as 20 moedas acompanhadas | ⏳ automática no primeiro deploy |
+| `db/migrations/001_inicial.sql` | Estrutura inicial (tabelas abaixo), configurações padrão e as 20 moedas acompanhadas | ✅ automática no deploy de 2026-11-13 |
+| `db/migrations/002_robo.sql` | `feed_items.media` (JSON), 9 fontes RSS, configurações do robô (`robot_sections`, `robot_min_words`, janela 8h–22h) e liga o robô | automática no deploy da fase 3 |
 
 Como aplicar:
 

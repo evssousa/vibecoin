@@ -36,8 +36,25 @@ export default [
   route("robots.txt", "routes/robots.ts"),
   route("ads.txt", "routes/ads-txt.ts"),
 
-  // Jobs de dados (Cron Job da Hostinger), protegidos por CRON_TOKEN.
+  // Painel administrativo (só o dono; fora dos menus, noindex, Disallow no robots.txt).
+  route("admin/login", "routes/admin/login.tsx"),
+  route("admin/sair", "routes/admin/logout.ts"),
+  route("admin", "routes/admin/layout.tsx", [
+    index("routes/admin/home.tsx"),
+    route("materias", "routes/admin/posts.tsx"),
+    route("materias/nova", "routes/admin/post-new.tsx"),
+    route("materias/:id", "routes/admin/post-edit.tsx"),
+    route("upload", "routes/admin/upload.ts"),
+    route("fila", "routes/admin/queue.tsx"),
+    route("fontes", "routes/admin/feeds.tsx"),
+    route("robo", "routes/admin/robot.tsx"),
+    route("config", "routes/admin/settings.tsx"),
+  ]),
+
+  // Jobs (Cron Jobs da Hostinger), protegidos por CRON_TOKEN.
   route("api/cron/:job", "routes/cron.ts"),
+  // Contador de visitas (a página da matéria avisa depois de carregar no navegador).
+  route("api/view", "routes/view.ts"),
 
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

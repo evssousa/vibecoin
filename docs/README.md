@@ -20,8 +20,10 @@ a resposta quase sempre já está nos docs do Respawnou.
 | [banco-de-dados.md](banco-de-dados.md) | Tabelas, migrations, formato dos JSON e testes feitos |
 | [cotacoes.md](cotacoes.md) | Fontes de dados de mercado, jobs do cron, limites da CoinGecko, moedas acompanhadas |
 | [deploy-hostinger.md](deploy-hostinger.md) | Site, build, banco, variáveis, Cron Job, SSL e cuidados na Hostinger |
+| [automacao.md](automacao.md) | Robô de postagem: fontes, coleta, publicação, checagem de qualidade |
+| [admin.md](admin.md) | Painel /admin: acesso, telas, contador de visitas |
 
-Próximos documentos (criados quando a fase começar): `automacao.md` (robô), `admin.md`, `adsense.md`.
+Próximo documento (quando a fase começar): `adsense.md`.
 
 ## Status
 
@@ -45,10 +47,15 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex (no ar em 2026-11-13) | ✅ |
 | 2 | Banco MySQL na Hostinger (migration 001 aplicada), variáveis `DB_*` e `CRON_TOKEN`, Cron Job de 15 min, primeira coleta de cotações | ✅ |
 | 2 | Chave Demo gratuita da CoinGecko cadastrada no hPanel (`COINGECKO_API_KEY`) pelo dono; testada (sem 429) | ✅ |
-| 2 | E-mail contato@vibecoin.com.br: ativar o e-mail grátis do domínio no hPanel e criar a caixa (como no Respawnou) | ❓ dono |
+| 2 | E-mail contato@vibecoin.com.br (criado pelo dono no hPanel, 2026-11-13) | ✅ |
 | 2 | Histórico mensal completo das 18 moedas (12 meses cada) | ✅ |
-| 3 | Robô de postagem (RSS + Gemini gratuito), no modelo do Respawnou | 💤 |
-| 3 | Painel admin em /admin | 💤 |
+| 3 | Robô de postagem: 9 fontes, filtros de cripto, Gemini, checagem com regra anti-recomendação (migration 002) — ver automacao.md | ✅ |
+| 3 | Painel /admin: matérias (editor, prévia, envio de imagens), fila, fontes, robô, configurações — ver admin.md | ✅ |
+| 3 | Contador de visitas e "Mais lidas" reais | ✅ |
+| 3 | Marca própria: moeda violeta no lugar do quadrado lima; rótulos com bolinha no lugar do ">" (diferente do Respawnou) | ✅ |
+| 3 | Cron Jobs de coletar (:15 e :45) e publicar (:25) | ✅ |
+| 3 | `GEMINI_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e `SESSION_SECRET` no hPanel | ❓ dono |
+| 3 | Primeira matéria automática em produção (teste `dry=1` antes) | ⏳ |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |
 | 4 | Newsletter "Resumo diário" (precisa de serviço de e-mail; fica fora até existir) | ❓ |
 | 4 | Google Search Console + sitemap, pedido do AdSense | 💤 |

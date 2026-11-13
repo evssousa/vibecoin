@@ -76,8 +76,9 @@ docs/                    este plano
 | `DB_HOST` `DB_PORT` `DB_NAME` `DB_USER` `DB_PASSWORD` | MySQL | ✅ |
 | `COINGECKO_API_KEY` | cotações, gráficos, histórico (chave Demo gratuita; funciona sem, com limite menor) | ✅ |
 | `CRON_TOKEN` | protege `/api/cron/*` (mín. 24 caracteres) | ✅ |
-| `GEMINI_API_KEY` | escrita das matérias | 3 |
-| `ADMIN_EMAIL` `ADMIN_PASSWORD_HASH` `SESSION_SECRET` | login do /admin | 3 |
+| `GEMINI_API_KEY` | escrita das matérias (sem ela, o robô só registra "sem chave") | 3 |
+| `ADMIN_EMAIL` `ADMIN_PASSWORD_HASH` `SESSION_SECRET` | login do /admin (`npm run admin:hash` gera o hash e o segredo) | 3 |
+| `MEDIA_DIR` | pasta das imagens das matérias (padrão `~/vibecoin-media`, fora da pasta do app) | 3 |
 | `ADSENSE_CLIENT` | liga AdSense, `ads.txt` e banner de cookies | 4 |
 
 Modelo em `.env.example`. O `.env` real nunca vai para o Git (repositório público).

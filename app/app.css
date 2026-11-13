@@ -58,6 +58,29 @@ body {
   outline-color: var(--color-lime);
 }
 
+/* Rótulo de seção: uma "moeda" (bolinha com halo) na cor do texto + letras espaçadas.
+   Marca própria do Vibecoin (o Respawnou usa "> " de terminal). */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 22%, transparent);
+}
+
 /* Números de cotação: largura fixa para não "pular" quando o valor muda. */
 .num {
   font-family: var(--font-mono);

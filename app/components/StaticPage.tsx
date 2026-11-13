@@ -39,7 +39,7 @@ export function StaticPage({
   return (
     <main id="conteudo" className="mx-auto max-w-[1280px] px-4 pt-10 sm:px-6">
       <header className="flex flex-col gap-4 border-b border-line pb-8">
-        <span className="font-mono text-xs font-bold text-violet">&gt; {doc?.group === "legal" ? "legal" : "institucional"}</span>
+        <span className="eyebrow text-violet">{doc?.group === "legal" ? "legal" : "institucional"}</span>
         <h1 className="text-4xl font-extrabold tracking-[-0.03em] sm:text-5xl">{title}</h1>
         {lead && <p className="max-w-3xl text-lg leading-relaxed text-muted sm:text-xl">{lead}</p>}
         {doc && (
@@ -85,7 +85,7 @@ export function StaticPage({
         <aside className="hidden flex-col gap-8 lg:sticky lg:top-6 lg:flex lg:self-start">
           {showToc && (
             <nav aria-label="Nesta página">
-              <p className="mb-2 font-mono text-xs font-bold text-violet">&gt; NESTA PÁGINA</p>
+              <p className="mb-2 eyebrow text-violet">NESTA PÁGINA</p>
               <Toc sections={sections} />
             </nav>
           )}
@@ -121,7 +121,7 @@ function DocNav() {
     <nav aria-label="Documentos" className="flex flex-col gap-5 rounded-[22px] border border-line bg-card p-5">
       {groups.map((g) => (
         <div key={g.key} className="flex flex-col">
-          <p className="mb-1 font-mono text-xs font-bold text-violet">&gt; {g.label}</p>
+          <p className="mb-1 eyebrow text-violet">{g.label}</p>
           {DOC_PAGES.filter((d) => d.group === g.key).map((d) => (
             <NavLink
               key={d.to}

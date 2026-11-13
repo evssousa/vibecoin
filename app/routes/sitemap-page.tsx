@@ -27,7 +27,7 @@ export default function SitemapPage({ loaderData }: Route.ComponentProps) {
           .filter((g) => g.links.length)
           .map((g) => (
             <section key={g.title} className="rounded-[22px] border border-line bg-card p-5">
-              <h2 className="font-mono text-xs font-bold text-violet">&gt; {g.title.toUpperCase()}</h2>
+              <h2 className="eyebrow text-violet">{g.title.toUpperCase()}</h2>
               <ul className="mt-2">
                 {g.links.map((l) => (
                   <li key={l.to}>

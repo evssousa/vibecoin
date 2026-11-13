@@ -78,7 +78,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </article>
           ) : (
             <div className="flex-[2_1_520px]">
-              <p className="font-mono text-sm text-lime">&gt; aguardando a primeira matéria_</p>
+              <p className="eyebrow text-lime">As primeiras matérias chegam em breve</p>
             </div>
           )}
 

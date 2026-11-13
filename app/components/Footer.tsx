@@ -33,7 +33,7 @@ export function Footer({ adsOn }: { adsOn: boolean }) {
             .filter((g) => g.links.length)
             .map((g) => (
               <nav key={g.title} aria-label={g.title} className="flex flex-col gap-1">
-                <h2 className="mb-1 font-mono text-xs font-bold text-lime">&gt; {g.title.toUpperCase()}</h2>
+                <h2 className="mb-1 eyebrow text-lime">{g.title.toUpperCase()}</h2>
                 {g.links.map((l) => (
                   <Link key={l.to} to={l.to} className="py-1.5 text-sm text-moon-muted hover:text-moon">
                     {l.label}
