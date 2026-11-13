@@ -19,9 +19,9 @@ a resposta quase sempre já está nos docs do Respawnou.
 | [ferramentas.md](ferramentas.md) | Conversor, calculadora de IR, simulador e comparador: regras e fontes de dados |
 | [banco-de-dados.md](banco-de-dados.md) | Tabelas, migrations, formato dos JSON e testes feitos |
 | [cotacoes.md](cotacoes.md) | Fontes de dados de mercado, jobs do cron, limites da CoinGecko, moedas acompanhadas |
+| [deploy-hostinger.md](deploy-hostinger.md) | Site, build, banco, variáveis, Cron Job, SSL e cuidados na Hostinger |
 
-Próximos documentos (criados quando a fase começar): `deploy-hostinger.md`, `automacao.md` (robô),
-`admin.md`, `adsense.md`.
+Próximos documentos (criados quando a fase começar): `automacao.md` (robô), `admin.md`, `adsense.md`.
 
 ## Status
 
@@ -42,9 +42,9 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 1 | Schema MySQL + migration 001 (matérias, moedas, histórico, corretoras, robô, cron, configurações) | ✅ |
 | 1 | Camada MySQL com a mesma interface do mock (`repo/mysql.server.ts`), testada contra o mock | ✅ |
 | 1 | Coleta de cotações (`/api/cron/cotacoes`): CoinGecko + medo e ganância + dólar, histórico mensal; testada com dados reais | ✅ |
-| 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex | ⏳ |
-| 2 | Banco MySQL na Hostinger, variáveis (`DB_*`, `CRON_TOKEN`, `COINGECKO_API_KEY`) e Cron Job de 15 min | ⏳ |
-| 2 | Chave Demo gratuita da CoinGecko (conta no site deles) | ❓ dono |
+| 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex (no ar em 2026-11-13) | ✅ |
+| 2 | Banco MySQL na Hostinger (migration 001 aplicada), variáveis `DB_*` e `CRON_TOKEN`, Cron Job de 15 min, primeira coleta de cotações | ✅ |
+| 2 | Chave Demo gratuita da CoinGecko cadastrada no hPanel (`COINGECKO_API_KEY`) | ❓ dono |
 | 2 | E-mail contato@vibecoin.com.br | ⏳ |
 | 3 | Robô de postagem (RSS + Gemini gratuito), no modelo do Respawnou | 💤 |
 | 3 | Painel admin em /admin | 💤 |

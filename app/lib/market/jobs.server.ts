@@ -110,9 +110,9 @@ const FNG_LABEL: Record<string, string> = {
   "Extreme Greed": "Ganância extrema",
 };
 
-async function updateQuotes(): Promise<{ updated: number; missing: number }> {
+async function updateQuotes(): Promise<{ updated: number; missing: number; usdBrl: number | null }> {
   const coins = await query<{ id: number; gecko_id: string }>("SELECT id, gecko_id FROM coins WHERE active = 1");
-  if (!coins.length) return { updated: 0, missing: 0 };
+  if (!coins.length) return { updated: 0, missing: 0, usdBrl: null };
   const ids = coins.map((c) => c.gecko_id).join(",");
 
   const [markets, usd] = await Promise.all([
@@ -145,10 +145,28 @@ async function updateQuotes(): Promise<{ updated: number; missing: number }> {
     );
     updated++;
   }
-  return { updated, missing: coins.length - updated };
+  // Dólar implícito: preço do bitcoin em reais ÷ em dólar (reserva quando a API do dólar falha).
+  const btc = markets.find((m) => m.id === "bitcoin");
+  const btcUsd = usdPrice.get("bitcoin");
+  const usdBrl = btc?.current_price && btcUsd ? btc.current_price / btcUsd : null;
+  return { updated, missing: coins.length - updated, usdBrl };
 }
 
-async function updateMarket() {
+/**
+ * Variação do dólar em 24h sem depender da API do dólar: o site guarda um registro do valor a cada
+ * coleta (settings.usd_brl_log, ~26 h) e compara com o mais próximo de 24 h atrás.
+ */
+async function usdChangeFromLog(current: number): Promise<number | null> {
+  const row = (await query<{ value: unknown }>("SELECT value FROM settings WHERE name = 'usd_brl_log'"))[0];
+  const now = Date.now();
+  const log = (row ? json<{ t: number; v: number }[]>(row.value, []) : []).filter((p) => now - p.t < 26 * 3600_000);
+  log.push({ t: now, v: Number(current.toFixed(4)) });
+  await query("INSERT INTO settings (name, value) VALUES ('usd_brl_log', ?) ON DUPLICATE KEY UPDATE value = VALUES(value)", [JSON.stringify(log)]);
+  const old = log.filter((p) => now - p.t >= 23 * 3600_000).sort((a, b) => b.t - a.t)[0];
+  return old ? ((current - old.v) / old.v) * 100 : null;
+}
+
+async function updateMarket(derivedUsdBrl: number | null) {
   const prev = (await query<{ value: unknown }>("SELECT value FROM settings WHERE name = 'market'"))[0];
   const previous = prev ? json<Partial<MarketOverview>>(prev.value, {}) : {};
   const errors: string[] = [];
@@ -162,12 +180,15 @@ async function updateMarket() {
     getJson<{ USDBRL: { bid: string; pctChange: string } }>("https://economia.awesomeapi.com.br/json/last/USD-BRL").catch((e) => void errors.push(`dólar: ${e.message}`)),
   ]);
 
+  const usdBrl = dollar ? Number(dollar.USDBRL.bid) : (derivedUsdBrl ?? previous.usdBrl ?? 0);
+  const loggedChange = usdBrl ? await usdChangeFromLog(usdBrl) : null;
+
   const market: MarketOverview = {
     totalMarketCapBrl: global?.data.total_market_cap.brl ?? previous.totalMarketCapBrl ?? 0,
     change24h: global?.data.market_cap_change_percentage_24h_usd ?? previous.change24h ?? 0,
     btcDominance: global?.data.market_cap_percentage.btc ?? previous.btcDominance ?? 0,
-    usdBrl: dollar ? Number(dollar.USDBRL.bid) : (previous.usdBrl ?? 0),
-    usdBrlChange24h: dollar ? Number(dollar.USDBRL.pctChange) : (previous.usdBrlChange24h ?? 0),
+    usdBrl,
+    usdBrlChange24h: dollar ? Number(dollar.USDBRL.pctChange) : (loggedChange ?? previous.usdBrlChange24h ?? 0),
     fearGreed:
       fng && fng.data[0]
         ? {
@@ -223,7 +244,7 @@ export function quotesJob(): Promise<JobResult> {
   return runJob("cotacoes", async () => {
     const quotes = await updateQuotes();
     if (!quotes.updated && !quotes.missing) return { status: "skipped", message: "Nenhuma moeda ativa." };
-    const market = await updateMarket();
+    const market = await updateMarket(quotes.usdBrl);
     // Histórico atrasado vai em pequenas doses, para não estourar o limite por minuto da CoinGecko.
     const history = await updateHistory(HISTORY_PER_RUN).catch((e) => ({ error: String(e.message ?? e) }));
     const problems = [...market.errors, ...("error" in history ? [`histórico: ${history.error}`] : [])];

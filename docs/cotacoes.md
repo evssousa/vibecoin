@@ -11,7 +11,7 @@ de fora: se uma fonte cair, o site mostra o último valor).
 | Valor de mercado total, dominância do BTC | CoinGecko `/global` | idem |
 | Histórico mensal (simulador) | CoinGecko `/coins/{id}/market_chart?days=365` | idem |
 | Índice de medo e ganância | alternative.me `/fng` | não precisa |
-| Dólar comercial (USD/BRL) e variação | AwesomeAPI `/json/last/USD-BRL` | não precisa |
+| Dólar comercial (USD/BRL) e variação | AwesomeAPI `/json/last/USD-BRL`; reserva: BTC em reais ÷ BTC em dólar (CoinGecko) + variação pelo registro próprio de 26 h (`settings.usd_brl_log`) | não precisa |
 
 Cuidados descobertos nos testes:
 
