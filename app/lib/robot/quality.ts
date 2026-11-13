@@ -176,6 +176,20 @@ export function autoFix(d: DraftArticle): { draft: DraftArticle; fixes: string[]
   };
   if (found.size) fixes.push(`expressões trocadas: ${[...found].join(", ")}`);
 
+  // Decimal com ponto antes de "%" (padrão americano, ex.: "46.4%") vira vírgula. Só antes de "%":
+  // "US$ 71.500" é milhar e fica como está. Não fica dentro de links.
+  let decimals = 0;
+  const decimalFix = (s: string) =>
+    s
+      .split(/(\[[^\]\n]+\]\([^)\s]+\))/g)
+      .map((part, i) => (i % 2 ? part : part.replace(/(\d)\.(\d{1,2})(?=\s?%)/g, (_m, a: string, b: string) => (decimals++, `${a},${b}`))))
+      .join("");
+  next.title = decimalFix(next.title);
+  next.excerpt = decimalFix(next.excerpt);
+  next.metaDescription = decimalFix(next.metaDescription);
+  next.body = next.body.map((b) => (b.type === "ul" ? { ...b, items: (b.items ?? []).map(decimalFix) } : { ...b, text: decimalFix(b.text ?? "") }));
+  if (decimals) fixes.push(`decimais com vírgula: ${decimals}`);
+
   if (next.title.length > TITLE_MAX) {
     const fits = (t: string) => t.length >= TITLE_MIN && t.length <= TITLE_MAX && !t.endsWith("?");
     const alt = (next.titleAlternatives ?? []).map((t) => t.trim()).find(fits);
@@ -282,6 +296,15 @@ export function checkDraft(d: DraftArticle, ctx: CheckContext): string[] {
   if (h2.some((t) => /^(introdu[cç][aã]o|conclus[aã]o|detalhes|resumo)$/i.test(t.trim()))) issues.push("Intertítulo genérico (Introdução/Conclusão/Detalhes); diga o que o leitor encontra na seção.");
   const long = paragraphs.find((p) => countWords(p) > 110);
   if (long) issues.push("Há parágrafo com mais de 110 palavras; divida em parágrafos de 2 a 4 frases.");
+
+  // Citação em destaque sem dizer quem falou (no parágrafo anterior ou na própria citação) não serve:
+  // o leitor precisa saber de quem é a frase.
+  const SAID = /\b(disse|diz|afirmou|afirma|declarou|escreveu|explicou|avaliou|comentou|destacou|ressaltou|acrescentou|observou|alertou|segundo|de acordo com|nas palavras de|publicou|postou|completou|argumentou)\b/i;
+  const orphan = d.body.findIndex((b, i) => b.type === "quote" && !SAID.test(blockText(d.body[i - 1] ?? { type: "p" })) && !/—|–/.test(b.text ?? ""));
+  if (orphan >= 0)
+    issues.push(
+      `A citação "${(d.body[orphan].text ?? "").slice(0, 60)}..." não diz quem falou. Use "quote" só para falas literais de alguém e diga o autor no parágrafo anterior ("disse Fulano, diretor da X:"); se não for fala de ninguém, transforme em parágrafo normal.`,
+    );
 
   const sets = paragraphs.map((p) => new Set(norm(p).split(/\W+/).filter((w) => w.length > 3)));
   outer: for (let i = 0; i < sets.length; i++)

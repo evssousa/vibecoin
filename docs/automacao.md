@@ -1,7 +1,12 @@
 # Robô de postagem
 
-Status: código pronto e testado localmente (coleta real das 9 fontes: 183 pautas, 0 erros).
-A escrita depende da `GEMINI_API_KEY` no hPanel. Código: `app/lib/robot/` e `app/routes/cron.ts`.
+Status: ✅ no ar. Coleta real das 9 fontes no servidor (183 pautas, 0 erros). `GEMINI_API_KEY` de conta
+própria (contato@vibecoin.com.br) cadastrada em 2026-11-13; diagnóstico ok (gemini-3.5-flash e
+3.5-flash-lite). Código: `app/lib/robot/` e `app/routes/cron.ts`.
+
+Primeiro teste `dry=1` (2026-11-13): "Nvidia: renúncia de Jensen Huang faz bitcoin e mercado caírem",
+609 palavras, capa 1920×1080, 3 imagens, links para as cotações de BTC e ETH, aprovada na 2ª tentativa.
+Defeitos vistos e corrigidos na checagem: decimal com ponto ("46.4%") e citações sem autor.
 Mesmo modelo do Respawnou, sem as partes de games (IGDB, consenso da crítica, ofertas, compilações).
 
 ## Arquitetura
@@ -60,9 +65,11 @@ em português é quase cópia. O robô nunca se disfarça de navegador para cont
    meta description, linha fina, tags, moedas citadas e corpo em blocos.
 6. Checagem (`quality.ts`): título 30–70, meta 110–160, palavra-chave no título e no lide, ≥ 350
    palavras, ≥ 2 h2 + "Mais sobre…", sem frase em inglês, sem parágrafo repetido, rumor tratado como
-   rumor, **todo número precisa existir nas fontes**, e **nenhuma frase de recomendação ou promessa**
-   ("hora de comprar", "lucro garantido", "vai disparar", "rumo à lua"...). Reprovou → volta para o
-   Gemini com a lista de problemas (até 3 tentativas).
+   rumor, **todo número precisa existir nas fontes**, **nenhuma frase de recomendação ou promessa**
+   ("hora de comprar", "lucro garantido", "vai disparar", "rumo à lua"...) e **toda citação em destaque
+   diz quem falou** (no parágrafo anterior). Reprovou → volta para o Gemini com a lista de problemas
+   (até 3 tentativas). Correção automática, sem gastar Gemini: decimal com ponto antes de "%" vira
+   vírgula ("46.4%" → "46,4%").
 7. Montagem (`assemble.ts`): imagem abaixo de cada h2, vídeo do YouTube da fonte depois do lide,
    "Leia também" e pelo menos 1 link interno (1ª menção de moeda citada → `/cotacoes/<moeda>`).
 8. Imagens baixadas, convertidas para WebP (até 1600 px) e servidas em `/media` (`MEDIA_DIR`).

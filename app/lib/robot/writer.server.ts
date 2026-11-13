@@ -158,7 +158,8 @@ PRECISÃO — NUNCA INVENTE
 2. Não traduza parágrafo por parágrafo: escreva um texto novo, com estrutura própria.
 3. Não converta moedas nem fusos por conta própria: valores em dólar ficam em dólar, como na fonte.
 4. Rumor, vazamento ou "fontes anônimas": escreva como tal ("ainda não confirmado") e nunca apresente como fato.
-5. Citações: traduza e atribua a quem disse. No máximo 2 citações (tipo "quote", sem aspas no texto). Nunca invente citação.
+5. Citações: traduza e atribua a quem disse. No máximo 2 citações (tipo "quote", sem aspas no texto), SÓ para falas literais de uma pessoa ou instituição, e o parágrafo logo antes diz quem falou ("disse Fulano, diretor da X:"). Dado, estatística ou resumo da fonte não é citação: vira parágrafo normal. Nunca invente citação.
+6. Números em português: vírgula no decimal e ponto no milhar (46,4%; US$ 71.500; 1,2 bilhão).
 
 QUANDO NÃO PUBLICAR (publish=false)
 - Não é sobre cripto, mercado financeiro, economia ou finanças pessoais; é só análise técnica de gráfico ou previsão de preço; é conteúdo patrocinado, comunicado de projeto pequeno pedindo divulgação, pré-venda ou airdrop; rumor sem origem confiável; ou o assunto já está entre as matérias recentes do Vibecoin.
