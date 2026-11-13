@@ -331,7 +331,8 @@ export async function localizeImages(a: BuiltArticle, slug: string) {
   const cover = await storeImage(a.cover, slug);
   const map = new Map<string, { src: string; width: number; height: number }>();
   let n = 2;
-  for (const img of a.bodyImages) map.set(img.url, await storeImage(img, `${slug}-${n++}`));
+  // A foto da capa pode estar no corpo (uma vez): reaproveita o arquivo da capa.
+  for (const img of a.bodyImages) map.set(img.url, img === a.cover ? cover : await storeImage(img, `${slug}-${n++}`));
   const body = a.body.map((b) => {
     if (b.type !== "img") return b;
     const local = map.get(b.src);

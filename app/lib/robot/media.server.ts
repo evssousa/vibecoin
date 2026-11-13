@@ -31,7 +31,41 @@ export interface ProbedImage {
   type: string;
   /** Ver SHARP_GOOD. null quando o sharp não está disponível. */
   sharpness: number | null;
+  /** Impressão visual (dHash de 64 bits): reconhece a mesma foto em outro tamanho ou corte. */
+  phash: bigint | null;
 }
+
+/**
+ * dHash: miniatura 9×8 em tons de cinza (corte central), 1 bit por vizinho mais claro/escuro.
+ * Calibrado em 2026-11-13 com a matéria da Nvidia: a mesma foto em 1024×512, 1600×900 e
+ * 1920×1080 ficou a distância 0–7; fotos diferentes, acima de 30.
+ */
+export const SAME_PHOTO_MAX_DISTANCE = 12;
+
+async function perceptualHash(sharp: SharpFn, buf: Buffer): Promise<bigint | null> {
+  try {
+    const px = await sharp(buf).greyscale().resize({ width: 9, height: 8, fit: "cover" }).raw().toBuffer();
+    let bits = 0n;
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) bits = (bits << 1n) | (px[y * 9 + x] > px[y * 9 + x + 1] ? 1n : 0n);
+    return bits;
+  } catch {
+    return null;
+  }
+}
+
+/** Quantos bits diferem entre duas impressões visuais (0 = iguais). */
+export function hashDistance(a: bigint, b: bigint) {
+  let x = a ^ b;
+  let n = 0;
+  while (x) {
+    n += Number(x & 1n);
+    x >>= 1n;
+  }
+  return n;
+}
+
+const samePhoto = (a: ProbedImage, b: ProbedImage) =>
+  a.hash === b.hash || (a.phash != null && b.phash != null && hashDistance(a.phash, b.phash) <= SAME_PHOTO_MAX_DISTANCE);
 
 /** Bordas definidas = imagem nítida. Imagem ampliada ou de vídeo comprimido tem laplaciano "achatado". */
 async function measureSharpness(sharp: SharpFn, buf: Buffer) {
@@ -58,7 +92,7 @@ async function measureSharpness(sharp: SharpFn, buf: Buffer) {
 type SharpFn = (input: Buffer) => {
   metadata: () => Promise<{ width?: number; height?: number; pages?: number }>;
   rotate: () => ReturnType<SharpFn>;
-  resize: (o: { width: number; withoutEnlargement: boolean }) => ReturnType<SharpFn>;
+  resize: (o: { width: number; height?: number; fit?: "cover"; withoutEnlargement?: boolean }) => ReturnType<SharpFn>;
   greyscale: () => ReturnType<SharpFn>;
   convolve: (o: { width: number; height: number; kernel: number[]; offset?: number }) => ReturnType<SharpFn>;
   raw: () => ReturnType<SharpFn> & { toBuffer: () => Promise<Buffer> };
@@ -139,7 +173,8 @@ export async function probeImage(img: MediaImage): Promise<ProbedImage | null> {
     }
     if (!size) continue;
     const sharpness = sharp ? await measureSharpness(sharp, src.buf) : null;
-    return { url, alt: img.alt, source: img.source, ...size, hash: createHash("sha1").update(src.buf).digest("hex"), buf: src.buf, type: src.type, sharpness };
+    const phash = sharp ? await perceptualHash(sharp, src.buf) : null;
+    return { url, alt: img.alt, source: img.source, ...size, hash: createHash("sha1").update(src.buf).digest("hex"), buf: src.buf, type: src.type, sharpness, phash };
   }
   return null;
 }
@@ -156,11 +191,16 @@ export interface ChosenMedia {
  */
 export async function chooseMedia(images: MediaImage[], bodyLimit = 3, maxProbes = 10): Promise<ChosenMedia | null> {
   const probed: ProbedImage[] = [];
-  const hashes = new Set<string>();
   for (const img of images.slice(0, maxProbes)) {
     const p = await probeImage(img);
-    if (!p || hashes.has(p.hash)) continue;
-    hashes.add(p.hash);
+    if (!p) continue;
+    // A mesma foto em outro tamanho/corte (og:image, srcset, corpo da matéria) entra uma vez só:
+    // fica a versão maior, no lugar da primeira (a ordem das fontes continua valendo).
+    const dup = probed.findIndex((q) => samePhoto(p, q));
+    if (dup >= 0) {
+      if (p.width > probed[dup].width) probed[dup] = p;
+      continue;
+    }
     probed.push(p);
   }
   const landscape = (p: ProbedImage) => p.width / p.height >= 1.25 && p.width / p.height <= 2.5;
@@ -174,7 +214,10 @@ export async function chooseMedia(images: MediaImage[], bodyLimit = 3, maxProbes
     candidates.filter((p) => sharpOf(p) >= SHARP_GOOD).sort((a, b) => b.width - a.width)[0] ??
     candidates.filter((p) => sharpOf(p) >= SHARP_MIN).sort((a, b) => sharpOf(b) - sharpOf(a))[0];
   if (!cover) return null;
+  // `probed` já não tem a mesma foto duas vezes, então o corpo nunca repete imagem. A foto da capa
+  // pode aparecer uma vez no corpo (pedido do dono, 2026-11-13), depois das outras, se faltar imagem.
   const body = probed.filter((p) => p !== cover && p.width >= BODY_MIN_W && p.height >= 300 && sharpOf(p) >= SHARP_MIN).slice(0, bodyLimit);
+  if (body.length < bodyLimit) body.push(cover);
   return { cover, body };
 }
 
@@ -197,7 +240,7 @@ export async function storeUpload(buf: Buffer, type: string, name: string): Prom
     }
   }
   if (!size) return null;
-  const probed: ProbedImage = { url: "", ...size, hash: createHash("sha1").update(buf).digest("hex"), buf, type, sharpness: null };
+  const probed: ProbedImage = { url: "", ...size, hash: createHash("sha1").update(buf).digest("hex"), buf, type, sharpness: null, phash: null };
   return storeImage(probed, name);
 }
 
