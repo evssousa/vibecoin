@@ -10,8 +10,11 @@ import { getAvailability, getCoins, getMarket } from "./lib/content.server";
 import { SITE } from "./lib/site";
 
 export const links: Route.LinksFunction = () => [
-  { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-  { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+  // "?v=2": a marca mudou (moeda violeta) e o navegador guarda o ícone antigo pelo endereço.
+  // Mude o número sempre que trocar os ícones.
+  { rel: "icon", href: "/favicon.ico?v=2", sizes: "48x48" },
+  { rel: "icon", href: "/favicon.svg?v=2", type: "image/svg+xml" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=2" },
   { rel: "alternate", type: "application/rss+xml", title: `${SITE.name} — RSS`, href: "/rss.xml" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
