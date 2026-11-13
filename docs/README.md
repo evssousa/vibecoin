@@ -54,7 +54,8 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Contador de visitas e "Mais lidas" reais | ✅ |
 | 3 | Marca própria: moeda violeta no lugar do quadrado lima; rótulos com bolinha no lugar do ">" (diferente do Respawnou) | ✅ |
 | 3 | Cron Jobs de coletar (:15 e :45) e publicar (:25) | ✅ |
-| 3 | `GEMINI_API_KEY`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e `SESSION_SECRET` no hPanel | ❓ dono |
+| 3 | `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e `SESSION_SECRET` no hPanel (login do painel funcionando, 2026-11-13) | ✅ |
+| 3 | `GEMINI_API_KEY` de uma conta própria do Google (contato@vibecoin.com.br), não a do Respawnou | ❓ dono |
 | 3 | Primeira matéria automática em produção (teste `dry=1` antes) | ⏳ |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |
 | 4 | Newsletter "Resumo diário" (precisa de serviço de e-mail; fica fora até existir) | ❓ |
