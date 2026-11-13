@@ -22,7 +22,7 @@ export function Footer({ adsOn }: { adsOn: boolean }) {
           </div>
           <a
             href="/rss.xml"
-            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-night-line-2 px-4 font-mono text-sm font-bold text-lime hover:border-lime"
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-night-line-2 px-4 font-mono text-sm font-bold text-glow hover:border-glow"
           >
             RSS das matérias
           </a>
@@ -33,7 +33,7 @@ export function Footer({ adsOn }: { adsOn: boolean }) {
             .filter((g) => g.links.length)
             .map((g) => (
               <nav key={g.title} aria-label={g.title} className="flex flex-col gap-1">
-                <h2 className="mb-1 eyebrow text-lime">{g.title.toUpperCase()}</h2>
+                <h2 className="mb-1 eyebrow text-glow">{g.title.toUpperCase()}</h2>
                 {g.links.map((l) => (
                   <Link key={l.to} to={l.to} className="py-1.5 text-sm text-moon-muted hover:text-moon">
                     {l.label}
@@ -46,7 +46,7 @@ export function Footer({ adsOn }: { adsOn: boolean }) {
         <div className="flex flex-col gap-3 border-t border-night-line pt-6 text-sm text-moon-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p className="font-mono">
             vibecoin_ · conteúdo informativo, não é recomendação de investimento.{" "}
-            <Link to="/aviso-de-risco" className="text-moon underline decoration-lime underline-offset-4 hover:text-lime">
+            <Link to="/aviso-de-risco" className="text-moon underline decoration-glow underline-offset-4 hover:text-glow">
               Aviso de risco
             </Link>
           </p>

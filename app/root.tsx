@@ -51,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         )}
       </head>
       <body className="min-h-screen">
-        <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-lime focus:px-4 focus:py-3 focus:font-bold focus:text-night">
+        <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-violet focus:px-4 focus:py-3 focus:font-bold focus:text-white">
           Pular para o conteúdo
         </a>
         {!admin && (

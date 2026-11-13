@@ -21,7 +21,7 @@ export function AdminShell({ email, children }: { email: string; children: React
         <div className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6">
           <a href="/" className="flex items-center gap-2" title="Ver o site">
             <Logo />
-            <span className="rounded-md bg-night-3 px-2 py-0.5 font-mono text-[11px] font-bold text-lime">ADMIN</span>
+            <span className="rounded-md bg-night-3 px-2 py-0.5 font-mono text-[11px] font-bold text-glow">ADMIN</span>
           </a>
           <nav aria-label="Painel" className="order-3 -mx-1 flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto">
             {NAV.map((n) => (
@@ -29,7 +29,7 @@ export function AdminShell({ email, children }: { email: string; children: React
                 key={n.to}
                 to={n.to}
                 end={n.end}
-                className={({ isActive }) => cx("whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold", isActive ? "bg-lime text-night" : "text-moon hover:text-lime")}
+                className={({ isActive }) => cx("whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold", isActive ? "bg-violet text-white" : "text-moon hover:text-glow")}
               >
                 {n.label}
               </NavLink>

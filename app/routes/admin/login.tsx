@@ -26,7 +26,7 @@ export default function Login({ loaderData, actionData }: Route.ComponentProps) 
       <p className="text-3xl font-extrabold">
         <span className="inline-flex items-center gap-2 rounded-xl bg-night px-3 py-2">
           <Logo />
-          <span className="font-mono text-xs font-bold text-lime">ADMIN</span>
+          <span className="font-mono text-xs font-bold text-glow">ADMIN</span>
         </span>
       </p>
       {!loaderData.ready ? (

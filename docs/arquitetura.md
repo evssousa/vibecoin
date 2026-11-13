@@ -61,7 +61,7 @@ docs/                    este plano
 
 ## Tema "Dia e Noite"
 
-- Tokens da noite: `night`, `night-2/3`, `night-line(-2)`, `moon`, `moon-muted`, `lime`,
+- Tokens da noite: `night`, `night-2/3`, `night-line(-2)`, `moon`, `moon-muted`, `glow` (detalhes da marca), `brand` (moeda), `lime` (dados e blocos),
   `up-night`, `down-night`. Do dia: `day`, `card`, `line(-2)`, `ink`, `muted`, `violet(-deep/-soft)`,
   `up`, `down`.
 - Componentes no fundo escuro recebem a classe `night` (foco em lima) e `mode="night"` em

@@ -77,7 +77,7 @@ export default function Converter({ loaderData }: Route.ComponentProps) {
         <button
           type="button"
           onClick={() => setToCrypto((v) => !v)}
-          className="min-h-11 w-fit rounded-xl border border-night-line-2 px-4 text-sm font-bold hover:border-lime hover:text-lime"
+          className="min-h-11 w-fit rounded-xl border border-night-line-2 px-4 text-sm font-bold hover:border-glow hover:text-glow"
         >
           ⇅ Inverter: {toCrypto ? `${coin.symbol} → reais` : `reais → ${coin.symbol}`}
         </button>

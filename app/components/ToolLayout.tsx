@@ -64,7 +64,7 @@ export function Field({ label, htmlFor, children, hint }: { label: string; htmlF
 }
 
 export const inputCls =
-  "h-[52px] w-full rounded-xl border border-night-line-2 bg-night-2 px-3.5 font-mono text-lg text-moon outline-none focus:border-lime";
+  "h-[52px] w-full rounded-xl border border-night-line-2 bg-night-2 px-3.5 font-mono text-lg text-moon outline-none focus:border-glow";
 
 /** Resultado em destaque (bloco lima). */
 export function Result({ label, value, note, tone = "lime" }: { label: string; value: string; note?: ReactNode; tone?: "lime" | "violet" }) {

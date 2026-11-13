@@ -11,6 +11,10 @@
   --color-night-line-2: #3a2d57;
   --color-moon: #f1ecff;
   --color-moon-muted: #b9aed3;
+  /* Lilás da marca no escuro (detalhes de interface: rótulos, menu ativo, "_", links, foco).
+     O lima fica para dados (alta, gráficos) e blocos de destaque. */
+  --color-glow: #a99bff;
+  --color-brand: #7b5cff;
   --color-lime: #c6f432;
   --color-up-night: #c6f432;
   --color-down-night: #ff9b9b;
@@ -55,7 +59,7 @@ body {
   outline-offset: 3px;
 }
 .night :focus-visible {
-  outline-color: var(--color-lime);
+  outline-color: var(--color-glow);
 }
 
 /* Rótulo de seção: uma "moeda" (bolinha com halo) na cor do texto + letras espaçadas.

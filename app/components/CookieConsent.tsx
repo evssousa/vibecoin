@@ -55,23 +55,23 @@ export function CookieConsent() {
       className="night fixed inset-x-3 bottom-3 z-50 mx-auto flex max-w-3xl flex-col gap-4 rounded-[22px] border border-night-line-2 bg-night-2 p-5 text-moon shadow-2xl sm:inset-x-6 sm:bottom-6 sm:p-6"
     >
       <div className="flex flex-col gap-2">
-        <h2 id="cookies-titulo" className="eyebrow text-lime">
+        <h2 id="cookies-titulo" className="eyebrow text-glow">
           COOKIES
         </h2>
         <p className="text-sm leading-relaxed text-moon-muted">
           Usamos cookies essenciais para o site funcionar. Com a sua permissão, o Google também usa cookies para exibir anúncios personalizados e medir o
           resultado deles. Você pode mudar de ideia quando quiser pelo link “Preferências de cookies” no rodapé. Saiba mais na{" "}
-          <Link to="/cookies" className="text-moon underline decoration-lime underline-offset-4 hover:text-lime">
+          <Link to="/cookies" className="text-moon underline decoration-glow underline-offset-4 hover:text-glow">
             política de cookies
           </Link>
           .
         </p>
       </div>
       <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-        <button type="button" onClick={() => choose("essential")} className="min-h-11 rounded-xl border border-night-line-2 px-5 text-sm font-bold hover:border-lime hover:text-lime">
+        <button type="button" onClick={() => choose("essential")} className="min-h-11 rounded-xl border border-night-line-2 px-5 text-sm font-bold hover:border-glow hover:text-glow">
           Só os essenciais
         </button>
-        <button type="button" onClick={() => choose("all")} className="min-h-11 rounded-xl bg-lime px-5 text-sm font-extrabold text-night hover:bg-moon">
+        <button type="button" onClick={() => choose("all")} className="min-h-11 rounded-xl bg-violet px-5 text-sm font-extrabold text-white hover:bg-violet-deep">
           Aceitar todos
         </button>
       </div>

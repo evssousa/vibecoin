@@ -54,11 +54,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <div className="mx-auto flex max-w-[1280px] flex-wrap gap-5 px-4 pt-6 pb-14 sm:px-6 sm:pt-8">
           {featured ? (
             <article className="flex min-w-0 flex-[2_1_520px] flex-col gap-4">
-              <span className="w-fit rounded-full bg-lime px-2.5 py-1 font-mono text-xs font-bold text-night">
+              <span className="w-fit rounded-full bg-violet px-2.5 py-1 font-mono text-xs font-bold text-white">
                 DESTAQUE · {featured.ago}
               </span>
               <h2 className="text-[34px] leading-[1.06] font-extrabold tracking-[-0.035em] sm:text-[50px]">
-                <Link to={featured.url} className="hover:text-lime">
+                <Link to={featured.url} className="hover:text-glow">
                   {featured.title}
                 </Link>
               </h2>
@@ -66,11 +66,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               {subs.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-5">
                   {subs.map((p) => (
-                    <Link key={p.url} to={p.url} className="group flex flex-[1_1_240px] flex-col gap-1.5 border-t-2 border-lime pt-3">
+                    <Link key={p.url} to={p.url} className="group flex flex-[1_1_240px] flex-col gap-1.5 border-t-2 border-glow pt-3">
                       <Kicker mode="night">
                         {p.kicker} · {p.ago}
                       </Kicker>
-                      <span className="text-[17px] leading-snug font-bold group-hover:text-lime">{p.title}</span>
+                      <span className="text-[17px] leading-snug font-bold group-hover:text-glow">{p.title}</span>
                     </Link>
                   ))}
                 </div>
@@ -78,7 +78,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </article>
           ) : (
             <div className="flex-[2_1_520px]">
-              <p className="eyebrow text-lime">As primeiras matérias chegam em breve</p>
+              <p className="eyebrow text-glow">As primeiras matérias chegam em breve</p>
             </div>
           )}
 

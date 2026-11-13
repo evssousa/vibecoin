@@ -14,7 +14,7 @@ export function Logo({ className }: { className?: string }) {
         <circle cx="32" cy="32" r="26" fill="none" stroke="#fff" strokeOpacity="0.28" strokeWidth="2.5" />
         <path d="M20 21l12 23 12-23" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-      vibecoin<span className="text-lime">_</span>
+      vibecoin<span className="text-glow">_</span>
     </span>
   );
 }
@@ -83,7 +83,7 @@ export function SectionTitle({
       {action && (
         <Link
           to={action.to}
-          className={cx("-my-3 inline-block py-3 text-sm font-bold", mode === "night" ? "text-lime hover:text-moon" : "text-violet hover:text-violet-deep")}
+          className={cx("-my-3 inline-block py-3 text-sm font-bold", mode === "night" ? "text-glow hover:text-moon" : "text-violet hover:text-violet-deep")}
         >
           {action.label} →
         </Link>
@@ -94,7 +94,7 @@ export function SectionTitle({
 
 /** Rótulo pequeno em mono (editoria, horário). */
 export function Kicker({ children, className, mode = "day" }: { children: ReactNode; className?: string; mode?: "day" | "night" }) {
-  return <span className={cx("font-mono text-[11px] font-bold uppercase leading-none", mode === "night" ? "text-lime" : "text-violet", className)}>{children}</span>;
+  return <span className={cx("font-mono text-[11px] font-bold uppercase leading-none", mode === "night" ? "text-glow" : "text-violet", className)}>{children}</span>;
 }
 
 /** Capa: imagem real quando existir; senão, uma grade com gráfico (placeholder). */
@@ -118,7 +118,7 @@ export function Cover({
           <polyline
             points="0,170 40,160 80,165 120,130 160,140 200,100 240,110 280,70 320,80 360,40 400,30"
             fill="none"
-            stroke={mode === "night" ? "#c6f432" : "#5b2ee6"}
+            stroke={mode === "night" ? "#a99bff" : "#5b2ee6"}
             strokeOpacity={mode === "night" ? 0.7 : 0.45}
             strokeWidth="3"
             vectorEffect="non-scaling-stroke"
