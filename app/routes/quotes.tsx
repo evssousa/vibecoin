@@ -38,9 +38,11 @@ export default function Quotes({ loaderData }: Route.ComponentProps) {
             {compactBrl(market.totalMarketCapBrl)} <Change value={market.change24h} className="text-sm" />
           </Stat>
           <Stat label="Dominância do bitcoin">{market.btcDominance.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</Stat>
-          <Stat label="Dólar (USD/BRL)">
-            R$ {price(market.usdBrl)} <Change value={market.usdBrlChange24h} className="text-sm" />
-          </Stat>
+          {market.usdBrl > 0 && (
+            <Stat label="Dólar (USD/BRL)">
+              R$ {price(market.usdBrl)} <Change value={market.usdBrlChange24h} className="text-sm" />
+            </Stat>
+          )}
           <Stat label="Medo e ganância">
             {market.fearGreed.value} <span className="text-base font-semibold text-muted">· {market.fearGreed.label}</span>
           </Stat>

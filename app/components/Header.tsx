@@ -22,7 +22,7 @@ export function TickerBar({ coins, market }: { coins: Coin[]; market: MarketOver
               </Link>
             </li>
           ))}
-        {market && (
+        {market && market.usdBrl > 0 && (
           <li className="inline-flex min-h-11 items-center gap-2">
             <span className="text-moon-muted">USD</span>
             <span className="num">R$ {price(market.usdBrl)}</span>
