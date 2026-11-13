@@ -41,7 +41,11 @@ const dt = (d: Date | string) => new Date(d).toISOString().slice(0, 19).replace(
 // ───────────── Registro das execuções (cron_runs) ─────────────
 
 async function runJob(job: string, fn: () => Promise<JobResult>): Promise<JobResult> {
-  // Evita duas execuções do mesmo job ao mesmo tempo (uma travada há mais de 10 min não conta).
+  // Execução que ficou "running" por mais de 10 min foi interrompida (ex.: deploy reiniciou o app no meio).
+  await query(
+    "UPDATE cron_runs SET status = 'error', finished_at = UTC_TIMESTAMP(), message = 'Interrompida (o app reiniciou no meio da execução)' WHERE status = 'running' AND started_at < UTC_TIMESTAMP() - INTERVAL 10 MINUTE",
+  );
+  // Evita duas execuções do mesmo job ao mesmo tempo.
   const running = await query<{ id: number }>(
     "SELECT id FROM cron_runs WHERE job = ? AND status = 'running' AND started_at > UTC_TIMESTAMP() - INTERVAL 10 MINUTE LIMIT 1",
     [job],

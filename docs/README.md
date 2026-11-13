@@ -44,9 +44,9 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 1 | Coleta de cotações (`/api/cron/cotacoes`): CoinGecko + medo e ganância + dólar, histórico mensal; testada com dados reais | ✅ |
 | 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex (no ar em 2026-11-13) | ✅ |
 | 2 | Banco MySQL na Hostinger (migration 001 aplicada), variáveis `DB_*` e `CRON_TOKEN`, Cron Job de 15 min, primeira coleta de cotações | ✅ |
-| 2 | Chave Demo gratuita da CoinGecko cadastrada no hPanel (`COINGECKO_API_KEY`) | ❓ dono |
+| 2 | Chave Demo gratuita da CoinGecko cadastrada no hPanel (`COINGECKO_API_KEY`) pelo dono; testada (sem 429) | ✅ |
 | 2 | E-mail contato@vibecoin.com.br: ativar o e-mail grátis do domínio no hPanel e criar a caixa (como no Respawnou) | ❓ dono |
-| 2 | Histórico mensal completo das 18 moedas (vai em doses de 3 por coleta; ~1h30 depois do deploy) | 🔄 |
+| 2 | Histórico mensal completo das 18 moedas (12 meses cada) | ✅ |
 | 3 | Robô de postagem (RSS + Gemini gratuito), no modelo do Respawnou | 💤 |
 | 3 | Painel admin em /admin | 💤 |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |
