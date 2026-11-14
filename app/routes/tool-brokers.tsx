@@ -29,7 +29,7 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
   return (
     <ToolLayout
       tool={tool}
-      lead="As taxas que mais pesam no bolso, lado a lado. Os dados são conferidos no site de cada corretora; a data de conferência aparece em cada linha."
+      lead="As taxas que mais pesam no bolso, lado a lado. Os valores são os da faixa inicial de cada corretora, conferidos nos sites oficiais; a data de conferência aparece em cada linha."
       explain={
         <>
           <h2>Como ler a tabela</h2>
@@ -37,6 +37,9 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
             <li>
               <strong>Maker</strong> é a taxa quando sua ordem fica no livro esperando alguém; <strong>taker</strong>, quando você compra ou vende na hora, pelo
               preço da tela. Quem compra pelo app geralmente paga a taxa taker.
+            </li>
+            <li>
+              As taxas mostradas são as da <strong>faixa inicial</strong>: quase todas as corretoras cobram menos de quem negocia volumes maiores. Pelo botão de compra simples de alguns apps, a taxa total pode ser bem maior que a da tabela; veja a coluna Recursos.
             </li>
             <li>Taxa menor não é tudo: veja também a segurança, o atendimento e se a corretora é regulada no Brasil.</li>
           </ul>
@@ -48,7 +51,7 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
       }
     >
       <div className="relative overflow-x-auto rounded-[20px] border border-line bg-card">
-        <table className="w-full min-w-[820px] border-collapse text-[15px]">
+        <table className="w-full min-w-[760px] border-collapse text-[15px]">
           <caption className="sr-only">Comparação de taxas e recursos das corretoras</caption>
           <thead>
             <tr className="bg-[#f6f4fd] text-left text-xs text-muted">
@@ -66,9 +69,6 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
               </th>
               <th scope="col" className="px-3 py-3 font-semibold">
                 Saque Pix
-              </th>
-              <th scope="col" className="px-3 py-3 font-semibold">
-                Moedas
               </th>
               <th scope="col" className="px-5 py-3 font-semibold">
                 Recursos
@@ -90,7 +90,6 @@ export default function Brokers({ loaderData }: Route.ComponentProps) {
                   <td className="num px-3 py-4">{fee(b.takerFee)}</td>
                   <td className="px-3 py-4">{b.pixDeposit}</td>
                   <td className="px-3 py-4">{b.pixWithdraw}</td>
-                  <td className="num px-3 py-4">{b.coins}</td>
                   <td className="px-5 py-4">
                     <ul className="flex flex-wrap gap-1.5">
                       {b.features.map((f) => (

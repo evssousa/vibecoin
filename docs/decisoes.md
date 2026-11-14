@@ -122,3 +122,4 @@ Corrigido:
 - **Guias iniciais aprovados pelo dono** (migration 004), sem alterações.
 - **Newsletter só depois do AdSense ativo.** Não construir antes.
 - **Comparador de corretoras:** o dono não conhece as corretoras, então a escolha segue critérios objetivos (empresa brasileira com CNPJ, atuação regular no Brasil, Pix, histórico sem calote a clientes), sem indicar uma "melhor". Dados de taxas vêm dos sites oficiais com data de conferência.
+- **Comparador publicado com 4 corretoras** (Binance, Bitso, Foxbit, Mercado Bitcoin), aprovado pelo dono, inclusive a Foxbit com o pedido de autorização no Banco Central ainda pendente (informação da própria página dela, não exibida na tabela). NovaDAX fora por falta de fonte oficial acessível. Coluna de moedas removida.

@@ -38,7 +38,7 @@ tiver dados (ver `getAvailability()` e decisoes.md).
 
 ## Comparador de corretoras (`/ferramentas/comparador-corretoras`)
 
-- Tabela: maker, taker, depósito e saque por Pix, número de moedas, recursos e data da conferência.
+- Tabela: maker, taker (faixa inicial de volume), depósito e saque por Pix, recursos e data da conferência. Sem coluna de número de moedas (só o Mercado Bitcoin divulga, e o valor muda entre páginas).
 - Ordem alfabética; o site não recebe comissão (dito na página e no FAQ).
-- **Dados:** cadastrados à mão no painel (fase 3), conferidos no site de cada corretora, com data. Os
+- **Dados:** migration 005, conferidos nos sites oficiais em 2026-11-14: Binance, Bitso, Foxbit e Mercado Bitcoin. NovaDAX fora (páginas oficiais de taxas bloquearam a conferência). Reconferir a cada 1–2 meses: o dado envelhece. Os
   dados de exemplo usam nomes fictícios ("Corretora Exemplo A") e nunca vão para produção.

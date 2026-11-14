@@ -11,6 +11,7 @@ Datas em UTC.
 | `db/migrations/002_robo.sql` | `feed_items.media` (JSON), 9 fontes RSS, configurações do robô (`robot_sections`, `robot_min_words`, janela 8h–22h) e liga o robô | automática no deploy da fase 3 |
 | `db/migrations/003_fontes_texto_completo.sql` | 3 fontes com a matéria inteira no RSS: BeInCrypto, CoinJournal, Bitcoinist | ✅ automática no deploy de 2026-11-14 |
 | `db/migrations/004_guias_iniciais.sql` | 4 guias escritos à mão (origem manual, seção guias): `o-que-e-bitcoin-de-verdade`, `como-comprar-sua-primeira-cripto-com-seguranca`, `carteira-fria-quente-e-autocustodia`, `stablecoins-o-que-sao-e-para-que-servem`. `INSERT IGNORE`: não sobrescreve guia existente | automática no deploy de 2026-11-14 |
+| `db/migrations/005_corretoras.sql` | 4 corretoras do comparador (Binance, Bitso, Foxbit, Mercado Bitcoin), taxas da faixa inicial conferidas em 2026-11-14 | automática no deploy de 2026-11-14 |
 
 Como aplicar:
 
