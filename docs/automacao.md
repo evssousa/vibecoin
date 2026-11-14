@@ -72,6 +72,7 @@ em português é quase cópia. O robô nunca se disfarça de navegador para cont
    mesmo assunto) tem ≥ 150 palavras no RSS − 30 se a fonte está "travada" (≥ 3 descartes por pouco
    conteúdo e nenhuma matéria em 3 dias) e a pauta não tem texto. Tenta até 8 pautas por execução, com
    no máximo 2 chamadas ao Gemini (pautas sem texto são descartadas antes, sem gastar cota).
+2b. **Assunto repetido**: antes de escrever, descarta pauta cujo título (na língua da fonte) divide ≥ 3 palavras e ≥ 60% com o de uma pauta já usada nos últimos ~4 dias (`coveredTopics`/`isCovered`), motivo "assunto já publicado nos últimos dias". Antes disso só se comparava com a própria fila, e o caso Binance/DOJ saiu duas vezes (2026-11-12 e 2026-11-14).
 3. Junta até 2 fontes de outros veículos sobre o mesmo assunto; baixa a página (ou usa o RSS).
 4. Escolhe a capa (≥ 1200 px, horizontal, nítida) **antes** do Gemini: sem capa, a pauta é descartada.
 5. Gemini escreve em JSON (guia editorial em `writer.server.ts`): editoria, palavra-chave, título,

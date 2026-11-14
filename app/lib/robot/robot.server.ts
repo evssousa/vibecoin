@@ -203,6 +203,23 @@ async function relatedPosts(titles: string[], excludeId?: number) {
     .map(({ r }) => ({ title: r.title, url: `/${r.section}/${r.slug}` }));
 }
 
+/**
+ * Palavras dos títulos originais (na língua da fonte) das pautas que já viraram matéria, ou que foram
+ * descartadas por repetirem uma matéria. A pauta nasce até 48 h antes de ser usada: 6 dias de coleta
+ * cobrem uns 4 dias de matérias publicadas.
+ */
+async function coveredTopics() {
+  const rows = await query<{ title: string }>(
+    "SELECT title FROM feed_items WHERE (status = 'used' OR reason LIKE 'mesmo assunto%' OR reason LIKE 'assunto já publicado%') AND created_at > UTC_TIMESTAMP() - INTERVAL 6 DAY LIMIT 400",
+  );
+  return rows.map((r) => keywords(r.title));
+}
+
+/** Mesmo assunto: pelo menos 3 palavras em comum e 60% do título menor (evita barrar só por "bitcoin"). */
+function isCovered(kw: Set<string>, covered: Set<string>[]) {
+  return covered.some((c) => [...kw].filter((w) => c.has(w)).length >= 3 && similarity(kw, c) >= 0.6);
+}
+
 /** Moedas com página de cotação (para links internos e o campo coins). */
 async function trackedCoins(): Promise<CoinRef[]> {
   return query<CoinRef>("SELECT slug, name, symbol FROM coins WHERE active = 1 AND price_brl IS NOT NULL ORDER BY market_rank IS NULL, market_rank");
@@ -331,8 +348,16 @@ export function publish(opts: PublishOptions = {}): Promise<JobResult> {
     const coins = await trackedCoins();
     const tried: string[] = [];
 
-    const queue = await rankedQueue();
-    if (!queue.length) return { status: "skipped", message: "Fila vazia: nenhuma pauta nova.", stats: { tried } };
+    const allQueue = await rankedQueue();
+    // Assunto que o site já cobriu nos últimos dias (mesmo por outro veículo) não vira outra matéria.
+    const covered = await coveredTopics();
+    const repeated = allQueue.filter((q) => isCovered(keywords(q.title), covered));
+    if (repeated.length && !opts.dry) await markItems(repeated.map((r) => r.id), "skipped", "assunto já publicado nos últimos dias");
+    const queue = allQueue.filter((q) => !repeated.includes(q));
+    if (!queue.length) {
+      const message = repeated.length ? `Fila vazia: ${repeated.length} pauta(s) repetiam assunto já publicado.` : "Fila vazia: nenhuma pauta nova.";
+      return { status: "skipped", message, stats: { tried, repeated: repeated.length } };
+    }
     // Até 3 pautas por execução: se uma for descartada, tenta a próxima.
     // Até 8 pautas por execução, mas no máximo 2 chamadas ao Gemini: descarte "barato" (sem texto ou
     // sem capa, antes do Gemini) não gasta cota, então vale tentar a próxima.
