@@ -67,3 +67,18 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 4 | Search Console verificado, sitemap enviado e inspeção de URL sem erros (dono, 2026-11-13) | ✅ |
 | 4 | Pedido do AdSense | 💤 |
 | — | Regra de IR da calculadora conferida em 2026-11-13 (MP 1.303 caducou; isenção de R$ 35 mil vale) + texto sobre os 17,5% e a DeCripto | ✅ |
+
+## Próximos passos
+
+1. Acompanhar o robô por 24 h (2026-11-14 a 15): ritmo de posts, pautas barradas pelo filtro "assunto já publicado" (painel → Robô) e se o CryptoSlate voltou a abrir no `/api/cron/paginas`.
+2. Comparador de corretoras com dados reais (depende de o dono escolher as corretoras).
+3. Fontes novas para Grana e Regulação (hoje só a Agência Brasil cobre essas editorias).
+4. Mais guias (DeFi sem susto, nível 3; IR sobre cripto passo a passo).
+5. Pedido do AdSense quando houver mais matérias; newsletter segue parada.
+
+## Pendências suas
+
+- Arquivar um dos dois posts do caso Binance/DOJ no painel (sugestão: manter "EUA obtêm autorização…", arquivar "DOJ obtém autorização…").
+- Ler os 4 guias novos e ajustar o que não soar como você (painel → Matérias → Guias), principalmente o de primeira compra.
+- Escolher 4 ou 5 corretoras para o comparador.
+- Decidir sobre a newsletter (precisa de serviço de e-mail).
