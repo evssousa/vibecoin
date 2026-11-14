@@ -115,3 +115,10 @@ Corrigido:
 - **Domínio canônico:** apex `https://vibecoin.com.br`, www redireciona 301 (lição do animeprofile).
 - **Dados de exemplo nunca em produção** (lição do Respawnou): com banco configurado, o site lê só o
   MySQL; sem matéria, a home mostra "aguardando a primeira matéria".
+
+## 2026-11-14
+
+- **Posts do caso Binance/DOJ duplicados ficam como estão.** O dono não vai arquivar nenhum: o filtro de assunto repetido impede casos novos.
+- **Guias iniciais aprovados pelo dono** (migration 004), sem alterações.
+- **Newsletter só depois do AdSense ativo.** Não construir antes.
+- **Comparador de corretoras:** o dono não conhece as corretoras, então a escolha segue critérios objetivos (empresa brasileira com CNPJ, atuação regular no Brasil, Pix, histórico sem calote a clientes), sem indicar uma "melhor". Dados de taxas vêm dos sites oficiais com data de conferência.
