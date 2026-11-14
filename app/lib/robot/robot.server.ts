@@ -6,8 +6,9 @@ import type { ResultSetHeader } from "mysql2";
 import { db, json, query } from "../db.server.ts";
 import { runJob, type JobResult } from "../runs.server.ts";
 import { diagnose, GeminiError } from "./gemini.server.ts";
-import { fetchFeed } from "./rss.server.ts";
-import { keywords, similarity, slugify } from "./text.ts";
+import { fetchFeed, fetchText } from "./rss.server.ts";
+import { extractArticleText } from "./text.ts";
+import { countWords, keywords, similarity, slugify } from "./text.ts";
 import { localizeImages, ROBOT_SECTIONS, writeArticle, type BuiltArticle, type CoinRef, type SourceItem } from "./writer.server.ts";
 
 export type { JobResult };
@@ -214,7 +215,14 @@ const ITEM_COLS = `fi.id, fi.feed_id, f.name AS feed_name, fi.title, fi.url, fi.
  *   + tipo de notícia (pontos da coleta) + peso da fonte ×3
  *   + 10 por outro veículo cobrindo o mesmo assunto + 8 se saiu nas últimas 6 h
  *   − 12 por matéria que a mesma fonte já rendeu nas últimas 24 h (rodízio)
+ * Desde 2026-11-14, o texto disponível pesa: o servidor da Hostinger não consegue abrir a página de
+ * vários sites (bloqueio), e a pauta só com o resumo do RSS (~25 palavras) era descartada.
+ *   + 25 se a própria pauta, ou outra do mesmo assunto, traz o texto completo no RSS (≥ 150 palavras)
+ *   − 30 se a fonte vem falhando por falta de texto (≥ 3 descartes "pouco conteúdo" e nenhuma
+ *     matéria em 3 dias): ela continua útil como fonte complementar, mas raramente como principal
  */
+const FULL_TEXT_WORDS = 150;
+
 async function rankedQueue() {
   const rows = await query<SourceItem & { score: number; weight: number }>(
     `SELECT ${ITEM_COLS}, fi.score, f.weight FROM feed_items fi JOIN feeds f ON f.id = fi.feed_id
@@ -224,15 +232,30 @@ async function rankedQueue() {
   const used = await query<{ source_name: string; n: number }>(
     "SELECT source_name, COUNT(*) AS n FROM posts WHERE origin = 'auto' AND published_at > UTC_TIMESTAMP() - INTERVAL 24 HOUR GROUP BY source_name",
   );
+  const thin = await query<{ feed_id: number; thin: number; used: number }>(
+    `SELECT feed_id, SUM(status IN ('skipped','failed') AND reason LIKE 'pouco conteúdo%') AS thin, SUM(status = 'used') AS used
+     FROM feed_items WHERE created_at > UTC_TIMESTAMP() - INTERVAL 3 DAY GROUP BY feed_id`,
+  );
+  const blocked = new Set(thin.filter((t) => Number(t.thin) >= 3 && Number(t.used) === 0).map((t) => Number(t.feed_id)));
   const usedBy = new Map(used.map((u) => [u.source_name, Number(u.n)]));
   const kws = rows.map((r) => keywords(r.title));
+  const full = rows.map((r) => countWords(r.summary ?? "") >= FULL_TEXT_WORDS);
   const now = Date.now();
   const ranked = rows.map((r, i) => {
     const topicBoost = Number(r.score) - Number(r.weight) * 10;
-    const others = new Set(rows.filter((o, j) => j !== i && o.feed_id !== r.feed_id && similarity(kws[i], kws[j]) >= 0.5).map((o) => o.feed_id)).size;
+    const same = rows.map((o, j) => (j !== i && o.feed_id !== r.feed_id && similarity(kws[i], kws[j]) >= 0.5 ? j : -1)).filter((j) => j >= 0);
+    const others = new Set(same.map((j) => rows[j].feed_id)).size;
     const published = String(r.published_at);
     const fresh = now - new Date(published.replace(" ", "T") + (published.includes("Z") ? "" : "Z")).getTime() < 6 * 3600_000;
-    const rank = topicBoost + Number(r.weight) * 3 + others * 10 + (fresh ? 8 : 0) - (usedBy.get(r.feed_name) ?? 0) * 12;
+    const hasText = full[i] || same.some((j) => full[j]);
+    const rank =
+      topicBoost +
+      Number(r.weight) * 3 +
+      others * 10 +
+      (fresh ? 8 : 0) -
+      (usedBy.get(r.feed_name) ?? 0) * 12 +
+      (hasText ? 25 : 0) -
+      (blocked.has(Number(r.feed_id)) && !hasText ? 30 : 0);
     return { item: r as SourceItem, rank };
   });
   return ranked.sort((a, b) => b.rank - a.rank).map((x) => x.item);
@@ -311,7 +334,11 @@ export function publish(opts: PublishOptions = {}): Promise<JobResult> {
     const queue = await rankedQueue();
     if (!queue.length) return { status: "skipped", message: "Fila vazia: nenhuma pauta nova.", stats: { tried } };
     // Até 3 pautas por execução: se uma for descartada, tenta a próxima.
-    for (const item of queue.slice(0, 3)) {
+    // Até 8 pautas por execução, mas no máximo 2 chamadas ao Gemini: descarte "barato" (sem texto ou
+    // sem capa, antes do Gemini) não gasta cota, então vale tentar a próxima.
+    let geminiTries = 0;
+    for (const item of queue.slice(0, 8)) {
+      if (geminiTries >= 2) break;
       const group = groupFor(item, queue);
       let result;
       try {
@@ -330,6 +357,7 @@ export function publish(opts: PublishOptions = {}): Promise<JobResult> {
       if (!result.ok) {
         tried.push(`#${item.id}: ${result.reason}`);
         if (!opts.dry) await markItems([item.id], result.status, result.reason);
+        if (/^(recusada|reprovada)/.test(result.reason)) geminiTries++;
         continue;
       }
       const a = result.article;
@@ -443,4 +471,40 @@ async function markItems(ids: number[], status: "used" | "skipped" | "failed", r
     postId ?? null,
     ...ids,
   ]);
+}
+
+/**
+ * Diagnóstico (/api/cron/paginas, job "paginas"): para cada fonte ativa, a pauta mais recente —
+ * quanto texto o RSS traz e se a página da matéria abre a partir deste servidor (e com quanto texto).
+ * Feito porque, em 2026-11-13, sites que abrem do computador do dono recusavam o servidor da Hostinger.
+ */
+export function pagesDiag(): Promise<JobResult> {
+  return runJob("paginas", async () => {
+    const rows = await query<{ name: string; url: string; summary: string | null }>(
+      `SELECT f.name, fi.url, fi.summary FROM feeds f JOIN feed_items fi ON fi.id = (
+         SELECT id FROM feed_items WHERE feed_id = f.id ORDER BY published_at DESC LIMIT 1)
+       WHERE f.active = 1 ORDER BY f.weight DESC, f.name`,
+    );
+    const feeds = [];
+    for (const r of rows) {
+      const rssWords = countWords(r.summary ?? "");
+      let page: string;
+      let pageWords = 0;
+      try {
+        pageWords = countWords(extractArticleText(await fetchText(r.url, 20000)));
+        page = "ok";
+      } catch (err) {
+        const cause = err instanceof Error && err.cause instanceof Error ? ` ${(err.cause as Error & { code?: string }).code ?? err.cause.message}` : "";
+        page = `${err instanceof Error ? err.message : String(err)}${cause}`.slice(0, 80);
+      }
+      const usable = rssWords >= FULL_TEXT_WORDS ? "texto completo no RSS" : pageWords >= 200 ? "página abre" : "só o resumo do RSS";
+      feeds.push({ feed: r.name, rssWords, page, pageWords, usable });
+    }
+    const bad = feeds.filter((f) => f.usable === "só o resumo do RSS").map((f) => f.feed);
+    return {
+      status: "ok",
+      message: bad.length ? `Sem texto utilizável no servidor: ${bad.join(", ")}` : "Todas as fontes têm texto utilizável.",
+      stats: { feeds },
+    };
+  });
 }

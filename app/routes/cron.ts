@@ -4,6 +4,7 @@
 //   GET /api/cron/publicar?token=...  publica 1 matéria (de hora em hora; respeita horário, limite e intervalo)
 //   GET /api/cron/historico?token=... força o histórico mensal de todas as moedas (manual)
 //   GET /api/cron/diag?token=...      testa os modelos do Gemini (resultado em /status)
+//   GET /api/cron/paginas?token=...   testa, fonte por fonte, se a página da matéria abre do servidor
 //   GET /api/cron/fontes?token=...    pautas por fonte e situação nos últimos 7 dias (diagnóstico)
 //   GET /api/cron/status?token=...    últimas execuções
 // Parâmetros de publicar: dry=1 (gera sem gravar), force=1 (ignora horário/limite/intervalo),
@@ -16,7 +17,7 @@ import { timingSafeEqual } from "node:crypto";
 import type { Route } from "./+types/cron";
 import { hasDatabase } from "~/lib/db.server";
 import { historyJob, quotesJob } from "~/lib/market/jobs.server";
-import { collect, diag, feedStats, publish } from "~/lib/robot/robot.server";
+import { collect, diag, feedStats, pagesDiag, publish } from "~/lib/robot/robot.server";
 import { recentRuns, type JobResult } from "~/lib/runs.server";
 
 function authorized(request: Request) {
@@ -45,6 +46,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   else if (params.job === "historico") job = historyJob;
   else if (params.job === "coletar") job = collect;
   else if (params.job === "diag") job = diag;
+  else if (params.job === "paginas") job = pagesDiag;
   else if (params.job === "publicar")
     job = () => publish({ dry: flag("dry"), force: flag("force"), redoPostId: Number(url.searchParams.get("refazer")) || undefined });
   else return notFound();
