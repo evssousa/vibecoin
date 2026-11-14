@@ -9,6 +9,7 @@ Datas em UTC.
 |---|---|---|
 | `db/migrations/001_inicial.sql` | Estrutura inicial (tabelas abaixo), configurações padrão e as 20 moedas acompanhadas | ✅ automática no deploy de 2026-11-13 |
 | `db/migrations/002_robo.sql` | `feed_items.media` (JSON), 9 fontes RSS, configurações do robô (`robot_sections`, `robot_min_words`, janela 8h–22h) e liga o robô | automática no deploy da fase 3 |
+| `db/migrations/003_fontes_texto_completo.sql` | 3 fontes com a matéria inteira no RSS: BeInCrypto, CoinJournal, Bitcoinist | ✅ automática no deploy de 2026-11-14 |
 
 Como aplicar:
 

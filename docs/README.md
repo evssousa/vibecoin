@@ -57,7 +57,8 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e `SESSION_SECRET` no hPanel (login do painel funcionando, 2026-11-13) | ✅ |
 | 3 | `GEMINI_API_KEY` de conta própria do Google (contato@vibecoin.com.br) cadastrada; diagnóstico ok | ✅ |
 | 3 | Teste `dry=1` em produção aprovado (ver automacao.md); checagem ganhou decimal com vírgula e citação com autor | ✅ |
-| 3 | Primeira matéria automática no ar (o robô publica das 8h às 22h de Brasília) | ⏳ |
+| 3 | Primeira matéria automática no ar (o robô publica das 8h às 22h de Brasília) | ✅ |
+| 3 | Robô publicava pouco (1 matéria em 2026-11-13: resumos de RSS curtos). Correção em 2026-11-14: fila prioriza pauta com texto, 3 fontes com texto completo no RSS (migration 003), leitor de página corrigido para Cointelegraph e Decrypt, diagnóstico `/api/cron/paginas` | ✅ |
 | 3 | Comparador de corretoras com dados reais conferidos à mão | 💤 |
 | 4 | Newsletter "Resumo diário" (precisa de serviço de e-mail; fica fora até existir) | ❓ |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |

@@ -40,8 +40,31 @@ export function extractArticleText(html: string, maxChars = 12000) {
   let doc = html
     .replace(/<(script|style|noscript|svg|nav|header|footer|aside|form|figure|iframe)\b[\s\S]*?<\/\1>/gi, " ")
     .replace(/<!--[\s\S]*?-->/g, " ");
-  const article = doc.match(/<article\b[\s\S]*?<\/article>/i);
-  if (article && article[0].length > 2000) doc = article[0];
+  // Vários sites (Cointelegraph, Decrypt) têm <article> nos cards de "leia também" antes da matéria.
+  // Usa o <article> que rende mais texto; se nenhum chega a 150 palavras, a página inteira
+  // (que traz menu e aviso de cookies, por isso só como último recurso).
+  let best: string[] = [];
+  let bestWords = 0;
+  for (const m of doc.matchAll(/<article\b[\s\S]*?<\/article>/gi)) {
+    const paras = paragraphsOf(m[0]);
+    const words = countWords(paras.join(" "));
+    if (words > bestWords) [best, bestWords] = [paras, words];
+  }
+  if (bestWords < 150) {
+    const paras = paragraphsOf(doc);
+    if (countWords(paras.join(" ")) > bestWords) best = paras;
+  }
+  // Remove repetições (blocos de "leia também" costumam se repetir).
+  const unique = [...new Set(best)];
+  let out = "";
+  for (const p of unique) {
+    if (out.length + p.length > maxChars) break;
+    out += `${p}\n\n`;
+  }
+  return out.trim();
+}
+
+function paragraphsOf(doc: string) {
   const paragraphs: string[] = [];
   for (const m of doc.matchAll(/<(p|h2|h3|li)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
     const text = stripTags(m[2]);
@@ -50,14 +73,7 @@ export function extractArticleText(html: string, maxChars = 12000) {
       paragraphs.push(tag === "p" ? text : `## ${text}`);
     }
   }
-  // Remove repetições (blocos de "leia também" costumam se repetir).
-  const unique = [...new Set(paragraphs)];
-  let out = "";
-  for (const p of unique) {
-    if (out.length + p.length > maxChars) break;
-    out += `${p}\n\n`;
-  }
-  return out.trim();
+  return paragraphs;
 }
 
 export function slugify(s: string, max = 90) {
