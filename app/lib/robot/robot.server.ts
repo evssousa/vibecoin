@@ -215,6 +215,11 @@ async function coveredTopics() {
   return rows.map((r) => keywords(r.title));
 }
 
+/** Dois títulos na mesma língua que contam a mesma história: ≥ 3 palavras em comum e 50% do menor. */
+function isSameStory(a: Set<string>, b: Set<string>) {
+  return [...a].filter((w) => b.has(w)).length >= 3 && similarity(a, b) >= 0.5;
+}
+
 /** Mesmo assunto: pelo menos 3 palavras em comum e 60% do título menor (evita barrar só por "bitcoin"). */
 function isCovered(kw: Set<string>, covered: Set<string>[]) {
   return covered.some((c) => [...kw].filter((w) => c.has(w)).length >= 3 && similarity(kw, c) >= 0.6);
@@ -386,6 +391,16 @@ export function publish(opts: PublishOptions = {}): Promise<JobResult> {
         continue;
       }
       const a = result.article;
+      // Rede de segurança: o Gemini às vezes escreve sobre o fato principal do grupo e não sobre a pauta
+      // que o puxou, e o título final cai no mesmo assunto de uma matéria recente. Compara em português.
+      const dupOf = recentTitles.find((t) => isSameStory(keywords(a.title), keywords(t)));
+      if (dupOf) {
+        const reason = `repete matéria já publicada: ${dupOf}`.slice(0, 480);
+        tried.push(`#${item.id}: ${reason}`);
+        if (!opts.dry) await markItems(group.map((g) => g.id), "skipped", reason);
+        geminiTries++;
+        continue;
+      }
       const slug = await uniqueSlug(a.section, slugify(a.title));
       if (opts.dry) return { status: "ok", message: `Teste: matéria gerada (${a.words} palavras), nada foi gravado.`, post: summary(a, slug), stats: { tried } };
 
