@@ -75,6 +75,9 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 3. Fontes novas para Grana e Regulação (hoje só a Agência Brasil cobre essas editorias).
 4. Mais guias (DeFi sem susto, nível 3; IR sobre cripto passo a passo).
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
+6. **Mídia kit** dentro de "Anuncie" (`app/routes/advertise.tsx`): público e números reais, formatos e pacotes, regras de
+   conteúdo patrocinado (atenção às regras de publicidade de cripto/finanças), versão para baixar/imprimir e contato.
+   Outra fonte de renda, vale para todos os sites. Falta planejar (`planejador`, tem parte visual); o piloto é o criasite.
 
 ## Pendências suas
 
