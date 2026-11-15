@@ -61,6 +61,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Robô publicava pouco (1 matéria em 2026-11-13: resumos de RSS curtos). Correção em 2026-11-14: fila prioriza pauta com texto, 3 fontes com texto completo no RSS (migration 003), leitor de página corrigido para Cointelegraph e Decrypt, diagnóstico `/api/cron/paginas` | ✅ |
 | 3 | 4 guias "Aprenda do zero" no ar (migration 004): bitcoin, primeira compra, carteiras, stablecoins. Dono revisa o texto no painel | ✅ |
 | 3 | Robô não repete assunto já publicado (filtro rígido por títulos das pautas usadas nos últimos dias; antes saiu o caso Binance/DOJ duas vezes) | ✅ |
+| 3 | Observação de 24 h do robô (2026-11-14 a 15): 6 posts, ritmo ok; achado: 3º post do caso Binance/DOJ passou pelo filtro; corrigido com 2ª barreira (título final em português) | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
 | 4 | Newsletter "Resumo diário": só depois que o AdSense estiver ativo (decisão do dono, 2026-11-14) | 💤 |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
@@ -70,7 +71,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Próximos passos
 
-1. Acompanhar o robô por 24 h (2026-11-14 a 15): ritmo de posts, pautas barradas pelo filtro "assunto já publicado" (painel → Robô) e se o CryptoSlate voltou a abrir no `/api/cron/paginas`.
+1. Conferir amanhã (2026-11-16) que a nova barreira contra matéria repetida não barra nada que devia sair (painel → Robô, motivo "repete matéria já publicada").
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
 3. Fontes novas para Grana e Regulação (hoje só a Agência Brasil cobre essas editorias).
 4. Mais guias (DeFi sem susto, nível 3; IR sobre cripto passo a passo).
