@@ -62,6 +62,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | 4 guias "Aprenda do zero" no ar (migration 004): bitcoin, primeira compra, carteiras, stablecoins. Dono revisa o texto no painel | ✅ |
 | 3 | Robô não repete assunto já publicado (filtro rígido por títulos das pautas usadas nos últimos dias; antes saiu o caso Binance/DOJ duas vezes) | ✅ |
 | 3 | Observação de 24 h do robô (2026-11-14 a 15): 6 posts, ritmo ok; achado: 3º post do caso Binance/DOJ passou pelo filtro; corrigido com 2ª barreira (título final em português) | ✅ |
+| 3 | Guia "DeFi sem susto" (nível avançado, migration 006) no ar; agora são 5 guias | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
 | 4 | Newsletter "Resumo diário": só depois que o AdSense estiver ativo (decisão do dono, 2026-11-14) | 💤 |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
@@ -74,7 +75,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 1. Conferir amanhã (2026-11-16) que a nova barreira contra matéria repetida não barra nada que devia sair (painel → Robô, motivo "repete matéria já publicada").
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
 3. Fontes novas para Grana e Regulação (hoje só a Agência Brasil cobre essas editorias).
-4. Mais guias (DeFi sem susto, nível 3; IR sobre cripto passo a passo).
+4. Mais guias (IR sobre cripto passo a passo; depois, o que for pedido pela busca).
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
 6. **Mídia kit** dentro de "Anuncie" (`app/routes/advertise.tsx`): público e números reais, formatos e pacotes, regras de
    conteúdo patrocinado (atenção às regras de publicidade de cripto/finanças), versão para baixar/imprimir e contato.
