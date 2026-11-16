@@ -13,6 +13,7 @@ Datas em UTC.
 | `db/migrations/004_guias_iniciais.sql` | 4 guias escritos à mão (origem manual, seção guias): `o-que-e-bitcoin-de-verdade`, `como-comprar-sua-primeira-cripto-com-seguranca`, `carteira-fria-quente-e-autocustodia`, `stablecoins-o-que-sao-e-para-que-servem`. `INSERT IGNORE`: não sobrescreve guia existente | automática no deploy de 2026-11-14 |
 | `db/migrations/005_corretoras.sql` | 4 corretoras do comparador (Binance, Bitso, Foxbit, Mercado Bitcoin), taxas da faixa inicial conferidas em 2026-11-14 | automática no deploy de 2026-11-14 |
 | `db/migrations/006_guia_defi.sql` | guia `defi-sem-susto-rendimentos-e-riscos` (nível 3, ~1.060 palavras, origem manual). `INSERT IGNORE` | automática no deploy de 2026-11-15 |
+| `db/migrations/007_fontes_regulacao_mercado.sql` | 4 fontes novas: Protos, Crypto Briefing, Cryptonews, CryptoPotato | automática no deploy de 2026-11-16 |
 
 Como aplicar:
 

@@ -43,6 +43,10 @@ Situação medida em produção em 2026-11-14 com `/api/cron/paginas` (palavras 
 | The Defiant | 6 | RSS ~30; página monta o texto fora de `<p>` (~60): fraca |
 | Blockworks | 5 | página 403: só o resumo do RSS |
 | Agência Brasil (Economia) | 6 | texto completo no RSS; licença CC BY 4.0 (crédito "Imagem: Agência Brasil (CC BY 4.0)"); cobre Grana e Regulação |
+| Protos (007) | 6 | texto completo no RSS (~560); reportagens sobre ataques, tribunais e fluxo de dinheiro |
+| Crypto Briefing (007) | 5 | RSS curto, mas a página abre (~900 palavras) |
+| Cryptonews (007) | 5 | texto completo no RSS (~790); a página responde 403 |
+| CryptoPotato (007) | 4 | texto completo no RSS (~450); a página responde 403 |
 | BeInCrypto (003) | 7 | texto completo no RSS (~440) |
 | CoinJournal (003) | 6 | texto completo no RSS (~650) |
 | Bitcoinist (003) | 5 | texto completo no RSS (~790) |

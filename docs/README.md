@@ -64,6 +64,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Observação de 24 h do robô (2026-11-14 a 15): 6 posts, ritmo ok; achado: 3º post do caso Binance/DOJ passou pelo filtro; corrigido com 2ª barreira (título final em português) | ✅ |
 | 3 | Guia "DeFi sem susto" (nível avançado, migration 006) no ar; agora são 5 guias | ✅ |
 | 3 | Barreira contra matéria repetida conferida em 2026-11-16 (5 posts em ~18 h, nenhum repetido; a barreira de título final não precisou agir; a de pauta barrou 3 itens em 7 dias). Gemini deu 503 por ~1 h em 16/11 nos 3 modelos; o robô tenta de novo sozinho | ✅ |
+| 3 | Fontes novas para Regulação/Mercado: Protos, Crypto Briefing, Cryptonews, CryptoPotato (migration 007); CVM, Receita, Câmara, Senado e outras testadas e descartadas (ver decisoes.md) | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
 | 4 | Newsletter "Resumo diário": só depois que o AdSense estiver ativo (decisão do dono, 2026-11-14) | 💤 |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
@@ -75,7 +76,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 1. Padronizar siglas nos títulos do robô (ex.: "Preço do xrp" deveria ser "XRP"); opcional, baixa prioridade.
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
-3. Fontes novas para Grana e Regulação (hoje só a Agência Brasil cobre essas editorias).
+3. Conferir em 2–3 dias o que as 4 fontes novas (migration 007) renderam: posts por fonte e descartes (`/api/cron/fontes`); tirar a que só gerar descarte.
 4. Mais guias (IR sobre cripto passo a passo; depois, o que for pedido pela busca).
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
 6. **Mídia kit** dentro de "Anuncie" (`app/routes/advertise.tsx`): público e números reais, formatos e pacotes, regras de

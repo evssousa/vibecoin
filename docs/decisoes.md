@@ -124,3 +124,7 @@ Corrigido:
 - **Comparador de corretoras:** o dono não conhece as corretoras, então a escolha segue critérios objetivos (empresa brasileira com CNPJ, atuação regular no Brasil, Pix, histórico sem calote a clientes), sem indicar uma "melhor". Dados de taxas vêm dos sites oficiais com data de conferência.
 - **Comparador publicado com 4 corretoras** (Binance, Bitso, Foxbit, Mercado Bitcoin), aprovado pelo dono, inclusive a Foxbit com o pedido de autorização no Banco Central ainda pendente (informação da própria página dela, não exibida na tabela). NovaDAX fora por falta de fonte oficial acessível. Coluna de moedas removida.
 - **Filtro de repetição em duas barreiras (2026-11-15).** A primeira (título original da pauta contra pautas já usadas) não pegou o 3º post do caso Binance/DOJ; a segunda compara o título final em português com os posts recentes. Não arquivar os 3 posts existentes (decisão do dono).
+
+## 2026-11-16
+
+- **Fontes de Regulação/Mercado (migration 007):** entram Protos, Crypto Briefing, Cryptonews e CryptoPotato. Ficam de fora: CVM e Receita (feeds do gov.br sem notícias limpas e licença Creative Commons sem obras derivadas), Câmara e Senado (política geral), Finbold (ações e previsão de preço), U.Today e Coinspeaker (conteúdo patrocinado). Em português, só a Agência Brasil: reescrever concorrente nacional vira quase cópia.
