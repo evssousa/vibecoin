@@ -23,7 +23,7 @@ Três variáveis no hPanel (Sites → vibecoin.com.br → Node.js → Variáveis
 |---|---|
 | Painel | publicadas hoje/7 dias/total, fila, últimas execuções, avisos (rascunhos, pautas reprovadas, fontes com erro) |
 | Matérias | busca e filtros; criar matéria à mão (nasce rascunho); excluir rascunho/arquivada |
-| Editor | título (contador), linha fina, palavra-chave, tags, meta description (contador), moedas citadas, nível (guias), capa com envio do computador, corpo em texto simples (`## intertítulo`, `- lista`, `1. lista numerada`, `> citação`, `[link](url)`, imagens com envio), publicar/tirar do ar/destacar/arquivar/excluir, refazer com o robô, pré-visualizar (`?previa=1`) |
+| Editor | título (contador), linha fina, palavra-chave, tags, meta description (contador), moedas citadas, nível (guias), capa com envio do computador, corpo em texto simples (`## intertítulo`, `- lista`, `1. lista numerada`, `> citação`, `[link](url)`, imagens com envio), publicar/tirar do ar/destacar (o destaque da home vale por 72 h após a publicação; depois sai sozinho e entra a notícia mais recente, nunca um guia)/arquivar/excluir, refazer com o robô, pré-visualizar (`?previa=1`) |
 | Fila | pautas por situação (na fila, usadas, reprovadas, descartadas), descartar ou devolver para a fila |
 | Fontes | ativar/desativar, peso, adicionar feed (testado antes de salvar) |
 | Robô | rodar agora: coletar, publicar uma, testar sem gravar, atualizar cotações, diagnóstico do Gemini; histórico com o rascunho dos testes |

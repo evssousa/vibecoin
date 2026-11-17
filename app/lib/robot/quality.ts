@@ -161,6 +161,9 @@ export function trimAtWord(s: string, max: number) {
   return cut;
 }
 
+/** Siglas que sempre vão em maiúsculas (plural com "s" minúsculo: ETFs, NFTs). Nada que seja palavra comum em português. */
+const ACRONYMS = /(?<![\p{L}\p{N}/-])(?:btc|eth|xrp|bnb|usdt|usdc|etfs?|nfts?|ceo|ipo|sec|cftc|doj|fbi|occ|cvm|dao)(?![\p{L}\p{N}/-])/giu;
+
 /** Correções sem nova chamada ao Gemini. Devolve o que mudou. */
 export function autoFix(d: DraftArticle): { draft: DraftArticle; fixes: string[] } {
   const fixes: string[] = [];
@@ -189,6 +192,29 @@ export function autoFix(d: DraftArticle): { draft: DraftArticle; fixes: string[]
   next.metaDescription = decimalFix(next.metaDescription);
   next.body = next.body.map((b) => (b.type === "ul" ? { ...b, items: (b.items ?? []).map(decimalFix) } : { ...b, text: decimalFix(b.text ?? "") }));
   if (decimals) fixes.push(`decimais com vírgula: ${decimals}`);
+
+  // Siglas e tickers em maiúsculas ("xrp" → "XRP", "etf" → "ETF"). Só palavras inteiras e que não são palavras do
+  // português; nomes de moeda (bitcoin, ethereum) seguem em minúsculas. Não mexe dentro de links.
+  let acronyms = 0;
+  const acronymFix = (s: string) =>
+    s
+      .split(/(\[[^\]\n]+\]\([^)\s]+\))/g)
+      .map((part, i) =>
+        i % 2
+          ? part
+          : part.replace(ACRONYMS, (m: string) => {
+              const up = m.toUpperCase().replace(/S$/, "s");
+              if (up === m) return m;
+              acronyms++;
+              return up;
+            }),
+      )
+      .join("");
+  next.title = acronymFix(next.title);
+  next.excerpt = acronymFix(next.excerpt);
+  next.metaDescription = acronymFix(next.metaDescription);
+  next.body = next.body.map((b) => (b.type === "ul" ? { ...b, items: (b.items ?? []).map(acronymFix) } : { ...b, text: acronymFix(b.text ?? "") }));
+  if (acronyms) fixes.push(`siglas em maiúsculas: ${acronyms}`);
 
   if (next.title.length > TITLE_MAX) {
     const fits = (t: string) => t.length >= TITLE_MIN && t.length <= TITLE_MAX && !t.endsWith("?");

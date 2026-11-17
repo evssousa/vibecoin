@@ -51,6 +51,8 @@ Situação medida em produção em 2026-11-14 com `/api/cron/paginas` (palavras 
 | CoinJournal (003) | 6 | texto completo no RSS (~650) |
 | Bitcoinist (003) | 5 | texto completo no RSS (~790) |
 
+Correção automática de siglas (`autoFix` em `quality.ts`): btc, eth, xrp, bnb, usdt, usdc, etf(s), nft(s), ceo, ipo, sec, cftc, doj, fbi, occ, cvm e dao viram maiúsculas em título, linha fina, meta e corpo, só como palavra inteira e fora de links ("secretaria" não muda). Nomes de moeda (bitcoin, ethereum) seguem em minúsculas.
+
 Leitor de página (`extractArticleText`): usa o `<article>` que rende mais texto (Cointelegraph e Decrypt têm
 `<article>` nos cards de "leia também" antes da matéria; o leitor antigo pegava o primeiro e lia 4–12
 palavras). Se nenhum `<article>` chega a 150 palavras, lê a página inteira (traz menu e cookies, por isso

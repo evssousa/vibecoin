@@ -132,8 +132,16 @@ export const mysqlRepo: Repo = {
     return { items: rows.map(toPost), total: Number(count[0]?.total ?? 0) };
   },
 
+  /**
+   * Destaque da home: a marcação manual só vale por 72 h (depois o post sai do topo sozinho, senão um post
+   * marcado ficava semanas na frente das notícias novas). Sem marcação válida, vem a notícia mais recente;
+   * guia nunca é destaque automático.
+   */
   async findFeatured() {
-    const rows = await query<PostRow>(`SELECT ${POST_COLS} FROM posts p WHERE ${PUBLISHED} ORDER BY p.featured DESC, p.published_at DESC LIMIT 1`);
+    const rows = await query<PostRow>(
+      `SELECT ${POST_COLS} FROM posts p WHERE ${PUBLISHED}
+       ORDER BY (p.featured = 1 AND p.published_at > UTC_TIMESTAMP() - INTERVAL 72 HOUR) DESC, (p.section <> 'guias') DESC, p.published_at DESC LIMIT 1`,
+    );
     return rows[0] ? toPost(rows[0]) : null;
   },
 

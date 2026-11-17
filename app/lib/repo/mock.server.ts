@@ -17,8 +17,10 @@ export const mockRepo: Repo = {
   },
 
   async findFeatured() {
+    // Mesma regra do MySQL: marcação manual vale por 72 h; senão, a notícia mais recente (guia não entra).
     const sorted = [...MOCK_POSTS].sort(byDateDesc);
-    return sorted.find((p) => p.featured) ?? sorted[0] ?? null;
+    const recent = (p: (typeof sorted)[number]) => Date.now() - new Date(p.publishedAt).getTime() < 72 * 3600_000;
+    return sorted.find((p) => p.featured && recent(p)) ?? sorted.find((p) => p.section !== "guias") ?? sorted[0] ?? null;
   },
 
   async findMostRead(limit, exclude) {
