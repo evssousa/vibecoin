@@ -8,6 +8,7 @@ import { SiteHeader, TickerBar } from "./components/Header";
 import { adsenseClient, consentBootstrap } from "./lib/ads";
 import { getAvailability, getCoins, getMarket } from "./lib/content.server";
 import { SITE } from "./lib/site";
+import { VisitBeacon } from "./visitas/client/VisitBeacon";
 
 export const links: Route.LinksFunction = () => [
   // "?v=2": a marca mudou (moeda violeta) e o navegador guarda o ícone antigo pelo endereço.
@@ -71,7 +72,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <VisitBeacon />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

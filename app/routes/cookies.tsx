@@ -8,7 +8,7 @@ export const meta = () => seo({ title: "Política de cookies", description: `Qua
 const COOKIE_TYPES = [
   { type: "Essenciais", status: "Só o necessário", use: "Fazem o site funcionar e protegem contra abusos.", consent: "Não precisa: o site não funciona sem eles." },
   { type: "Preferências", status: "Em uso", use: "Guardam a sua escolha no aviso de cookies, para não perguntar de novo.", consent: "Não precisa: só guardam o que você escolheu." },
-  { type: "Métricas", status: "Ainda não usamos", use: "Contam visitas e páginas lidas, de forma agregada.", consent: "Sim, pedido no aviso de cookies." },
+  { type: "Métricas", status: "Sem cookies", use: "A contagem de visitas do próprio site não usa cookies nem guarda nada no seu aparelho: conta páginas abertas de forma agregada.", consent: "Não precisa: não há cookie nem dado pessoal." },
   {
     type: "Publicidade",
     status: "Google AdSense",

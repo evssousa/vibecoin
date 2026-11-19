@@ -1,0 +1,39 @@
+/* Cores do painel de visitas: só este bloco muda de um site para outro. Valores do tema "Dia e Noite" do Vibecoin
+   (literais, porque o Tailwind só emite as variáveis do tema que são usadas em classes). */
+.vp {
+  --vp-bg: #faf9ff;
+  --vp-card: #ffffff;
+  --vp-sunken: #f3f0fb;
+  --vp-ink: #160f2a;
+  --vp-soft: #5e5776;
+  --vp-line: #ece8f7;
+  --vp-accent: #5b2ee6;
+  --vp-accent-soft: #eee9fb;
+  --vp-hero: #0f0b1a;
+  --vp-hero-ink: #f1ecff;
+  --vp-hero-label: #c6f432;
+  --vp-up: #0b7a44;
+  --vp-down: #c2410c;
+  --vp-o-direto: #5e5776;
+  --vp-o-busca: #2f6fd6;
+  --vp-o-social: #c2410c;
+  --vp-o-site: #b7791f;
+  --vp-o-campanha: #0b7a44;
+}
+.vp .vp-pulso {
+  animation: vp-pulso 2s ease-in-out infinite;
+}
+@keyframes vp-pulso {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vp .vp-pulso {
+    animation: none;
+  }
+}

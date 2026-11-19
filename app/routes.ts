@@ -41,6 +41,7 @@ export default [
   route("admin/sair", "routes/admin/logout.ts"),
   route("admin", "routes/admin/layout.tsx", [
     index("routes/admin/home.tsx"),
+    route("visitas", "routes/admin/visitas.tsx"),
     route("materias", "routes/admin/posts.tsx"),
     route("materias/nova", "routes/admin/post-new.tsx"),
     route("materias/:id", "routes/admin/post-edit.tsx"),
@@ -55,6 +56,8 @@ export default [
   route("api/cron/:job", "routes/cron.ts"),
   // Contador de visitas (a página da matéria avisa depois de carregar no navegador).
   route("api/view", "routes/view.ts"),
+  // Sinal de visita (módulo app/visitas): o navegador avisa depois que a página abre.
+  route("api/v", "routes/api-v.ts"),
 
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

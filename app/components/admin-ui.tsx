@@ -7,6 +7,7 @@ export const adminMeta = (title: string) => [{ title: `${title} · Painel Vibeco
 
 const NAV = [
   { to: "/admin", label: "Painel", end: true },
+  { to: "/admin/visitas", label: "Visitas" },
   { to: "/admin/materias", label: "Matérias" },
   { to: "/admin/fila", label: "Fila" },
   { to: "/admin/fontes", label: "Fontes" },

@@ -68,6 +68,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Destaque da home corrigido (2026-11-17): a marcação manual vale 72 h e guia nunca é destaque automático (antes `featured DESC` prendia o guia "O que é bitcoin" por dias); siglas em maiúsculas nos textos do robô (migration 008) | ✅ |
 | 3 | Fontes da migration 007 conferidas em 2026-11-19: Crypto Briefing (apoio em 5 de 16 matérias) e Protos ficam; Cryptonews e CryptoPotato desativadas (migration 009, só previsão de preço e pauta expirada) | ✅ |
 | 3 | Filtro de tema para a Agência Brasil (só dinheiro, impostos, câmbio, bancos e cripto); motivo "fora do tema" (2026-11-19) | ✅ |
+| 3 | **Painel de visitas** em `/admin/visitas` (módulo `app/visitas` copiado do animeprofile; migration 011; contagem sem cookie no site inteiro, `/api/v`): hoje/ontem/7/30 dias/total, gráfico de 30 dias, páginas mais vistas, origem, aparelho/navegador/sistema. Alimenta `posts.views` ("Mais lidas"). Textos de privacidade e cookies atualizados | ✅ no ar, falta conferir com dados reais |
 | 3 | Guia "Cripto no Imposto de Renda, passo a passo" (nível intermediário, migration 010); o link da calculadora de IR para ele dava 404 e foi corrigido; agora são 6 guias | ✅ |
 | 3 | Página /guias organizada por nível: "Todos" agrupa em Nível 1/2/3, botões de filtro com contagem (`?nivel=1|2|3`, página filtrada em noindex, valor inválido vira "Todos") | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
@@ -88,4 +89,4 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Pendências suas
 
-_(nenhuma no momento)_
+- Depois do deploy: abrir o site num celular e num computador (fora do admin, ou em janela anônima: o dono logado não conta), esperar ~10 s e conferir em `/admin/visitas`. Ler os textos novos de `/privacidade` e `/cookies` e aprovar (ou pedir ajuste).
