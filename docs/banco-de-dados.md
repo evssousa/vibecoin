@@ -15,6 +15,7 @@ Datas em UTC.
 | `db/migrations/006_guia_defi.sql` | guia `defi-sem-susto-rendimentos-e-riscos` (nível 3, ~1.060 palavras, origem manual). `INSERT IGNORE` | automática no deploy de 2026-11-15 |
 | `db/migrations/007_fontes_regulacao_mercado.sql` | 4 fontes novas: Protos, Crypto Briefing, Cryptonews, CryptoPotato | automática no deploy de 2026-11-16 |
 | `db/migrations/008_destaque_e_siglas.sql` | solta o destaque do guia "O que é bitcoin" e corrige "xrp" → "XRP" em título/linha fina/meta de post antigo | automática no deploy de 2026-11-17 |
+| `db/migrations/009_desativa_fontes_sem_retorno.sql` | `active = 0` em Cryptonews e CryptoPotato (sem retorno em 3 dias) | automática no deploy de 2026-11-19 |
 
 Como aplicar:
 

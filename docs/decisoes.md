@@ -128,3 +128,7 @@ Corrigido:
 ## 2026-11-16
 
 - **Fontes de Regulação/Mercado (migration 007):** entram Protos, Crypto Briefing, Cryptonews e CryptoPotato. Ficam de fora: CVM e Receita (feeds do gov.br sem notícias limpas e licença Creative Commons sem obras derivadas), Câmara e Senado (política geral), Finbold (ações e previsão de preço), U.Today e Coinspeaker (conteúdo patrocinado). Em português, só a Agência Brasil: reescrever concorrente nacional vira quase cópia.
+
+## 2026-11-19
+
+- **Cryptonews e CryptoPotato desativadas (migration 009).** Em 3 dias não renderam nenhuma matéria: só previsão de preço (descartada) e pauta expirada. Crypto Briefing apareceu como fonte em 5 de 16 matérias e abriu a editoria Regulação; Protos rendeu 1 reportagem. Ficam as duas.
