@@ -78,6 +78,14 @@ const SKIP_PATTERNS: [RegExp, string][] = [
   [/\b(daily|weekly) (recap|roundup|newsletter|digest)\b|\bthe daily\b|\bmorning (brief|minute)\b|\bthis week in\b/i, "resumo/newsletter de outro veículo"],
 ];
 
+/**
+ * Fonte em português é de economia geral (Agência Brasil): só entra pauta de dinheiro, impostos, juros, câmbio, bancos
+ * ou cripto. Sem isso saiu matéria sobre acordo de exportação, que não tem a ver com o Vibecoin. Vale para o título e
+ * o começo do resumo; as fontes em inglês já são só de cripto/finanças e não passam por aqui.
+ */
+const PT_ON_TOPIC =
+  /cripto|bitcoin|ativos? virtuais|blockchain|stablecoin|\bdrex\b|\bpix\b|banco central|\bselic\b|\bjuros\b|infla[çc][ãa]o|\bipca\b|\bc[âa]mbio\b|\bd[óo]lar\b|\bibovespa\b|bolsa de valores|a[çc][õo]es (da|na) bolsa|investiment|investidor|renda fixa|tesouro direto|poupan[çc]a|cr[ée]dito|empr[ée]stimo|financiamento|endividament|imposto de renda|receita federal|reforma tribut[áa]ria|al[íi]quota|\bcvm\b|fintech|institui[çc][õo]es financeiras|\bbancos?\b|banc[áa]ri|d[íi]vida p[úu]blica|meta fiscal|ajuste fiscal|d[ée]ficit/i;
+
 const BOOST: [RegExp, number][] = [
   [/\b(approv(es|ed|al)|launch(es|ed)?|announce[sd]?|confirm(s|ed)?|reject(s|ed)?|ban(s|ned)?|sue[sd]?|lawsuit|charge[sd]?|arrest(ed)?)\b/i, 15],
   [/\b(hack(ed)?|exploit(ed)?|drain(ed)?|stolen|scam|fraud|bankrupt(cy)?|collapse[sd]?)\b/i, 12],
@@ -118,7 +126,7 @@ async function retryAfterGeminiOutage() {
 
 function collectFeeds(): Promise<JobResult> {
   return runJob("coletar", async () => {
-    const feeds = await query<{ id: number; name: string; url: string; weight: number }>("SELECT id, name, url, weight FROM feeds WHERE active = 1");
+    const feeds = await query<{ id: number; name: string; url: string; weight: number; language: string }>("SELECT id, name, url, weight, language FROM feeds WHERE active = 1");
     const cutoff = Date.now() - 48 * 3600_000;
     let added = 0;
     let skipped = 0;
@@ -129,7 +137,9 @@ function collectFeeds(): Promise<JobResult> {
         const items = await fetchFeed(feed.url);
         for (const it of items) {
           if (!it.publishedAt || it.publishedAt.getTime() < cutoff || it.publishedAt.getTime() > Date.now() + 3600_000) continue;
-          const skip = SKIP_PATTERNS.find(([re]) => re.test(it.title));
+          const skip: [RegExp, string] | undefined =
+            SKIP_PATTERNS.find(([re]) => re.test(it.title)) ??
+            (feed.language === "pt" && !PT_ON_TOPIC.test(`${it.title} ${it.summary.slice(0, 250)}`) ? [/./, "fora do tema (não é sobre dinheiro, impostos ou cripto)"] : undefined);
           const [res] = await db().query<ResultSetHeader>(
             `INSERT IGNORE INTO feed_items (feed_id, guid_hash, title, url, summary, media, published_at, status, score, reason)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
