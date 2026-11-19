@@ -84,7 +84,7 @@ export default function TaxCalculator() {
           </p>
           <p>
             Regras conferidas em {formatDate(RULES_CHECKED_AT)}. A lei muda: em caso de dúvida, fale com um contador. Veja também o guia{" "}
-            <Link to="/grana/cripto-no-imposto-de-renda-passo-a-passo">cripto no Imposto de Renda, passo a passo</Link>.
+            <Link to="/guias/cripto-no-imposto-de-renda-passo-a-passo">cripto no Imposto de Renda, passo a passo</Link>.
           </p>
         </>
       }
