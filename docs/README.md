@@ -69,6 +69,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Fontes da migration 007 conferidas em 2026-11-19: Crypto Briefing (apoio em 5 de 16 matérias) e Protos ficam; Cryptonews e CryptoPotato desativadas (migration 009, só previsão de preço e pauta expirada) | ✅ |
 | 3 | Filtro de tema para a Agência Brasil (só dinheiro, impostos, câmbio, bancos e cripto); motivo "fora do tema" (2026-11-19) | ✅ |
 | 3 | Guia "Cripto no Imposto de Renda, passo a passo" (nível intermediário, migration 010); o link da calculadora de IR para ele dava 404 e foi corrigido; agora são 6 guias | ✅ |
+| 3 | Página /guias organizada por nível: "Todos" agrupa em Nível 1/2/3, botões de filtro com contagem (`?nivel=1|2|3`, página filtrada em noindex, valor inválido vira "Todos") | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
 | 4 | Newsletter "Resumo diário": só depois que o AdSense estiver ativo (decisão do dono, 2026-11-14) | 💤 |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
@@ -79,7 +80,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 ## Próximos passos
 
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
-4. Guias organizados por nível, com filtro na página /guias; depois mais guias (o que for pedido pela busca).
+4. Mais guias (o que for pedido pela busca; hoje há 6: 3 iniciante, 2 intermediário, 1 avançado).
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
 6. **Mídia kit** dentro de "Anuncie" (`app/routes/advertise.tsx`): público e números reais, formatos e pacotes, regras de
    conteúdo patrocinado (atenção às regras de publicidade de cripto/finanças), versão para baixar/imprimir e contato.

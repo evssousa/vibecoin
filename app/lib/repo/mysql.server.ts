@@ -113,6 +113,10 @@ function where(f: PostFilter) {
     sql.push("JSON_CONTAINS(p.coins, ?)");
     params.push(JSON.stringify(f.coin));
   }
+  if (f.level) {
+    sql.push("p.level = ?");
+    params.push(f.level);
+  }
   if (f.exclude?.length) {
     sql.push(`p.slug NOT IN (${f.exclude.map(() => "?").join(",")})`);
     params.push(...f.exclude);

@@ -31,6 +31,7 @@ function toView(post: Post, now = Date.now()): PostView {
 export interface ListOptions {
   section?: SectionSlug;
   coin?: string;
+  level?: number;
   exclude?: string[];
   page?: number;
   perPage?: number;

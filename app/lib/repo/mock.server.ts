@@ -8,7 +8,7 @@ import type { PostFilter, Repo } from "./types";
 const byDateDesc = (a: Post, b: Post) => b.publishedAt.localeCompare(a.publishedAt);
 
 const matches = (p: Post, f: PostFilter) =>
-  (!f.section || p.section === f.section) && (!f.coin || p.coins.includes(f.coin)) && !(f.exclude ?? []).includes(p.slug);
+  (!f.section || p.section === f.section) && (!f.coin || p.coins.includes(f.coin)) && (!f.level || p.level === f.level) && !(f.exclude ?? []).includes(p.slug);
 
 export const mockRepo: Repo = {
   async findPosts(filter, offset, limit) {

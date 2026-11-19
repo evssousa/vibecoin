@@ -9,6 +9,8 @@ export interface PostFilter {
   section?: SectionSlug;
   /** Matérias que citam esta moeda. */
   coin?: string;
+  /** Só guias: 1 iniciante, 2 intermediário, 3 avançado. */
+  level?: number;
   exclude?: string[];
 }
 

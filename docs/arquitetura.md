@@ -39,6 +39,7 @@ docs/                    este plano
 
 | Endereço | Página |
 |---|---|
+| `/guias` | Guias: "Todos" agrupa por nível (1 iniciante, 2 intermediário, 3 avançado); `?nivel=` filtra (noindex); sem paginação (60 por página) |
 | `/` | Home (destaque, BTC, vibe do mercado, ferramentas, cotações, notícias, guias) |
 | `/noticias`, `/bitcoin`, `/altcoins`, `/mercado`, `/grana`, `/regulacao`, `/guias` | Editorias (Notícias = todas) |
 | `/:editoria/:slug` | Matéria |
