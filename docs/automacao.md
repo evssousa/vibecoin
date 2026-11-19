@@ -68,6 +68,7 @@ em português é quase cópia. O robô nunca se disfarça de navegador para cont
 - Descartes automáticos: previsão de preço/análise técnica, conteúdo patrocinado/press release,
   pré-venda/airdrop/"moedas para comprar", podcast/quiz/sorteio, opinião, resumos tipo newsletter.
 - Itens com mais de 48 h que não viraram matéria expiram.
+- **Fonte em português (Agência Brasil) só entra se for de dinheiro** (2026-11-19): o título ou o começo do resumo precisa citar dólar, câmbio, juros, Selic, inflação, Banco Central, Pix, cripto, bancos, crédito, investimento, imposto de renda, reforma tributária, alíquota, ajuste fiscal e afins (`PT_ON_TOPIC`). O resto é descartado com "fora do tema". Antes disso saiu uma matéria sobre acordo de exportação (ALADI). Testado no feed ao vivo: passam dólar e reforma tributária; barra exportação, desemprego e preço do tomate.
 
 ## Publicação (`/api/cron/publicar`)
 

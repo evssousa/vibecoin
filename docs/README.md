@@ -67,6 +67,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Fontes novas para Regulação/Mercado: Protos, Crypto Briefing, Cryptonews, CryptoPotato (migration 007); CVM, Receita, Câmara, Senado e outras testadas e descartadas (ver decisoes.md) | ✅ |
 | 3 | Destaque da home corrigido (2026-11-17): a marcação manual vale 72 h e guia nunca é destaque automático (antes `featured DESC` prendia o guia "O que é bitcoin" por dias); siglas em maiúsculas nos textos do robô (migration 008) | ✅ |
 | 3 | Fontes da migration 007 conferidas em 2026-11-19: Crypto Briefing (apoio em 5 de 16 matérias) e Protos ficam; Cryptonews e CryptoPotato desativadas (migration 009, só previsão de preço e pauta expirada) | ✅ |
+| 3 | Filtro de tema para a Agência Brasil (só dinheiro, impostos, câmbio, bancos e cripto); motivo "fora do tema" (2026-11-19) | ✅ |
 | 3 | Comparador de corretoras com dados reais dos sites oficiais (Binance, Bitso, Foxbit, Mercado Bitcoin; migration 005, 2026-11-14) | ✅ |
 | 4 | Newsletter "Resumo diário": só depois que o AdSense estiver ativo (decisão do dono, 2026-11-14) | 💤 |
 | 4 | Google Search Console: propriedade de Domínio na conta contato@, TXT de verificação no DNS da Hostinger (2026-11-13) | ✅ |
