@@ -133,3 +133,7 @@ Corrigido:
 
 - **Cryptonews e CryptoPotato desativadas (migration 009).** Em 3 dias não renderam nenhuma matéria: só previsão de preço (descartada) e pauta expirada. Crypto Briefing apareceu como fonte em 5 de 16 matérias e abriu a editoria Regulação; Protos rendeu 1 reportagem. Ficam as duas.
 - **Painel de visitas = módulo do animeprofile (plano `animeprofile/docs/plano-painel-visitas.md`).** Contagem própria sem cookie, no site inteiro, por `POST /api/v` (sobrevive ao cache da CDN). Agregado por dia, nunca uma linha por visita. Diferenças do vibecoin: o sal diário fica na tabela própria `visit_salt` (não em `settings`, que o painel Config. lê inteira); sem ícones de biblioteca (setas de texto e um SVG); sem tema escuro; a limpeza de retenção roda sozinha uma vez por dia dentro da gravação (sem cron novo). O contador antigo (`/api/view`) vira um 204 temporário. Textos de `/privacidade` e `/cookies` ajustados (contagem sem cookie, 13 meses).
+
+## 2026-11-25
+
+- **Textos de `/privacidade` e `/cookies` aprovados pelo dono** (contagem de visitas sem cookie, retenção de 13 meses).
