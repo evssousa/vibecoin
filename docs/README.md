@@ -68,6 +68,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Destaque da home corrigido (2026-11-17): a marcação manual vale 72 h e guia nunca é destaque automático (antes `featured DESC` prendia o guia "O que é bitcoin" por dias); siglas em maiúsculas nos textos do robô (migration 008) | ✅ |
 | 3 | Fontes da migration 007 conferidas em 2026-11-19: Crypto Briefing (apoio em 5 de 16 matérias) e Protos ficam; Cryptonews e CryptoPotato desativadas (migration 009, só previsão de preço e pauta expirada) | ✅ |
 | 3 | Filtro de tema para a Agência Brasil (só dinheiro, impostos, câmbio, bancos e cripto); motivo "fora do tema" (2026-11-19) | ✅ |
+| 3 | **3 guias evergreen** (migration 012, 2026-11-25): golpes com cripto (iniciante), o que é ethereum (iniciante), halving do bitcoin (intermediário), com links entre os guias, cotações e comparador; agora são 9 guias | ✅ |
 | 3 | **Painel de visitas** em `/admin/visitas` (módulo `app/visitas` copiado do animeprofile; migration 011; contagem sem cookie no site inteiro, `/api/v`): hoje/ontem/7/30 dias/total, gráfico de 30 dias, páginas mais vistas, origem, aparelho/navegador/sistema. Alimenta `posts.views` ("Mais lidas"). Textos de privacidade e cookies atualizados | ✅ no ar, falta conferir com dados reais |
 | 3 | Guia "Cripto no Imposto de Renda, passo a passo" (nível intermediário, migration 010); o link da calculadora de IR para ele dava 404 e foi corrigido; agora são 6 guias | ✅ |
 | 3 | Página /guias organizada por nível: "Todos" agrupa em Nível 1/2/3, botões de filtro com contagem (`?nivel=1|2|3`, página filtrada em noindex, valor inválido vira "Todos") | ✅ |
@@ -81,7 +82,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 ## Próximos passos
 
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
-4. Mais guias (o que for pedido pela busca; hoje há 6: 3 iniciante, 2 intermediário, 1 avançado).
+4. Mais guias (o que for pedido pela busca; hoje há 9: 5 iniciante, 3 intermediário, 1 avançado). Ideias da próxima leva: blockchain sem jargão, como ler um gráfico de preço (sem previsão), reserva de emergência e renda fixa x cripto (Grana), o que é Drex.
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
 6. **Mídia kit** dentro de "Anuncie" (`app/routes/advertise.tsx`): público e números reais, formatos e pacotes, regras de
    conteúdo patrocinado (atenção às regras de publicidade de cripto/finanças), versão para baixar/imprimir e contato.
