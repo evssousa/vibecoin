@@ -68,9 +68,21 @@ export interface Coin {
   /** Preços dos últimos 7 dias (em reais), do mais antigo ao mais novo, para o minigráfico. */
   spark7d: number[];
   description: string;
+  /** Texto próprio da página da moeda (só em getCoin; nas listagens fica vazio). */
+  about?: CoinAbout | null;
   /** Moeda atrelada ao dólar (não faz sentido no simulador). */
   stable?: boolean;
   updatedAt: string; // ISO
+}
+
+/** Texto próprio da página de cotação: para que serve, oferta, fatos e riscos. */
+export interface CoinAbout {
+  uso: string;
+  oferta: string;
+  fatos: [string, string][];
+  riscos: string;
+  /** Guia do site sobre a moeda, se houver. */
+  guia?: { href: string; titulo: string };
 }
 
 /** Fechamento mensal em reais (simulador de aporte). */

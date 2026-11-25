@@ -19,6 +19,7 @@ Datas em UTC.
 | `db/migrations/010_guia_ir_cripto.sql` | guia `cripto-no-imposto-de-renda-passo-a-passo` (seção guias, nível 2, ~1.230 palavras, origem manual). `INSERT IGNORE` | automática no deploy de 2026-11-19 |
 | `db/migrations/011_visitas.sql` | contador de visitas: `visit_daily`, `visit_pages`, `visit_dims`, `visit_seen`, `visit_salt` (tudo por dia de Brasília, sem IP). `IF NOT EXISTS` | automática no deploy de 2026-11-19 |
 | `db/migrations/012_guias_evergreen.sql` | 3 guias à mão: `golpes-com-cripto-como-reconhecer-e-se-proteger` (nível 1), `o-que-e-ethereum-e-para-que-serve` (nível 1), `halving-do-bitcoin-o-que-e-e-quando-acontece` (nível 2). `INSERT IGNORE` | automática no deploy de 2026-11-25 |
+| `db/migrations/013_texto_das_cotacoes.sql` | coluna `coins.about` (JSON: para que serve, oferta, fatos, riscos, guia) e o texto das 20 moedas. Só a página da moeda lê (`repo.coin`), as listagens não | automática no deploy de 2026-11-25 |
 
 Como aplicar:
 

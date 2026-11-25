@@ -1,7 +1,7 @@
 // Fonte de dados MySQL (produção). Estrutura das tabelas em db/migrations/.
 import { iso, json, query } from "../db.server";
 import { SECTIONS, type GuideLevel, type SectionSlug } from "../site";
-import type { Block, Broker, Coin, MarketOverview, MonthlyPrice, Post } from "../types";
+import type { Block, Broker, Coin, CoinAbout, MarketOverview, MonthlyPrice, Post } from "../types";
 import type { PostFilter, Repo } from "./types";
 
 // ───────────── Linhas do banco → tipos do site ─────────────
@@ -70,6 +70,7 @@ interface CoinRow {
   volume_24h_brl: string | null;
   spark_7d: unknown;
   quoted_at: string | null;
+  about?: unknown;
 }
 
 // DECIMAL chega como texto (mysql2): converte para número.
@@ -89,6 +90,7 @@ function toCoin(r: CoinRow, i: number): Coin {
     volume24hBrl: num(r.volume_24h_brl),
     spark7d: json<number[]>(r.spark_7d, []),
     description: r.description,
+    about: r.about === undefined ? undefined : json<CoinAbout | null>(r.about, null),
     stable: Boolean(r.stable),
     updatedAt: iso(r.quoted_at) ?? new Date().toISOString(),
   };
@@ -208,7 +210,7 @@ export const mysqlRepo: Repo = {
   },
 
   async coin(slug) {
-    const rows = await query<CoinRow>(`SELECT ${COIN_COLS} FROM coins WHERE ${QUOTED} AND slug = ? LIMIT 1`, [slug]);
+    const rows = await query<CoinRow>(`SELECT ${COIN_COLS}, about FROM coins WHERE ${QUOTED} AND slug = ? LIMIT 1`, [slug]);
     return rows[0] ? toCoin(rows[0], 0) : null;
   },
 

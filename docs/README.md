@@ -68,6 +68,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 3 | Destaque da home corrigido (2026-11-17): a marcação manual vale 72 h e guia nunca é destaque automático (antes `featured DESC` prendia o guia "O que é bitcoin" por dias); siglas em maiúsculas nos textos do robô (migration 008) | ✅ |
 | 3 | Fontes da migration 007 conferidas em 2026-11-19: Crypto Briefing (apoio em 5 de 16 matérias) e Protos ficam; Cryptonews e CryptoPotato desativadas (migration 009, só previsão de preço e pauta expirada) | ✅ |
 | 3 | Filtro de tema para a Agência Brasil (só dinheiro, impostos, câmbio, bancos e cripto); motivo "fora do tema" (2026-11-19) | ✅ |
+| 3 | **Texto próprio nas 20 páginas de cotação** (migration 013, 2026-11-25): para que serve, como funciona a oferta, fatos, riscos e guia relacionado, mais perguntas frequentes com os números do dia e links para conversor, comparador, guias de IR e de golpes. Antes as páginas tinham o mesmo modelo e uma frase própria (candidatas a "Rastreada, mas não indexada") | ✅ |
 | 3 | **3 guias evergreen** (migration 012, 2026-11-25): golpes com cripto (iniciante), o que é ethereum (iniciante), halving do bitcoin (intermediário), com links entre os guias, cotações e comparador; agora são 9 guias | ✅ |
 | 3 | **Painel de visitas** em `/admin/visitas` (módulo `app/visitas` copiado do animeprofile; migration 011; contagem sem cookie no site inteiro, `/api/v`): hoje/ontem/7/30 dias/total, gráfico de 30 dias, páginas mais vistas, origem, aparelho/navegador/sistema. Alimenta `posts.views` ("Mais lidas"). Textos de privacidade e cookies atualizados | ✅ no ar, falta conferir com dados reais |
 | 3 | Guia "Cripto no Imposto de Renda, passo a passo" (nível intermediário, migration 010); o link da calculadora de IR para ele dava 404 e foi corrigido; agora são 6 guias | ✅ |
@@ -90,4 +91,5 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Pendências suas
 
+- Search Console: mandar a lista de "Por que as páginas não são indexadas" (Indexação → Páginas), com motivo e exemplos. A parte técnica foi conferida em 2026-11-25 (121 páginas do sitemap: 200, canonical certo, sem noindex) e as cotações ganharam texto próprio; o resto depende do relatório.
 - Depois do deploy: abrir o site num celular e num computador (fora do admin, ou em janela anônima: o dono logado não conta), esperar ~10 s e conferir em `/admin/visitas`. Ler os textos novos de `/privacidade` e `/cookies` e aprovar (ou pedir ajuste).
