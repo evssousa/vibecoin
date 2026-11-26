@@ -162,4 +162,14 @@ Começar aos **:53** de uma hora (depois do `cotacoes` das :52; o próximo é à
 
 **2026-11-26 (Claude)**
 - B1: levantamento feito (Parte F).
-- B2: `Dockerfile`, `.dockerignore` e comentários; `npm run build` ok.
+- B2: `Dockerfile`, `.dockerignore` e comentários; `npm run build` ok (commit `2381fea`).
+- B3: `projetos\_segredos\vibecoin-vps.env` gerado (DB, `CRON_TOKEN`, `SESSION_SECRET` novos); as 8 geradas já estão no
+  app. Faltam as 4 linhas do dono (`ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `GEMINI_API_KEY`, `COINGECKO_API_KEY`).
+- B4: banco e usuário `vibecoin` criados (grants só em `vibecoin.*`).
+- B7: projeto `vibecoin` (uuid `idadw2mjhi6fx9pvf0dnozco`), app `vibecoin` (uuid **`tovkdkbzipk7pjzfaqb21ei3`**),
+  Dockerfile, porta 3000, healthcheck `/robots.txt`, 768 MB, domínio só o temporário com noindex, pasta
+  `/srv/sites/vibecoin/media` → `/data/media`. Rótulos próprios com `redirect-to-https…permanent=true` **antes** do 1º
+  deploy (depois do PATCH a API devolve `custom_labels` em base64). 1º deploy: healthy em ~35 s, imagem de 545 MB, as 13
+  migrations rodaram no banco vazio (o dump do ensaio substitui tudo). `http://` de criasite, respawnou e do temporário
+  seguem 301 (com `curl -I`/HEAD o Traefik responde 308; com GET, 301); proxy sem `ERR`.
+- **Esperando o dono:** preencher o `.env` e o dump do ensaio (B5.1).

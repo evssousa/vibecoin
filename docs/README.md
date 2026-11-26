@@ -82,6 +82,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Próximos passos
 
+1. **Migração para a VPS** (`docs/migracao-vps.md`): B1–B4 e B7 feitos; falta o ensaio (B5, B6, B9), depois a virada (Parte C).
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
 4. Mais guias (o que for pedido pela busca; hoje há 9: 5 iniciante, 3 intermediário, 1 avançado). Ideias da próxima leva: blockchain sem jargão, como ler um gráfico de preço (sem previsão), reserva de emergência e renda fixa x cripto (Grana), o que é Drex.
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
@@ -91,5 +92,6 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Pendências suas
 
+- **VPS (ensaio):** (1) abrir `projetos\_segredosibecoin-vps.env` no Bloco de Notas e preencher as 4 linhas vazias (`ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `GEMINI_API_KEY`, `COINGECKO_API_KEY`) com os mesmos valores de hoje no hPanel; (2) dump do banco pelo phpMyAdmin (Exportar → Personalizado, SQL, desmarcar CREATE DATABASE/USE, utf8mb4, sem compressão) salvo em `projetos\_migracaoibecoin-ensaio.sql`, anotando a versão do servidor. Não mandar nada no chat.
 - Search Console: mandar a lista de "Por que as páginas não são indexadas" (Indexação → Páginas), com motivo e exemplos. A parte técnica foi conferida em 2026-11-25 (121 páginas do sitemap: 200, canonical certo, sem noindex) e as cotações ganharam texto próprio; o resto depende do relatório.
 - Depois do deploy: abrir o site num celular e num computador (fora do admin, ou em janela anônima: o dono logado não conta), esperar ~10 s e conferir em `/admin/visitas`.
