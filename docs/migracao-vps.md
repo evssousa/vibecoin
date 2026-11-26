@@ -173,3 +173,21 @@ Começar aos **:53** de uma hora (depois do `cotacoes` das :52; o próximo é à
   migrations rodaram no banco vazio (o dump do ensaio substitui tudo). `http://` de criasite, respawnou e do temporário
   seguem 301 (com `curl -I`/HEAD o Traefik responde 308; com GET, 301); proxy sem `ERR`.
 - **Esperando o dono:** preencher o `.env` e o dump do ensaio (B5.1).
+
+**2026-11-26, ensaio (Claude; dono preencheu o `.env` e fez o dump)**
+- B3: as 12 variáveis no app. Atenção: variável nova só entra no container com **deploy** (o `docker restart` não basta).
+- B5: origem `11.8.9-MariaDB-log` (igual ao alvo). Dump de 7,7 MB, sem `USE`/`CREATE DATABASE`/`DEFINER`/`uca1400`/
+  `DROP TABLE`; importado em 2 s: 89 posts (todos publicados, o mais novo de 17:27 UTC), 20 coins, 16 feeds, 4.453
+  feed_items, 2.321 cron_runs, 8 settings, visit_daily 5, visit_pages 7, visit_dims 25; migration 013.
+- B6: 219 caminhos `/media/AAAA/MM/`, 219 baixados (23 MB), nenhuma falha.
+- B9 ✅: 17 páginas (editorias, cotações com o texto próprio, guias, 4 ferramentas, busca, anuncie, privacidade, cookies)
+  com 200 e 404 certo; 8 matérias com 200; sitemap 134 = 134 (mesmas URLs); `robots.txt` igual; canonical
+  `https://vibecoin.com.br/`; títulos da home iguais; 219/219 imagens com `immutable`; HTML em Brotli; `/assets` immutable;
+  `/admin` e `/api` com `no-store` e noindex; http → https 301. Robô: `diag` ok (Gemini), `cotacoes` ok (20 moedas),
+  `coletar` ok (5 novos, 0 erros), `publicar?dry=1` avaliou e descartou 2 pautas repetidas (filtro de repetidas ok).
+  TTFB da home 0,22 s na VPS contra 0,33 s na Hostinger. Deploy sem queda: 1º redeploy 42×200 e 1 falha de conexão na
+  troca; 2º redeploy 78×200. RAM: app 65 MB; VPS com 2,4 GB usados e 1,5 GB disponíveis (o respawnou estava em 631 MB).
+- **Observação:** a `economia.awesomeapi.com.br` responde **429 para o IP da VPS** (do PC do dono dá 200). O código já
+  cai no dólar derivado da CoinGecko (R$ 5,7468 no teste); perde só a variação exata do dólar no dia (usa o histórico
+  guardado). Ver depois da virada se continua; se continuar, trocar a fonte do dólar (Parte D).
+- Falta do ensaio (dono): entrar no `/admin` do endereço temporário e ver `/admin/visitas` "Hoje" subir.
