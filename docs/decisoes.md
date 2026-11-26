@@ -137,3 +137,9 @@ Corrigido:
 ## 2026-11-25
 
 - **Textos de `/privacidade` e `/cookies` aprovados pelo dono** (contagem de visitas sem cookie, retenção de 13 meses).
+
+## 2026-11-26
+
+- **Site na VPS (Coolify):** o vibecoin saiu do Cloud Startup e roda na VPS KVM 1 junto com criasite e respawnou, pelo
+  módulo `../criasite/docs/migracao-vps.md`. Banco no MariaDB compartilhado, imagens em `/srv/sites/vibecoin/media`,
+  tarefas agendadas no Coolify com os mesmos horários dos Cron Jobs antigos. Sem AAAA (IPv6) por enquanto.

@@ -19,7 +19,9 @@ a resposta quase sempre já está nos docs do Respawnou.
 | [ferramentas.md](ferramentas.md) | Conversor, calculadora de IR, simulador e comparador: regras e fontes de dados |
 | [banco-de-dados.md](banco-de-dados.md) | Tabelas, migrations, formato dos JSON e testes feitos |
 | [cotacoes.md](cotacoes.md) | Fontes de dados de mercado, jobs do cron, limites da CoinGecko, moedas acompanhadas |
-| [deploy-hostinger.md](deploy-hostinger.md) | Site, build, banco, variáveis, Cron Job, SSL e cuidados na Hostinger |
+| [deploy-vps.md](deploy-vps.md) | Site na VPS (Coolify): app, banco, variáveis, tarefas agendadas, SSL, rótulos do proxy |
+| [migracao-vps.md](migracao-vps.md) | Plano e andamento da migração da Hostinger para a VPS (2026-11-26) |
+| [deploy-hostinger.md](deploy-hostinger.md) | Histórico: como era na Hostinger gerenciada (até 2026-11-26) |
 | [automacao.md](automacao.md) | Robô de postagem: fontes, coleta, publicação, checagem de qualidade |
 | [admin.md](admin.md) | Painel /admin: acesso, telas, contador de visitas |
 
@@ -46,6 +48,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 | 1 | Coleta de cotações (`/api/cron/cotacoes`): CoinGecko + medo e ganância + dólar, histórico mensal; testada com dados reais | ✅ |
 | 2 | Site Node.js na Hostinger + auto-deploy pelo GitHub + SSL + www→apex (no ar em 2026-11-13) | ✅ |
 | 2 | Banco MySQL na Hostinger (migration 001 aplicada), variáveis `DB_*` e `CRON_TOKEN`, Cron Job de 15 min, primeira coleta de cotações | ✅ |
+| 2 | Migração para a VPS (Coolify, MariaDB compartilhado, tarefas agendadas), virada em 2026-11-26 ([deploy-vps.md](deploy-vps.md)) | ✅ |
 | 2 | Chave Demo gratuita da CoinGecko cadastrada no hPanel (`COINGECKO_API_KEY`) pelo dono; testada (sem 429) | ✅ |
 | 2 | E-mail contato@vibecoin.com.br (criado pelo dono no hPanel, 2026-11-13) | ✅ |
 | 2 | Histórico mensal completo das 18 moedas (12 meses cada) | ✅ |
@@ -82,7 +85,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Próximos passos
 
-1. **Migração para a VPS** (`docs/migracao-vps.md`): ensaio feito (B1–B9); falta o teste do `/admin` pelo dono e a virada (Parte C).
+1. **VPS, Parte D** (`docs/migracao-vps.md`): 24 h (backup diário com o banco `vibecoin`, visitas contando, robô publicando) e 7 dias (TTL 3600, tirar o domínio temporário, apagar os dumps em `/root/migracao`). Se a awesomeapi seguir com 429, trocar a fonte do dólar.
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
 4. Mais guias (o que for pedido pela busca; hoje há 9: 5 iniciante, 3 intermediário, 1 avançado). Ideias da próxima leva: blockchain sem jargão, como ler um gráfico de preço (sem previsão), reserva de emergência e renda fixa x cripto (Grana), o que é Drex.
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
@@ -92,6 +95,6 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Pendências suas
 
-- **VPS (ensaio):** entrar em `https://vibecoin.189-24-17-85.sslip.io/admin` (mesma senha de hoje), abrir 2 páginas do endereço temporário em outra janela anônima e ver `/admin/visitas` "Hoje" subir; depois marcar a hora da virada (~30 min, começando às XX:53) e fazer o dump final no começo dela.
+- **VPS:** abrir https://vibecoin.com.br e o `/admin` no celular (4G) e no PC e confirmar; dar o ok para apagar o site antigo do Cloud Startup (fica parado lá até isso). Depois de 7 dias, apagar `projetos\_migracaoibecoin-*.sql`.
 - Search Console: mandar a lista de "Por que as páginas não são indexadas" (Indexação → Páginas), com motivo e exemplos. A parte técnica foi conferida em 2026-11-25 (121 páginas do sitemap: 200, canonical certo, sem noindex) e as cotações ganharam texto próprio; o resto depende do relatório.
 - Depois do deploy: abrir o site num celular e num computador (fora do admin, ou em janela anônima: o dono logado não conta), esperar ~10 s e conferir em `/admin/visitas`.

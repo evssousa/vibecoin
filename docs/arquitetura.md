@@ -7,7 +7,7 @@
   `NODE_ENV` antes de carregar o React, redireciona www → apex, aplica as migrations ao iniciar.
 - Tailwind CSS 4 (tokens em `app/app.css`, tema "Dia e Noite").
 - TypeScript estrito. Vite 8. Node 22+.
-- MySQL (Hostinger) via `mysql2`. Migrations aplicadas pelo servidor ao iniciar.
+- MariaDB 11.8 (VPS, serviço `mariadb-sites` do Coolify; antes, MySQL da Hostinger) via `mysql2`. Migrations aplicadas pelo servidor ao iniciar.
 
 ## Pastas
 

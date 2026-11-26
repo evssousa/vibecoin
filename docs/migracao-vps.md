@@ -1,6 +1,6 @@
 # Migração para a VPS (Hostinger KVM 1 + Coolify)
 
-Status: 🔄 **em preparação** (2026-11-26). 3º site a migrar (criasite e respawnou viraram em 2026-11-26).
+Status: ✅ **virada feita em 2026-11-26** (14:41–14:55 de Brasília); site antigo ainda no Cloud Startup (parado) até o ok do dono para apagar; falta a Parte D (24 h e 7 dias). 3º site a migrar (criasite e respawnou viraram em 2026-11-26).
 Módulo de origem: `../criasite/docs/migracao-vps.md`, Partes B a F e "Lições do criasite"; cópia mais recente e
 com a lição do middleware 301 em `../respawnou/docs/migracao-vps.md`. A Parte A (base da VPS) já está feita e **não se repete**.
 
@@ -191,3 +191,21 @@ Começar aos **:53** de uma hora (depois do `cotacoes` das :52; o próximo é à
   cai no dólar derivado da CoinGecko (R$ 5,7468 no teste); perde só a variação exata do dólar no dia (usa o histórico
   guardado). Ver depois da virada se continua; se continuar, trocar a fonte do dólar (Parte D).
 - Falta do ensaio (dono): entrar no `/admin` do endereço temporário e ver `/admin/visitas` "Hoje" subir.
+
+**2026-11-26, virada (Claude; dono testou o `/admin` do ensaio e fez o dump final)**
+- 17:41 UTC: snapshot da VPS; os 3 Cron Jobs do vibecoin **apagados** na Hostinger (o do animeprofile ficou). Último job
+  antigo: `cotacoes` 17:37 (terminado); começamos antes do `coletar` das 17:45, sem esperar o :53.
+- Dump final (17:45, 7,7 MB) importado: 89 posts (o mais novo de 17:27), 4.453 feed_items, 2.322 cron_runs; migration 013.
+  Nenhuma imagem nova (219).
+- DNS: `@` ALIAS e `www` CNAME apagados, `A 189.24.17.85` nos dois (TTL 300). Sem AAAA. MX/SPF/DKIM/DMARC/TXT do Google
+  intactos. Propagou na hora (8.8.8.8, 1.1.1.1 e ns1.dns-parking.com).
+- Coolify: domínios `vibecoin.com.br`, `www` (redirect para o principal) e o temporário (noindex); rótulos 301 aplicados
+  **antes** do deploy (readonly ligado → domínios → rótulos gerados → `permanent=true` nos dois → readonly desligado → deploy).
+  Let's Encrypt para os dois na hora. Durante a troca dos containers o proxy registrou `router defined multiple times`
+  (rotas antiga e nova ao mesmo tempo); sumiu quando o container antigo saiu.
+- Checklist no domínio real: 11 páginas ok e 404 certo, sitemap 134, canonical certo, Brotli, sem `X-Robots-Tag` no domínio
+  real, `/admin` noindex, 219/219 imagens; `http://`, `https://www` e `http://www` → `https://vibecoin.com.br` com 301 (até 2
+  saltos); MX igual; criasite e respawnou com http → 301.
+- Tarefas agendadas criadas às 17:48 UTC; o Coolify rodou o `coletar` na criação (11 novos, sem publicar). `cotacoes` das
+  17:52 rodou sozinho (20 moedas): **robô confirmado na VPS**. O 429 da awesomeapi já aparecia na Hostinger (17:37): não é da VPS.
+- RAM da VPS depois da virada: 2,1 GB usados, 1,8 GB disponíveis.

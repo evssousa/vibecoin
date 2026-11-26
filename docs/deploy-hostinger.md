@@ -1,5 +1,7 @@
 # Deploy na Hostinger
 
+> **Histórico:** o site saiu da Hostinger gerenciada em 2026-11-26 e roda na VPS; ver [deploy-vps.md](deploy-vps.md).
+
 Status: ✅ no ar desde 2026-11-13 em https://vibecoin.com.br (banco vazio, aguardando a primeira matéria)
 
 ## Como está configurado
