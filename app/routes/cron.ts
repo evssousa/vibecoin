@@ -1,4 +1,4 @@
-// Rotas dos jobs, chamadas pelos Cron Jobs da Hostinger:
+// Rotas dos jobs, chamadas pelas tarefas agendadas do Coolify (antes, Cron Jobs da Hostinger):
 //   GET /api/cron/cotacoes?token=...  cotações, panorama do mercado e histórico atrasado (a cada 15 min)
 //   GET /api/cron/coletar?token=...   lê os feeds e enche a fila de pautas (a cada 30 min)
 //   GET /api/cron/publicar?token=...  publica 1 matéria (de hora em hora; respeita horário, limite e intervalo)
