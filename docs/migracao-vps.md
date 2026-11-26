@@ -1,6 +1,6 @@
 # Migração para a VPS (Hostinger KVM 1 + Coolify)
 
-Status: ✅ **virada feita em 2026-11-26** (14:41–14:55 de Brasília); site antigo ainda no Cloud Startup (parado) até o ok do dono para apagar; falta a Parte D (24 h e 7 dias). 3º site a migrar (criasite e respawnou viraram em 2026-11-26).
+Status: ✅ **virada feita em 2026-11-26** (14:41–14:55 de Brasília); site antigo apagado com o ok do dono (18:04 UTC); falta a Parte D (24 h e 7 dias). A Parte E (volta) não vale mais. 3º site a migrar (criasite e respawnou viraram em 2026-11-26).
 Módulo de origem: `../criasite/docs/migracao-vps.md`, Partes B a F e "Lições do criasite"; cópia mais recente e
 com a lição do middleware 301 em `../respawnou/docs/migracao-vps.md`. A Parte A (base da VPS) já está feita e **não se repete**.
 
@@ -209,3 +209,7 @@ Começar aos **:53** de uma hora (depois do `cotacoes` das :52; o próximo é à
 - Tarefas agendadas criadas às 17:48 UTC; o Coolify rodou o `coletar` na criação (11 novos, sem publicar). `cotacoes` das
   17:52 rodou sozinho (20 moedas): **robô confirmado na VPS**. O 429 da awesomeapi já aparecia na Hostinger (17:37): não é da VPS.
 - RAM da VPS depois da virada: 2,1 GB usados, 1,8 GB disponíveis.
+- 18:04 UTC: com o ok do dono (conferiu o site e o `/admin` no celular e no PC), **site antigo apagado do Cloud Startup**
+  (`hosting_websites_delete`). Zona: sumiu só o `ftp` e o TTL do `@` foi para 1800; A da VPS, MX, SPF, DKIM, DMARC e TXT do
+  Google intactos. Caixa `contato@vibecoin.com.br` ativa (pedido "Free Business Email" separado, válido até 2027-11-14).
+  Site seguiu 200 na VPS. Cron Jobs da conta: sobrou só o do animeprofile.

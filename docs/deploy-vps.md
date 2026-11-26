@@ -33,7 +33,9 @@ conferir `curl -sI http://criasite.app/x` → 301.
 
 ## Site antigo na Hostinger
 
-Ainda existe no Cloud Startup, parado (Cron Jobs apagados em 2026-11-26 17:42 UTC). Apagar (`hosting_websites_delete`) **só com o ok do dono**; depois, conferir a zona (A da VPS, MX, SPF, DKIM, DMARC, TXT do Google) e a caixa `contato@vibecoin.com.br`.
+**Apagado em 2026-11-26** (18:04 UTC) com o ok do dono; não há mais volta. A exclusão apagou arquivos e banco antigos e o
+registro `ftp` da zona, e mudou o TTL do `@` para 1800; `@` e `www` (A da VPS), MX, SPF, DKIM, DMARC e a verificação do
+Google ficaram. A caixa `contato@vibecoin.com.br` (pedido "Free Business Email", separado, até 2027-11-14) continua ativa.
 
 ## Cuidados
 

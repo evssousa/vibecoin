@@ -95,6 +95,6 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Pendências suas
 
-- **VPS:** abrir https://vibecoin.com.br e o `/admin` no celular (4G) e no PC e confirmar; dar o ok para apagar o site antigo do Cloud Startup (fica parado lá até isso). Depois de 7 dias, apagar `projetos\_migracaoibecoin-*.sql`.
+- **VPS:** depois de 2026-12-03 (7 dias), apagar `projetos\_migracaoibecoin-*.sql` (o Claude apaga as cópias na VPS).
 - Search Console: mandar a lista de "Por que as páginas não são indexadas" (Indexação → Páginas), com motivo e exemplos. A parte técnica foi conferida em 2026-11-25 (121 páginas do sitemap: 200, canonical certo, sem noindex) e as cotações ganharam texto próprio; o resto depende do relatório.
 - Depois do deploy: abrir o site num celular e num computador (fora do admin, ou em janela anônima: o dono logado não conta), esperar ~10 s e conferir em `/admin/visitas`.
