@@ -58,6 +58,8 @@ export default [
   route("api/view", "routes/view.ts"),
   // Sinal de visita (módulo app/visitas): o navegador avisa depois que a página abre.
   route("api/v", "routes/api-v.ts"),
+  // Resumo das visitas para o Escritório Claude (protegido pelo CRON_TOKEN).
+  route("api/escritorio/:what", "routes/api.escritorio.ts"),
 
   route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;
