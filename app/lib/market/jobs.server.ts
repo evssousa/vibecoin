@@ -133,16 +133,17 @@ async function updateMarket(derivedUsdBrl: number | null) {
   const previous = prev ? json<Partial<MarketOverview>>(prev.value, {}) : {};
   const errors: string[] = [];
   // Cada fonte é independente: se uma cair, mantém o último valor dela.
-  const [global, fng, dollar] = await Promise.all([
+  // Dólar: derivado do BTC em BRL ÷ BTC em USD (CoinGecko). A awesomeapi respondia 429 a todo IP de servidor (Hostinger e VPS)
+  // desde 2026-11-22 e foi retirada em 2026-11-27; a variação do dia vem do registro das últimas 24 h (usd_brl_log).
+  const [global, fng] = await Promise.all([
     getJson<{ data: { total_market_cap: Record<string, number>; market_cap_percentage: Record<string, number>; market_cap_change_percentage_24h_usd: number } }>(
       `${GECKO}/global`,
       true,
     ).catch((e) => void errors.push(`global: ${e.message}`)),
     getJson<{ data: { value: string; value_classification: string }[] }>("https://api.alternative.me/fng/?limit=2").catch((e) => void errors.push(`fng: ${e.message}`)),
-    getJson<{ USDBRL: { bid: string; pctChange: string } }>("https://economia.awesomeapi.com.br/json/last/USD-BRL").catch((e) => void errors.push(`dólar: ${e.message}`)),
   ]);
 
-  const usdBrl = dollar ? Number(dollar.USDBRL.bid) : (derivedUsdBrl ?? previous.usdBrl ?? 0);
+  const usdBrl = derivedUsdBrl ?? previous.usdBrl ?? 0;
   const loggedChange = usdBrl ? await usdChangeFromLog(usdBrl) : null;
 
   const market: MarketOverview = {
@@ -150,7 +151,7 @@ async function updateMarket(derivedUsdBrl: number | null) {
     change24h: global?.data.market_cap_change_percentage_24h_usd ?? previous.change24h ?? 0,
     btcDominance: global?.data.market_cap_percentage.btc ?? previous.btcDominance ?? 0,
     usdBrl,
-    usdBrlChange24h: dollar ? Number(dollar.USDBRL.pctChange) : (loggedChange ?? previous.usdBrlChange24h ?? 0),
+    usdBrlChange24h: loggedChange ?? previous.usdBrlChange24h ?? 0,
     fearGreed:
       fng && fng.data[0]
         ? {

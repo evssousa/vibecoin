@@ -46,6 +46,13 @@ Mais recente no topo. Cada decisão diz o que foi decidido, quando e por quê.
   fechamento, em um ano o simulador terá 24 meses, e assim por diante. Se um dia valer a pena, dá para
   completar o passado com outra fonte gratuita.
 
+## 2026-11-27 — Dólar só pela CoinGecko (AwesomeAPI retirada)
+
+- **O quê:** USD/BRL = preço do BTC em BRL ÷ preço do BTC em USD (CoinGecko, já buscados nas cotações). A variação do dia vem do
+  registro das últimas 24 h (`usd_brl_log` em `settings`).
+- **Por quê:** a AwesomeAPI respondeu 429 em 100% das chamadas desde 2026-11-22, na Hostinger e na VPS (bloqueia IP de servidor;
+  do PC do dono responde 200). O site já usava o dólar derivado como reserva; só gerava aviso a cada rodada.
+
 ## 2026-11-12 — Dólar pela AwesomeAPI
 
 - **O quê:** USD/BRL e a variação do dia vêm de `economia.awesomeapi.com.br` (grátis, sem chave,

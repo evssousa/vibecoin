@@ -85,7 +85,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ próximo · 💤 depois · ❓ es
 
 ## Próximos passos
 
-1. **VPS, Parte D** (`docs/migracao-vps.md`): 24 h (backup diário com o banco `vibecoin`, visitas contando, robô publicando) e 7 dias (TTL 3600, tirar o domínio temporário, apagar os dumps em `/root/migracao`). Se a awesomeapi seguir com 429, trocar a fonte do dólar.
+1. **VPS, Parte D** (`docs/migracao-vps.md`): 24 h (backup diário com o banco `vibecoin`, visitas contando, robô publicando) e 7 dias (TTL 3600, tirar o domínio temporário, apagar os dumps em `/root/migracao`). 24 h conferidas em 2026-11-27 (backup das 06:30 UTC com o banco, visitas contando, 7 publicações em 24 h); a awesomeapi saiu e o dólar vem só da CoinGecko.
 2. Reconferir as taxas do comparador daqui a 1–2 meses; tentar incluir a NovaDAX quando a página oficial de taxas abrir.
 4. Mais guias (o que for pedido pela busca; hoje há 9: 5 iniciante, 3 intermediário, 1 avançado). Ideias da próxima leva: blockchain sem jargão, como ler um gráfico de preço (sem previsão), reserva de emergência e renda fixa x cripto (Grana), o que é Drex.
 5. Pedido do AdSense quando houver mais matérias; a newsletter vem depois dele.
